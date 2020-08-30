@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A11347124FB9C000029C07C /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347024FB9C000029C07C /* DrawerController.swift */; };
+		0A11347324FBFA650029C07C /* EmbedDrawerControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347224FBFA650029C07C /* EmbedDrawerControllerSegue.swift */; };
+		0A11347524FBFB2F0029C07C /* EmbedMainControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347424FBFB2F0029C07C /* EmbedMainControllerSegue.swift */; };
 		0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */; };
 		0A3D625B24FB73B9001DB686 /* knu_minigroup_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D625A24FB73B9001DB686 /* knu_minigroup_white.png */; };
 		0AA26BFE24F22B9600FA4D5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA26BFD24F22B9600FA4D5A /* AppDelegate.swift */; };
@@ -19,6 +22,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A11347024FB9C000029C07C /* DrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerController.swift; sourceTree = "<group>"; };
+		0A11347224FBFA650029C07C /* EmbedDrawerControllerSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbedDrawerControllerSegue.swift; sourceTree = "<group>"; };
+		0A11347424FBFB2F0029C07C /* EmbedMainControllerSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbedMainControllerSegue.swift; sourceTree = "<group>"; };
 		0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0A3D625A24FB73B9001DB686 /* knu_minigroup_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knu_minigroup_white.png; sourceTree = "<group>"; };
 		0AA26BFA24F22B9600FA4D5A /* knu_minigroup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = knu_minigroup.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -43,13 +49,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0A3D625C24FB7785001DB686 /* Viewcontrollers */ = {
+		0A11346F24FB9BC80029C07C /* DrawerController */ = {
+			isa = PBXGroup;
+			children = (
+				0A11347024FB9C000029C07C /* DrawerController.swift */,
+				0A11347224FBFA650029C07C /* EmbedDrawerControllerSegue.swift */,
+				0A11347424FBFB2F0029C07C /* EmbedMainControllerSegue.swift */,
+			);
+			path = DrawerController;
+			sourceTree = "<group>";
+		};
+		0A3D625C24FB7785001DB686 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */,
 				0AA26C0124F22B9600FA4D5A /* LoginViewController.swift */,
 			);
-			path = Viewcontrollers;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		0AA26BF124F22B9600FA4D5A = {
@@ -71,7 +87,8 @@
 		0AA26BFC24F22B9600FA4D5A /* knu_minigroup */ = {
 			isa = PBXGroup;
 			children = (
-				0A3D625C24FB7785001DB686 /* Viewcontrollers */,
+				0A11346F24FB9BC80029C07C /* DrawerController */,
+				0A3D625C24FB7785001DB686 /* ViewControllers */,
 				0AA26C1124F23FAA00FA4D5A /* Images */,
 				0AA26BFD24F22B9600FA4D5A /* AppDelegate.swift */,
 				0AA26BFF24F22B9600FA4D5A /* SceneDelegate.swift */,
@@ -165,9 +182,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A11347324FBFA650029C07C /* EmbedDrawerControllerSegue.swift in Sources */,
 				0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */,
+				0A11347124FB9C000029C07C /* DrawerController.swift in Sources */,
 				0AA26C0224F22B9600FA4D5A /* LoginViewController.swift in Sources */,
 				0AA26BFE24F22B9600FA4D5A /* AppDelegate.swift in Sources */,
+				0A11347524FBFB2F0029C07C /* EmbedMainControllerSegue.swift in Sources */,
 				0AA26C0024F22B9600FA4D5A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
