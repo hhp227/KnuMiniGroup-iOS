@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainController: UIViewController {
+class MainViewController: UIViewController {
     @IBOutlet var mLabelId: UILabel!
     
     override func viewDidLoad() {
@@ -21,11 +21,11 @@ class MainController: UIViewController {
     }
     
     @IBAction func logoutClick(_ sender: UIButton) {
-        let loginController = storyboard?.instantiateViewController(identifier: "ViewController") as! ViewController
+        let loginViewController = storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
         
         UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
         UserDefaults.standard.synchronize()
-        navigationController?.pushViewController(loginController, animated: true)
+        navigationController?.pushViewController(loginViewController, animated: true)
         dismiss(animated: false, completion: nil)
     }
 }

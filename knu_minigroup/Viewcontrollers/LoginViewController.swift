@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class LoginViewController: UIViewController {
     @IBOutlet var mTextFieldId: UITextField!
     @IBOutlet var mTextFieldPassword: UITextField!
     let mDefaultValues = UserDefaults.standard
@@ -16,22 +16,22 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if mDefaultValues.string(forKey: "userId") != nil {
-            let mainController = storyboard?.instantiateViewController(withIdentifier: "MainController") as! MainController
+            let mainViewController = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
             
-            navigationController?.pushViewController(mainController, animated: false)
+            navigationController?.pushViewController(mainViewController, animated: false)
         }
     }
 
     @IBAction func loginClick(_ sender: UIButton) {
-        let id = mTextFieldId.text
-        let password = mTextFieldPassword.text
+        guard let id = mTextFieldId.text else { return }
+        guard let password = mTextFieldPassword.text else { return }
         
-        if !id!.isEmpty && !password!.isEmpty {
-            let mainController = storyboard?.instantiateViewController(withIdentifier: "MainController") as! MainController
+        if !id.isEmpty && !password.isEmpty {
+            let mainViewController = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
             
             mDefaultValues.set(id, forKey: "userId")
             mDefaultValues.set(password, forKey: "password")
-            navigationController?.pushViewController(mainController, animated: true)
+            navigationController?.pushViewController(mainViewController, animated: true)
             dismiss(animated: false, completion: nil)
         } else {
             print("No")

@@ -14,7 +14,20 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="knu_minigroup_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="eFL-EH-jp2">
+                                <rect key="frame" x="87" y="384" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="aPA-7P-gUX"/>
+                                    <constraint firstAttribute="width" constant="240" id="xV8-O5-Dc5"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="eFL-EH-jp2" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="0on-cj-j20"/>
+                            <constraint firstItem="eFL-EH-jp2" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="16D-HM-xDW"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
@@ -23,4 +36,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="knu_minigroup_white.png" width="317" height="225"/>
+    </resources>
 </document>
