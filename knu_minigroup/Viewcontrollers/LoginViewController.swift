@@ -16,9 +16,9 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if mDefaultValues.string(forKey: "userId") != nil {
-            let mainViewController = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+            let drawerController = storyboard?.instantiateViewController(withIdentifier: "DrawerController") as! DrawerController
             
-            navigationController?.pushViewController(mainViewController, animated: false)
+            navigationController?.pushViewController(drawerController, animated: false)
         }
     }
 
@@ -27,11 +27,11 @@ class LoginViewController: UIViewController {
         guard let password = mTextFieldPassword.text else { return }
         
         if !id.isEmpty && !password.isEmpty {
-            let mainViewController = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+            let drawerController = storyboard?.instantiateViewController(withIdentifier: "DrawerController") as! DrawerController
             
             mDefaultValues.set(id, forKey: "userId")
             mDefaultValues.set(password, forKey: "password")
-            navigationController?.pushViewController(mainViewController, animated: true)
+            navigationController?.pushViewController(drawerController, animated: true)
             dismiss(animated: false, completion: nil)
         } else {
             print("No")
