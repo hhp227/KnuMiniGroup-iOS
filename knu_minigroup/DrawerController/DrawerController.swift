@@ -8,7 +8,17 @@
 
 import UIKit
 
+@objc public protocol DrawerControllerDelegate {
+    @objc optional func drawerController(_ drawerController: DrawerController, willChangeState state: DrawerController.DrawerState)
+    
+    @objc optional func drawerController(_ drawerController: DrawerController, didChangeState state: DrawerController.DrawerState)
+    
+    @available(*, deprecated, renamed: "drawerController(_:didChangeState:)")
+    @objc optional func drawerController(_ drawerController: DrawerController, stateChanged state: DrawerController.DrawerState)
+}
+
 open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
+    
     @objc public enum DrawerDirection: Int {
         case left, right
     }
@@ -16,7 +26,7 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     @objc public enum DrawerState: Int {
         case opened, closed
     }
-    
+
     @IBInspectable public var containerViewMaxAlpha: CGFloat = 0.2
     @IBInspectable public var drawerAnimationDuration: TimeInterval = 0.25
     @IBInspectable public var mainSegueIdentifier: String?
@@ -25,7 +35,7 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     private var drawerWidthConstraint: NSLayoutConstraint!
     private var panStartLocation = CGPoint.zero
     private var panDelta: CGFloat = 0
-    lazy private var containerView: UIView = {
+    private lazy var containerView: UIView = {
         let view = UIView(frame: self.view.frame)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor(white: 0.0, alpha: 0)
@@ -47,6 +57,7 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
         case .right:
             gesture.edges = .right
         }
+        
         gesture.delegate = self
         return gesture
     }()
@@ -101,48 +112,49 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
             
             if let oldController = oldValue {
                 oldController.willMove(toParent: nil)
-                
                 if isVisible {
                     oldController.beginAppearanceTransition(false, animated: false)
                 }
                 oldController.view.removeFromSuperview()
-                
                 if isVisible {
                     oldController.endAppearanceTransition()
                 }
                 oldController.removeFromParent()
-                
-                guard let mainViewController = mainViewController else { return }
-                
-                addChild(mainViewController)
-                
-                if isVisible {
-                    mainViewController.beginAppearanceTransition(true, animated: false)
-                }
-                mainViewController.view.translatesAutoresizingMaskIntoConstraints = false
-                
-                view.insertSubview(mainViewController.view, at: 0)
-                
-                let viewDictionary = ["mainView" : mainViewController.view!]
-                
-                view.addConstraints(NSLayoutConstraint.constraints(
+            }
+
+            guard let mainViewController = mainViewController else { return }
+            
+            addChild(mainViewController)
+            if isVisible {
+                mainViewController.beginAppearanceTransition(true, animated: false)
+            }
+
+            mainViewController.view.translatesAutoresizingMaskIntoConstraints = false
+            
+            view.insertSubview(mainViewController.view, at: 0)
+
+            let viewDictionary = ["mainView" : mainViewController.view!]
+            
+            view.addConstraints(
+                NSLayoutConstraint.constraints(
                     withVisualFormat: "V:|-0-[mainView]-0-|",
                     options: [],
                     metrics: nil,
                     views: viewDictionary
-                ))
-                view.addConstraints(NSLayoutConstraint.constraints(
+                )
+            )
+            view.addConstraints(
+                NSLayoutConstraint.constraints(
                     withVisualFormat: "H:|-0-[mainView]-0-|",
                     options: [],
                     metrics: nil,
                     views: viewDictionary
-                ))
-                
-                if isVisible {
-                    mainViewController.endAppearanceTransition()
-                }
-                mainViewController.didMove(toParent: self)
+                )
+            )
+            if isVisible {
+                mainViewController.endAppearanceTransition()
             }
+            mainViewController.didMove(toParent: self)
         }
     }
     public var drawerViewController: UIViewController? {
@@ -151,12 +163,10 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
             
             if let oldController = oldValue {
                 oldController.willMove(toParent: nil)
-                
                 if isVisible {
                     oldController.beginAppearanceTransition(false, animated: false)
                 }
                 oldController.view.removeFromSuperview()
-                
                 if isVisible {
                     oldController.endAppearanceTransition()
                 }
@@ -166,7 +176,6 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
             guard let drawerViewController = drawerViewController else { return }
             
             addChild(drawerViewController)
-            
             if isVisible {
                 drawerViewController.beginAppearanceTransition(true, animated: false)
             }
@@ -221,14 +230,13 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
                 views: viewDictionary
             ))
             containerView.layoutIfNeeded()
-            
             if isVisible {
                 drawerViewController.endAppearanceTransition()
             }
             drawerViewController.didMove(toParent: self)
         }
     }
-    
+
     public init(drawerDirection: DrawerDirection, drawerWidth: CGFloat) {
         super.init(nibName: nil, bundle: nil)
         self.drawerDirection = drawerDirection
@@ -237,10 +245,6 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-    }
-    
-    override open var shouldAutomaticallyForwardAppearanceMethods: Bool {
-        get { return false }
     }
     
     override open func viewDidLoad() {
@@ -267,12 +271,11 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
         if let mainSegueId = mainSegueIdentifier {
             performSegue(withIdentifier: mainSegueId, sender: self)
         }
-        
         if let drawerSegueId = drawerSegueIdentifier {
             performSegue(withIdentifier: drawerSegueId, sender: self)
         }
     }
-    
+
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         displayingViewController?.beginAppearanceTransition(true, animated: animated)
@@ -292,15 +295,23 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidDisappear(animated)
         displayingViewController?.endAppearanceTransition()
     }
-    
+
+    override open var shouldAutomaticallyForwardAppearanceMethods: Bool {
+        get {
+            return false
+        }
+    }
+
     public func setDrawerState(_ state: DrawerState, animated: Bool) {
         delegate?.drawerController?(self, willChangeState: state)
+        
         containerView.isHidden = false
         let duration: TimeInterval = animated ? drawerAnimationDuration : 0
         let isAppearing = state == .opened
         
         if self.isAppearing != isAppearing {
             self.isAppearing = isAppearing
+            
             drawerViewController?.beginAppearanceTransition(isAppearing, animated: animated)
             mainViewController.beginAppearanceTransition(!isAppearing, animated: animated)
         }
@@ -321,6 +332,7 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
                     case .right:
                         constant = self.drawerWidth
                     }
+                    
                     self.drawerConstraint.constant = constant
                     self.containerView.backgroundColor = UIColor(white: 0, alpha: self.containerViewMaxAlpha)
                 }
@@ -330,7 +342,8 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
                 self.containerView.isHidden = true
             }
             self.drawerViewController?.endAppearanceTransition()
-            self.mainViewController.endAppearanceTransition()
+            self.mainViewController?.endAppearanceTransition()
+            
             self.isAppearing = nil
             
             if let didChangeState = self.delegate?.drawerController(_:didChangeState:) {
@@ -340,6 +353,7 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
     }
+
     
     @objc final func handlePanGesture(_ sender: UIGestureRecognizer) {
         containerView.isHidden = false
@@ -380,7 +394,7 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
             if self.isAppearing == nil {
                 self.isAppearing = isAppearing
                 drawerViewController?.beginAppearanceTransition(isAppearing, animated: true)
-                mainViewController.beginAppearanceTransition(!isAppearing, animated: true)
+                mainViewController?.beginAppearanceTransition(!isAppearing, animated: true)
             }
             
             panStartLocation = sender.location(in: view)
@@ -406,13 +420,4 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
             return touch.view == gestureRecognizer.view
         }
     }
-}
-
-@objc public protocol DrawerControllerDelegate {
-    @objc optional func drawerController(_ drawerController: DrawerController, willChangeState state: DrawerController.DrawerState)
-    
-    @objc optional func drawerController(_ drawerController: DrawerController, didChangeState state: DrawerController.DrawerState)
-    
-    @available(*, deprecated, renamed: "drawerController(_:didChangeState:)")
-    @objc optional func drawerController(_ drawerController: DrawerController, stateChanged state: DrawerController.DrawerState)
 }
