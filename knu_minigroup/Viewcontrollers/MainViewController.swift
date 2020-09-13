@@ -20,12 +20,16 @@ class MainViewController: UIViewController {
         }
     }
     
+    @IBAction func barButtonItemClick(_ sender: UIBarButtonItem) {
+        if let drawerController = parent as? DrawerController {
+            drawerController.setDrawerState(.opened, animated: true)
+        }
+    }
+    
     @IBAction func logoutClick(_ sender: UIButton) {
-        let loginViewController = storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
-        
         UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
         UserDefaults.standard.synchronize()
-        navigationController?.pushViewController(loginViewController, animated: true)
+        navigationController?.popViewController(animated: true)
         dismiss(animated: false, completion: nil)
     }
 }

@@ -154,8 +154,25 @@
                                     <action selector="logoutClick:" destination="vf1-aL-8AM" eventType="touchUpInside" id="Pen-5x-RSO"/>
                                 </connections>
                             </button>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Bs-Iw-a7e">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="메인화면" id="QN1-Vc-JGx">
+                                        <barButtonItem key="leftBarButtonItem" title="Item" image="hamburger-menu-icon" id="16x-No-IPD">
+                                            <connections>
+                                                <action selector="barButtonItemClick:" destination="vf1-aL-8AM" id="zmH-0E-vdO"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="8Bs-Iw-a7e" firstAttribute="leading" secondItem="Hab-hw-1Ds" secondAttribute="leading" id="0SF-OL-CJq"/>
+                            <constraint firstItem="8Bs-Iw-a7e" firstAttribute="trailing" secondItem="Hab-hw-1Ds" secondAttribute="trailing" id="9Mg-88-FUe"/>
+                            <constraint firstItem="8Bs-Iw-a7e" firstAttribute="top" secondItem="Hab-hw-1Ds" secondAttribute="top" id="VDa-P6-nFn"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Hab-hw-1Ds"/>
                     </view>
                     <navigationItem key="navigationItem" id="0pr-3D-Yuz"/>
@@ -167,16 +184,50 @@
             </objects>
             <point key="canvasLocation" x="2932" y="-57"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Univ Notice View Controller-->
+        <scene sceneID="nGq-3N-lL5">
+            <objects>
+                <viewController storyboardIdentifier="UnivNoticeViewController" id="fWO-Qh-z2Y" customClass="UnivNoticeViewController" customModule="knu_minigroup" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YRI-xT-fT0">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lGC-jh-DM0">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="공지사항" id="aob-NZ-OGy">
+                                        <barButtonItem key="leftBarButtonItem" title="Item" image="hamburger-menu-icon" id="5J9-vg-N5F">
+                                            <connections>
+                                                <action selector="barButtonItemClick:" destination="fWO-Qh-z2Y" id="0b1-ZR-dfJ"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="lGC-jh-DM0" firstAttribute="trailing" secondItem="OsR-qB-PC1" secondAttribute="trailing" id="AEh-Tj-m9j"/>
+                            <constraint firstItem="lGC-jh-DM0" firstAttribute="top" secondItem="OsR-qB-PC1" secondAttribute="top" id="Nxc-YI-rTd"/>
+                            <constraint firstItem="lGC-jh-DM0" firstAttribute="leading" secondItem="OsR-qB-PC1" secondAttribute="leading" id="Pew-Rr-HRJ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="OsR-qB-PC1"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xwK-ZJ-4gb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3578" y="-58"/>
+        </scene>
+        <!--Drawer View Controller-->
         <scene sceneID="5QN-Ds-oFM">
             <objects>
-                <tableViewController id="RzL-qu-dSb" sceneMemberID="viewController">
+                <tableViewController id="RzL-qu-dSb" customClass="DrawerViewController" customModule="knu_minigroup" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="EQb-80-Hgh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="A5S-xx-Smr">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="item" id="A5S-xx-Smr">
                                 <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="A5S-xx-Smr" id="pod-Pe-Xc2">
@@ -191,6 +242,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Dpx-uC-zkW"/>
+                    <connections>
+                        <outlet property="drawerTableView" destination="EQb-80-Hgh" id="aqa-Ky-V7Y"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lf1-OI-MSG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -238,6 +292,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="hamburger-menu-icon" width="25" height="25"/>
         <image name="knu_minigroup.png" width="434" height="213"/>
     </resources>
 </document>
