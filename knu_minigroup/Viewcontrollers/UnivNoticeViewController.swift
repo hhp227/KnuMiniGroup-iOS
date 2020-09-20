@@ -15,9 +15,9 @@ class UnivNoticeViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-
+    
     @IBAction func barButtonItemClick(_ sender: UIBarButtonItem) {
-        if let drawerController = parent as? DrawerController {
+        if let drawerController = navigationController?.parent as? DrawerController {
             drawerController.setDrawerState(.opened, animated: true)
         }
     }
