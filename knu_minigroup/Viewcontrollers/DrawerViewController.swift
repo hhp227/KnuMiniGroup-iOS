@@ -10,9 +10,8 @@ import UIKit
 
 class DrawerViewController: UITableViewController {
     @IBOutlet var drawerTableView: UITableView!
-    var menus = ["메인화면", "공지사항"]
-    var menuIcons = ["", ""]
-
+    var menus = ["메인화면", "공지사항", "로그아웃"]
+    var menuIcons = ["", "", ""]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,12 +49,18 @@ class DrawerViewController: UITableViewController {
         switch indexPath.row {
         case 0:
             drawerController.mainViewController = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+            drawerController.setDrawerState(.closed, animated: true)
         case 1:
             drawerController.mainViewController = storyboard?.instantiateViewController(withIdentifier: "UnivNoticeViewController") as! UnivNoticeViewController
+            drawerController.setDrawerState(.closed, animated: true)
+        case 2:
+            UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+            UserDefaults.standard.synchronize()
+            navigationController?.popViewController(animated: true)
+            dismiss(animated: false, completion: nil)
         default:
             break
         }
-        drawerController.setDrawerState(.closed, animated: true)
     }
 
     /*

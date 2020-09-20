@@ -9,15 +9,9 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    @IBOutlet var mLabelId: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let defaultValues = UserDefaults.standard
-        
-        if let id = defaultValues.string(forKey: "userId") {
-            mLabelId.text = id
-        }
     }
     
     @IBAction func barButtonItemClick(_ sender: UIBarButtonItem) {
@@ -26,10 +20,5 @@ class MainViewController: UIViewController {
         }
     }
     
-    @IBAction func logoutClick(_ sender: UIButton) {
-        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
-        UserDefaults.standard.synchronize()
-        navigationController?.popViewController(animated: true)
-        dismiss(animated: false, completion: nil)
-    }
+    
 }
