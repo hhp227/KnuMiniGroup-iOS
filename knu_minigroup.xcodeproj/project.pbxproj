@@ -21,7 +21,7 @@
 		0AA26C0724F22B9700FA4D5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AA26C0624F22B9700FA4D5A /* Assets.xcassets */; };
 		0AA26C0A24F22B9700FA4D5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AA26C0824F22B9700FA4D5A /* LaunchScreen.storyboard */; };
 		0AA26C1324F23FBE00FA4D5A /* knu_minigroup.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA26C1224F23FBE00FA4D5A /* knu_minigroup.png */; };
-		0AF3F4B325177D820005D5E3 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF3F4B225177D820005D5E3 /* FindViewController.swift */; };
+		0AF3F4B9251790E40005D5E3 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF3F4B8251790E40005D5E3 /* FindViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +41,7 @@
 		0AA26C0924F22B9700FA4D5A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0AA26C0B24F22B9700FA4D5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AA26C1224F23FBE00FA4D5A /* knu_minigroup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knu_minigroup.png; sourceTree = "<group>"; };
-		0AF3F4B225177D820005D5E3 /* FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindViewController.swift; sourceTree = "<group>"; };
+		0AF3F4B8251790E40005D5E3 /* FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FindViewController.swift; path = knu_minigroup/Viewcontrollers/FindViewController.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +72,7 @@
 				0AA26C0124F22B9600FA4D5A /* LoginViewController.swift */,
 				0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */,
 				0A5D0F6A250E5F47008376EC /* DrawerViewController.swift */,
-				0AF3F4B225177D820005D5E3 /* FindViewController.swift */,
+				0AF3F4B8251790E40005D5E3 /* FindViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -196,7 +196,7 @@
 				0A11347124FB9C000029C07C /* DrawerController.swift in Sources */,
 				0AA26C0224F22B9600FA4D5A /* LoginViewController.swift in Sources */,
 				0A5D0F69250E317B008376EC /* UnivNoticeViewController.swift in Sources */,
-				0AF3F4B325177D820005D5E3 /* FindViewController.swift in Sources */,
+				0AF3F4B9251790E40005D5E3 /* FindViewController.swift in Sources */,
 				0AA26BFE24F22B9600FA4D5A /* AppDelegate.swift in Sources */,
 				0A11347524FBFB2F0029C07C /* EmbedMainControllerSegue.swift in Sources */,
 				0AA26C0024F22B9600FA4D5A /* SceneDelegate.swift in Sources */,
