@@ -48,10 +48,12 @@ class DrawerViewController: UITableViewController {
         
         switch indexPath.row {
         case 0:
-            drawerController.mainViewController = storyboard?.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+            drawerController.mainViewController = storyboard?.instantiateViewController(withIdentifier: "MainNav") as! UINavigationController
+            
             drawerController.setDrawerState(.closed, animated: true)
         case 1:
-            drawerController.mainViewController = storyboard?.instantiateViewController(withIdentifier: "UnivNoticeViewController") as! UnivNoticeViewController
+            drawerController.mainViewController = storyboard?.instantiateViewController(withIdentifier: "UnivNoticeNav") as! UINavigationController
+            
             drawerController.setDrawerState(.closed, animated: true)
         case 2:
             UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
@@ -79,7 +81,7 @@ class DrawerViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
     */
 
