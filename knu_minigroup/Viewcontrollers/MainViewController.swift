@@ -12,6 +12,7 @@ class MainViewController: UIViewController, UITabBarDelegate {
     @IBOutlet var mTabBar: UITabBar!
     @IBOutlet var mFindTabBarItem: UITabBarItem!
     @IBOutlet var mRequestTabBarItem: UITabBarItem!
+    @IBOutlet var mCreateTabBarItem: UITabBarItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,10 @@ class MainViewController: UIViewController, UITabBarDelegate {
             let requestViewController = storyboard?.instantiateViewController(withIdentifier: "RequestViewController") as! RequestViewController
             
             navigationController?.pushViewController(requestViewController, animated: true)
+        case mCreateTabBarItem:
+            let createViewController = storyboard?.instantiateViewController(withIdentifier: "CreateViewController") as! CreateViewController
+            
+            navigationController?.pushViewController(createViewController, animated: true)
         default:
             break
         }
