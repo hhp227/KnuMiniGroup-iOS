@@ -12,7 +12,7 @@ class CreateViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.setRightBarButton(UIBarButtonItem(title: "전송", style: .done, target: self, action: #selector(actionSend)), animated: true)
+        navigationItem.setRightBarButton(UIBarButtonItem(title: "생성", style: .done, target: self, action: #selector(actionSend)), animated: true)
     }
     
     @objc func actionSend() {
