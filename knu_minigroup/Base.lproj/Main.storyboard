@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -207,15 +208,56 @@
                                     <tabBarItem title="" systemItem="favorites" id="SMD-iA-GPY"/>
                                 </items>
                             </tabBar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pPZ-gz-a1k">
-                                <rect key="frame" x="184" y="433" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                            </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lCN-am-hza">
+                                <rect key="frame" x="0.0" y="151" width="414" height="711"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="nP6-5b-dZ5">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="50" height="50"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TestCell" id="72s-Zb-vRg" customClass="MainCollectionViewCell" customModule="knu_minigroup" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="qGz-xd-j2G">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                        <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </collectionViewCell>
+                                </cells>
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="GroupCollectionViewHeader" id="vch-mz-aPH" customClass="MainCollectionReusableView" customModule="knu_minigroup" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QN8-uH-vuL">
+                                            <rect key="frame" x="8" y="15" width="398" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="QN8-uH-vuL" firstAttribute="top" secondItem="vch-mz-aPH" secondAttribute="topMargin" constant="7" id="SxR-S0-NlQ"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="QN8-uH-vuL" secondAttribute="bottom" constant="6" id="e9B-xd-bvY"/>
+                                        <constraint firstItem="QN8-uH-vuL" firstAttribute="trailing" secondItem="vch-mz-aPH" secondAttribute="trailingMargin" id="gbR-wT-mN0"/>
+                                        <constraint firstItem="QN8-uH-vuL" firstAttribute="leading" secondItem="vch-mz-aPH" secondAttribute="leadingMargin" id="hZy-uk-0w3"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="headerLabel" destination="QN8-uH-vuL" id="qFt-fe-ALK"/>
+                                    </connections>
+                                </collectionReusableView>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="t0C-z8-73g" firstAttribute="trailing" secondItem="Hab-hw-1Ds" secondAttribute="trailing" id="Ekb-1G-bdz"/>
+                            <constraint firstItem="lCN-am-hza" firstAttribute="leading" secondItem="Hab-hw-1Ds" secondAttribute="leading" id="IZ5-ve-WZj"/>
+                            <constraint firstItem="Hab-hw-1Ds" firstAttribute="trailing" secondItem="lCN-am-hza" secondAttribute="trailing" id="NAw-Q0-m1I"/>
+                            <constraint firstItem="Hab-hw-1Ds" firstAttribute="bottom" secondItem="lCN-am-hza" secondAttribute="bottom" id="OMN-5V-QwX"/>
+                            <constraint firstItem="lCN-am-hza" firstAttribute="top" secondItem="t0C-z8-73g" secondAttribute="bottom" id="U4q-2Q-OUD"/>
                             <constraint firstItem="t0C-z8-73g" firstAttribute="top" secondItem="Hab-hw-1Ds" secondAttribute="top" id="lVq-D2-6hB"/>
                             <constraint firstItem="t0C-z8-73g" firstAttribute="leading" secondItem="Hab-hw-1Ds" secondAttribute="leading" id="qTL-G7-41B"/>
                         </constraints>
@@ -229,6 +271,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="mCollectionView" destination="lCN-am-hza" id="OAk-kD-Q06"/>
                         <outlet property="mCreateTabBarItem" destination="SMD-iA-GPY" id="naV-ra-df8"/>
                         <outlet property="mFindTabBarItem" destination="Ypk-3d-p9d" id="Bee-Ea-4w0"/>
                         <outlet property="mRequestTabBarItem" destination="HqX-Z4-DHo" id="rsI-Ez-301"/>
