@@ -178,8 +178,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bfr-yo-fFd">
-                                <rect key="frame" x="0.0" y="752" width="59" height="20.5"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bfr-yo-fFd">
+                                <rect key="frame" x="0.0" y="841.5" width="414" height="20.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="가입방식" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Za-Mc-Gqp">
                                         <rect key="frame" x="0.0" y="0.0" width="59" height="20.5"/>
@@ -187,14 +187,25 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aUM-rT-h7R" customClass="RadioButton" customModule="knu_minigroup" customModuleProvider="target">
+                                        <rect key="frame" x="59" y="0.0" width="287" height="20.5"/>
+                                        <state key="normal" title="Button"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qfm-b9-fkE" customClass="RadioButton" customModule="knu_minigroup" customModuleProvider="target">
+                                        <rect key="frame" x="346" y="0.0" width="68" height="20.5"/>
+                                        <state key="normal" title="Button"/>
+                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="hDw-ZL-AJz" firstAttribute="trailing" secondItem="Bfr-yo-fFd" secondAttribute="trailing" id="6mD-gr-5O5"/>
+                            <constraint firstItem="hDw-ZL-AJz" firstAttribute="bottom" secondItem="Bfr-yo-fFd" secondAttribute="bottom" id="FTJ-Ux-9KJ"/>
                             <constraint firstItem="ICU-G2-IOv" firstAttribute="leading" secondItem="hDw-ZL-AJz" secondAttribute="leading" id="GA8-jO-46H"/>
                             <constraint firstItem="ICU-G2-IOv" firstAttribute="trailing" secondItem="hDw-ZL-AJz" secondAttribute="trailing" id="R28-Oq-iwb"/>
                             <constraint firstItem="ICU-G2-IOv" firstAttribute="top" secondItem="hDw-ZL-AJz" secondAttribute="top" id="gYI-zL-vdP"/>
+                            <constraint firstItem="Bfr-yo-fFd" firstAttribute="leading" secondItem="hDw-ZL-AJz" secondAttribute="leading" id="n76-dT-4Fc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hDw-ZL-AJz"/>
                     </view>
