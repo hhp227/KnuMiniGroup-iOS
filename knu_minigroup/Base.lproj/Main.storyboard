@@ -173,39 +173,51 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4gF-4L-Iey">
-                                <rect key="frame" x="0.0" y="420" width="414" height="193"/>
+                                <rect key="frame" x="0.0" y="420" width="414" height="404"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bfr-yo-fFd">
-                                <rect key="frame" x="0.0" y="841.5" width="414" height="20.5"/>
+                                <rect key="frame" x="0.0" y="832" width="414" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="가입방식" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Za-Mc-Gqp">
-                                        <rect key="frame" x="0.0" y="0.0" width="59" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="59" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aUM-rT-h7R" customClass="RadioButton" customModule="knu_minigroup" customModuleProvider="target">
-                                        <rect key="frame" x="59" y="0.0" width="287" height="20.5"/>
-                                        <state key="normal" title="Button"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qfm-b9-fkE" customClass="RadioButton" customModule="knu_minigroup" customModuleProvider="target">
-                                        <rect key="frame" x="346" y="0.0" width="68" height="20.5"/>
-                                        <state key="normal" title="Button"/>
-                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Dsi-pL-Hvf">
+                                        <rect key="frame" x="59" y="0.0" width="355" height="30"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jcg-dP-A9A" customClass="RadioButton" customModule="knu_minigroup">
+                                                <rect key="frame" x="0.0" y="0.0" width="177.5" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="yui-73-KUP"/>
+                                                </constraints>
+                                                <state key="normal" title="Option A">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFZ-j3-TX4" customClass="RadioButton" customModule="knu_minigroup">
+                                                <rect key="frame" x="177.5" y="0.0" width="177.5" height="30"/>
+                                                <state key="normal" title="Option B">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="hDw-ZL-AJz" firstAttribute="trailing" secondItem="Bfr-yo-fFd" secondAttribute="trailing" id="6mD-gr-5O5"/>
-                            <constraint firstItem="hDw-ZL-AJz" firstAttribute="bottom" secondItem="Bfr-yo-fFd" secondAttribute="bottom" id="FTJ-Ux-9KJ"/>
-                            <constraint firstItem="ICU-G2-IOv" firstAttribute="leading" secondItem="hDw-ZL-AJz" secondAttribute="leading" id="GA8-jO-46H"/>
-                            <constraint firstItem="ICU-G2-IOv" firstAttribute="trailing" secondItem="hDw-ZL-AJz" secondAttribute="trailing" id="R28-Oq-iwb"/>
-                            <constraint firstItem="ICU-G2-IOv" firstAttribute="top" secondItem="hDw-ZL-AJz" secondAttribute="top" id="gYI-zL-vdP"/>
-                            <constraint firstItem="Bfr-yo-fFd" firstAttribute="leading" secondItem="hDw-ZL-AJz" secondAttribute="leading" id="n76-dT-4Fc"/>
+                            <constraint firstItem="ICU-G2-IOv" firstAttribute="top" secondItem="hDw-ZL-AJz" secondAttribute="top" id="29f-zu-Deg"/>
+                            <constraint firstItem="Bfr-yo-fFd" firstAttribute="leading" secondItem="hDw-ZL-AJz" secondAttribute="leading" id="72d-bQ-xGh"/>
+                            <constraint firstItem="Bfr-yo-fFd" firstAttribute="bottom" secondItem="hDw-ZL-AJz" secondAttribute="bottom" id="GE8-mm-mIb"/>
+                            <constraint firstItem="ICU-G2-IOv" firstAttribute="trailing" secondItem="hDw-ZL-AJz" secondAttribute="trailing" id="VH6-pz-fDF"/>
+                            <constraint firstItem="hDw-ZL-AJz" firstAttribute="trailing" secondItem="Bfr-yo-fFd" secondAttribute="trailing" id="xiv-yh-3S0"/>
+                            <constraint firstItem="ICU-G2-IOv" firstAttribute="leading" secondItem="hDw-ZL-AJz" secondAttribute="leading" id="y9X-mx-Zxr"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hDw-ZL-AJz"/>
                     </view>
