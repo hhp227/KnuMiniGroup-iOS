@@ -8,12 +8,14 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     @IBOutlet var mTabBar: UITabBar!
     @IBOutlet var mFindTabBarItem: UITabBarItem!
     @IBOutlet var mRequestTabBarItem: UITabBarItem!
     @IBOutlet var mCreateTabBarItem: UITabBarItem!
     @IBOutlet var mCollectionView: UICollectionView!
+    var estimateWidth = 160.0
+    var cellMarginSize = 16.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,12 +24,19 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         mCollectionView.dataSource = self
         
         mCollectionView.reloadData()
+        setupCollectionView()
     }
     
     @IBAction func barButtonItemClick(_ sender: UIBarButtonItem) {
         if let drawerController = navigationController?.parent as? DrawerController {
             drawerController.setDrawerState(.opened, animated: true)
         }
+    }
+    
+    func setupCollectionView() {
+        let flow = mCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        flow.minimumInteritemSpacing = CGFloat(cellMarginSize)
+        flow.minimumLineSpacing = CGFloat(cellMarginSize)
     }
     
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
@@ -70,5 +79,18 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "GroupCollectionViewHeader", for: indexPath) as? MainCollectionReusableView
         header?.headerLabel.text = "가입중인 그룹"
         return header!
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = self.calculateWidth()
+        return CGSize(width: width, height: width)
+    }
+    
+    func calculateWidth() -> CGFloat {
+        let estimatedWidth = CGFloat(estimateWidth)
+        let cellCount = floor(CGFloat(self.view.frame.size.width / estimatedWidth))
+        let margin = CGFloat(cellMarginSize * 2)
+        let width = (self.view.frame.size.width - CGFloat(cellMarginSize) * (cellCount - 1) - margin) / cellCount
+        return width
     }
 }
