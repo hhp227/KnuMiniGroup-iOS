@@ -27,6 +27,14 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         setupCollectionView()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setupCollectionView()
+        DispatchQueue.main.async {
+            self.mCollectionView.reloadData()
+        }
+    }
+    
     @IBAction func barButtonItemClick(_ sender: UIBarButtonItem) {
         if let drawerController = navigationController?.parent as? DrawerController {
             drawerController.setDrawerState(.opened, animated: true)
