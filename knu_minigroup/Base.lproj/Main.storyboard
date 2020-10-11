@@ -155,6 +155,22 @@
             </objects>
             <point key="canvasLocation" x="2935" y="1671"/>
         </scene>
+        <!--Tab Host View Controller-->
+        <scene sceneID="1MR-BD-2hw">
+            <objects>
+                <viewController storyboardIdentifier="TabHostViewController" id="Fem-6I-ClF" customClass="TabHostViewController" customModule="knu_minigroup" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uY0-jE-pis">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="2t8-52-Hox"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="XFC-fD-QKf"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ahf-PH-MLx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2935" y="2361"/>
+        </scene>
         <!--Create View Controller-->
         <scene sceneID="C4f-iX-vwQ">
             <objects>
@@ -266,6 +282,9 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </collectionViewCellContentView>
+                                        <connections>
+                                            <segue destination="Fem-6I-ClF" kind="show" id="FD9-0H-n2i"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>

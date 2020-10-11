@@ -11,6 +11,7 @@
 		0A11347124FB9C000029C07C /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347024FB9C000029C07C /* DrawerController.swift */; };
 		0A11347324FBFA650029C07C /* EmbedDrawerControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347224FBFA650029C07C /* EmbedDrawerControllerSegue.swift */; };
 		0A11347524FBFB2F0029C07C /* EmbedMainControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347424FBFB2F0029C07C /* EmbedMainControllerSegue.swift */; };
+		0A211A5C2533745F00937FEF /* TabHostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A211A5B2533745F00937FEF /* TabHostViewController.swift */; };
 		0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */; };
 		0A3D625B24FB73B9001DB686 /* knu_minigroup_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D625A24FB73B9001DB686 /* knu_minigroup_white.png */; };
 		0A5D0F69250E317B008376EC /* UnivNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */; };
@@ -33,6 +34,7 @@
 		0A11347024FB9C000029C07C /* DrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerController.swift; sourceTree = "<group>"; };
 		0A11347224FBFA650029C07C /* EmbedDrawerControllerSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbedDrawerControllerSegue.swift; sourceTree = "<group>"; };
 		0A11347424FBFB2F0029C07C /* EmbedMainControllerSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbedMainControllerSegue.swift; sourceTree = "<group>"; };
+		0A211A5B2533745F00937FEF /* TabHostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TabHostViewController.swift; path = knu_minigroup/Viewcontrollers/TabHostViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0A3D625A24FB73B9001DB686 /* knu_minigroup_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knu_minigroup_white.png; sourceTree = "<group>"; };
 		0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnivNoticeViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				0AF3F4BA2517940F0005D5E3 /* FindViewController.swift */,
 				0AF3F4BC2517A7270005D5E3 /* RequestViewController.swift */,
 				0A03AEA32519083F00677BDF /* CreateViewController.swift */,
+				0A211A5B2533745F00937FEF /* TabHostViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 				0A11347324FBFA650029C07C /* EmbedDrawerControllerSegue.swift in Sources */,
 				0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */,
 				0A11347124FB9C000029C07C /* DrawerController.swift in Sources */,
+				0A211A5C2533745F00937FEF /* TabHostViewController.swift in Sources */,
 				0AA26C0224F22B9600FA4D5A /* LoginViewController.swift in Sources */,
 				0A5D0F69250E317B008376EC /* UnivNoticeViewController.swift in Sources */,
 				0AAD5B06251A533F00B77FDA /* MainCollectionViewCell.swift in Sources */,
