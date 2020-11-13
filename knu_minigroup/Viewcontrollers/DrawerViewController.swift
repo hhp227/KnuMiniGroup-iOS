@@ -10,7 +10,9 @@ import UIKit
 
 class DrawerViewController: UITableViewController {
     @IBOutlet var drawerTableView: UITableView!
+    
     var menus = ["메인화면", "공지사항", "로그아웃"]
+    
     var menuIcons = ["", "", ""]
     
     override func viewDidLoad() {

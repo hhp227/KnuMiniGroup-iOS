@@ -10,11 +10,17 @@ import UIKit
 
 class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     @IBOutlet var mTabBar: UITabBar!
+    
     @IBOutlet var mFindTabBarItem: UITabBarItem!
+    
     @IBOutlet var mRequestTabBarItem: UITabBarItem!
+    
     @IBOutlet var mCreateTabBarItem: UITabBarItem!
+    
     @IBOutlet var mCollectionView: UICollectionView!
+    
     var estimateWidth = 160.0
+    
     var cellMarginSize = 16.0
     
     override func viewDidLoad() {

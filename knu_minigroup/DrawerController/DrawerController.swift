@@ -18,7 +18,6 @@ import UIKit
 }
 
 open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
-    
     @objc public enum DrawerDirection: Int {
         case left, right
     }
@@ -28,13 +27,21 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @IBInspectable public var containerViewMaxAlpha: CGFloat = 0.2
+    
     @IBInspectable public var drawerAnimationDuration: TimeInterval = 0.25
+    
     @IBInspectable public var mainSegueIdentifier: String?
+    
     @IBInspectable public var drawerSegueIdentifier: String?
+    
     private var drawerConstraint: NSLayoutConstraint!
+    
     private var drawerWidthConstraint: NSLayoutConstraint!
+    
     private var panStartLocation = CGPoint.zero
+    
     private var panDelta: CGFloat = 0
+    
     private lazy var containerView: UIView = {
         let view = UIView(frame: self.view.frame)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -43,8 +50,11 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
         view.addGestureRecognizer(self.containerViewTapGesture)
         return view
     }()
+    
     private var isAppearing: Bool?
+    
     public var screenEdgePanGestureEnabled = true
+    
     public private(set) lazy var screenEdgePanGesture: UIScreenEdgePanGestureRecognizer = {
         let gesture = UIScreenEdgePanGestureRecognizer(
             target: self,
@@ -61,6 +71,7 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
         gesture.delegate = self
         return gesture
     }()
+    
     public private(set) lazy var panGesture: UIPanGestureRecognizer = {
         let gesture = UIPanGestureRecognizer(
             target: self,
@@ -69,6 +80,7 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
         gesture.delegate = self
         return gesture
     }()
+    
     public private(set) lazy var containerViewTapGesture: UITapGestureRecognizer = {
         let gesture = UITapGestureRecognizer(
             target: self,
@@ -77,7 +89,9 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
         gesture.delegate = self
         return gesture
     }()
+    
     public weak var delegate: DrawerControllerDelegate?
+    
     public var drawerDirection: DrawerDirection = .left {
         didSet {
             switch drawerDirection {
@@ -91,13 +105,16 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
             drawerViewController = temp
         }
     }
+    
     public var drawerState: DrawerState {
         get { return containerView.isHidden ? .closed : .opened }
         set { setDrawerState(newValue, animated: false) }
     }
+    
     @IBInspectable public var drawerWidth: CGFloat = 280 {
         didSet { drawerWidthConstraint.constant = drawerWidth }
     }
+    
     public var displayingViewController: UIViewController? {
         switch drawerState {
         case .closed:
@@ -106,6 +123,7 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
             return drawerViewController
         }
     }
+    
     public var mainViewController: UIViewController! {
         didSet {
             let isVisible = (drawerState == .closed)
@@ -157,6 +175,7 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
             mainViewController.didMove(toParent: self)
         }
     }
+    
     public var drawerViewController: UIViewController? {
         didSet {
             let isVisible = (drawerState == .opened)
@@ -353,7 +372,6 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
     }
-
     
     @objc final func handlePanGesture(_ sender: UIGestureRecognizer) {
         containerView.isHidden = false
