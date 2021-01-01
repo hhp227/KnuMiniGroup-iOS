@@ -8,12 +8,70 @@
 
 import UIKit
 
-class TabHostViewController: HeaderedTabScrollViewController {
+class TabHostViewController: UIViewController {
     let tabsTexts = ["소식", "일정", "맴버", "설정"]
     
     @IBOutlet weak var header: UIView!
     
     @IBOutlet weak var tabMenuContainer: UIView!
+    
+    private let headerContainer = UIView()
+    
+    private var headerHeightConstraint: NSLayoutConstraint?
+
+    private var lastTabScrollViewOffset: CGPoint = .zero
+    
+    var headerTopConstraint: NSLayoutConstraint?
+    
+    var tabTopConstraint: NSLayoutConstraint?
+    
+    public var headerView: UIView? {
+        didSet {
+            if headerView != nil {
+                headerContainer.subviews.forEach { $0.removeFromSuperview() }
+                headerContainer.addSubview(headerView!)
+                headerView!.translatesAutoresizingMaskIntoConstraints = false
+                headerView!.topAnchor.constraint(equalTo: headerContainer.topAnchor).isActive = true
+                headerView!.leadingAnchor.constraint(equalTo: headerContainer.leadingAnchor).isActive = true
+                headerView!.trailingAnchor.constraint(equalTo: headerContainer.trailingAnchor).isActive = true
+                headerView!.bottomAnchor.constraint(equalTo: headerContainer.bottomAnchor).isActive = true
+            }
+            
+        }
+    }
+
+    public var headerHeight: CGFloat = 240 {
+        didSet {
+            if let constraint = headerHeightConstraint {
+                constraint.constant = headerHeight
+            }
+        }
+    }
+    
+    public var headerBackgroundColor: UIColor? {
+        get {
+            return self.view.backgroundColor
+        }
+        set(value) {
+            self.view.backgroundColor = value
+        }
+    }
+    
+    public var navBarItemsColor: UIColor = .white {
+        didSet {
+            if let navCtrl = self.navigationController {
+                navCtrl.navigationBar.tintColor = navBarItemsColor
+            }
+        }
+    }
+    
+    public var navBarTitleColor: UIColor = .white {
+        didSet {
+            if let navCtrl = self.navigationController {
+                navCtrl.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: navBarTitleColor]
+            }
+        }
+    }
     
     //private var navBarOverlay: UIView?
     
@@ -61,6 +119,17 @@ class TabHostViewController: HeaderedTabScrollViewController {
         self.headerBackgroundColor = #colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 1)
         //self.navBarTransparancy = 0
         self.navBarItemsColor = .white
+        
+        // 헤더
+        self.view.addSubview(headerContainer)
+        headerContainer.translatesAutoresizingMaskIntoConstraints = false
+        headerTopConstraint = headerContainer.topAnchor.constraint(equalTo: self.view.topAnchor)
+        headerTopConstraint!.isActive = true
+        headerContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        headerContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        headerHeightConstraint = headerContainer.heightAnchor.constraint(equalToConstant: self.headerHeight)
+        headerHeightConstraint!.isActive = true
+        lastTabScrollViewOffset = CGPoint(x: CGFloat(0), y: navBarOffset())
         
         // 탭 레이아웃
         self.view.addSubview(tabMenuContainer)
@@ -111,13 +180,13 @@ class TabHostViewController: HeaderedTabScrollViewController {
         }
     }
     
-    override func headerDidScroll(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
+    func headerDidScroll(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
         updateNavBarAccordingToScrollPosition(minY: minY, maxY: maxY, currentY: currentY)
         updateHeaderPositionAccordingToScrollPosition(minY: minY, maxY: maxY, currentY: currentY)
         updateHeaderAlphaAccordingToScrollPosition(minY: minY, maxY: maxY, currentY: currentY)
     }
     
-    public override func updateNavBarAccordingToScrollPosition(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
+    public func updateNavBarAccordingToScrollPosition(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
         let alphaOffset: CGFloat = (minY - maxY) * 0.3 // alpha start changing at 1/3 of the way up
         var alpha = (currentY + alphaOffset - minY) / (maxY + alphaOffset - minY)
         if currentY > minY - alphaOffset {
@@ -136,6 +205,96 @@ class TabHostViewController: HeaderedTabScrollViewController {
     }
     */
 
+    // HeaderedTabScrollViewController
+    public func setNavBarRightItems(items: [UIBarButtonItem]) {
+        self.navigationItem.rightBarButtonItems = items
+        self.navigationItem.rightBarButtonItem?.tintColor = .white
+    }
+    
+    public func setNavbarTitleTransparency(alpha: CGFloat) {
+        if let navCtrl = self.navigationController {
+            let navBar = navCtrl.navigationBar
+            navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white.withAlphaComponent(alpha)]
+        }
+    }
+    
+    public func setNavBarLeftItems(items: [UIBarButtonItem]) {
+        self.navigationItem.leftBarButtonItems = items
+        self.navigationItem.leftBarButtonItem?.tintColor = .white
+    }
+    
+    public func pleaseScroll(_ scrollView: UIScrollView) {
+        var delta = scrollView.contentOffset.y - lastTabScrollViewOffset.y
+        
+        // Vertical bounds
+        let maxY: CGFloat = navBarOffset()
+        let minY: CGFloat = self.headerHeight
+        
+        if tabTopConstraint == nil { return }
+        //we compress the top view
+        if delta > 0 && tabTopConstraint!.constant > maxY && scrollView.contentOffset.y > 0 {
+            if tabTopConstraint!.constant - delta < maxY {
+                delta = tabTopConstraint!.constant - maxY
+            }
+            tabTopConstraint!.constant -= delta
+            scrollView.contentOffset.y -= delta
+        }
+        
+        //we expand the top view
+        if delta < 0 {
+            if tabTopConstraint!.constant < minY && scrollView.contentOffset.y < 0 {
+                if tabTopConstraint!.constant - delta > minY {
+                    delta = tabTopConstraint!.constant - minY
+                }
+                tabTopConstraint!.constant -= delta
+                scrollView.contentOffset.y -= delta
+            }
+        }
+        
+        lastTabScrollViewOffset = scrollView.contentOffset
+        headerDidScroll(minY: minY, maxY: maxY, currentY: tabTopConstraint!.constant)
+    }
+    
+    func navBarOffset() -> CGFloat {
+        return (self.navigationController?.navigationBar.bounds.height ?? 0) + UIApplication.shared.statusBarFrame.height
+    }
+    
+    /*open func updateNavBarAccordingToScrollPosition(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
+        let alphaOffset: CGFloat = (minY - maxY) * 0.3 // alpha start changing at 1/3 of the way up
+        var alpha = (currentY + alphaOffset - minY) / (maxY + alphaOffset - minY)
+        if currentY > minY - alphaOffset {
+            alpha = 0
+        }
+        
+        /*if (navBarOverlay != nil) {
+            navBarOverlay!.backgroundColor = navBarColor.withAlphaComponent(alpha)
+        }*/
+        // Only the title's color is updated here
+        navBarTitleColor = navBarTitleColor.withAlphaComponent(alpha)
+        // do the following to update items too:
+        // navBarItemsColor = navBarItemsColor.withAlphaComponent(alpha)
+        
+    }*/
+    
+    open func updateHeaderPositionAccordingToScrollPosition(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
+        if let constraint = headerTopConstraint {
+            let paralaxCoef: CGFloat = 0.3 // i.e. if the tabScrollView goas up by 1, the header goes up by this coefficient
+            let tabScrollViewTravelPercent = -(currentY - minY) / (minY - maxY)
+            let headerTravelPercent = tabScrollViewTravelPercent * paralaxCoef
+            let headerTargetY = headerTravelPercent * (minY - maxY)
+            constraint.constant = -headerTargetY
+        }
+    }
+    
+    open func updateHeaderAlphaAccordingToScrollPosition(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
+        let alphaOffset: CGFloat = (minY - maxY) * 0.3 // alpha start changing at 1/3 of the way up
+        var alpha = 1 - (currentY + alphaOffset - minY) / (maxY + alphaOffset - minY)
+        if currentY > minY - alphaOffset {
+            alpha = 1
+        }
+        
+        headerContainer.alpha = alpha
+    }
 }
 
 struct MockupData {
