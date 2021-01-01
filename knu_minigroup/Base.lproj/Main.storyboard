@@ -165,9 +165,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JlL-r0-HBF">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="308"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemRedColor"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a7d-Sh-EeL">
+                                <rect key="frame" x="0.0" y="260" width="414" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2t8-52-Hox"/>
@@ -176,6 +181,7 @@
                     <navigationItem key="navigationItem" id="XFC-fD-QKf"/>
                     <connections>
                         <outlet property="header" destination="JlL-r0-HBF" id="XHT-5c-qma"/>
+                        <outlet property="tabMenuContainer" destination="a7d-Sh-EeL" id="uFW-99-EFe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ahf-PH-MLx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

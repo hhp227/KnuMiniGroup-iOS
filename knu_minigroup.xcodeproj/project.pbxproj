@@ -11,8 +11,8 @@
 		0A11347124FB9C000029C07C /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347024FB9C000029C07C /* DrawerController.swift */; };
 		0A11347324FBFA650029C07C /* EmbedDrawerControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347224FBFA650029C07C /* EmbedDrawerControllerSegue.swift */; };
 		0A11347524FBFB2F0029C07C /* EmbedMainControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347424FBFB2F0029C07C /* EmbedMainControllerSegue.swift */; };
-		0A1A3876257554A700278C08 /* CAPSPageMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A3875257554A700278C08 /* CAPSPageMenu.swift */; };
-		0A1A38792575550C00278C08 /* CAPSPageMenuConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A38782575550C00278C08 /* CAPSPageMenuConfiguration.swift */; };
+		0A1A3876257554A700278C08 /* TabLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A3875257554A700278C08 /* TabLayout.swift */; };
+		0A1A38792575550C00278C08 /* TabLayoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A38782575550C00278C08 /* TabLayoutConfiguration.swift */; };
 		0A1A387C2575555500278C08 /* MenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A387B2575555500278C08 /* MenuItemView.swift */; };
 		0A211A5C2533745F00937FEF /* TabHostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A211A5B2533745F00937FEF /* TabHostViewController.swift */; };
 		0A21862F257924B700ACD350 /* Tab1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A21862E257924B700ACD350 /* Tab1ViewController.swift */; };
@@ -35,7 +35,6 @@
 		0AC523DD25752EAA00D2501E /* HeaderedTabScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC523DC25752EAA00D2501E /* HeaderedTabScrollViewController.swift */; };
 		0AF3F4BB2517940F0005D5E3 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF3F4BA2517940F0005D5E3 /* FindViewController.swift */; };
 		0AF3F4BD2517A7270005D5E3 /* RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF3F4BC2517A7270005D5E3 /* RequestViewController.swift */; };
-		0AF5B9ED2577DECF00AC9890 /* HeaderedCAPSPageMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF5B9EC2577DECF00AC9890 /* HeaderedCAPSPageMenuViewController.swift */; };
 		0AF5B9F02577E4CD00AC9890 /* PlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF5B9EF2577E4CD00AC9890 /* PlaceholderViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,8 +43,8 @@
 		0A11347024FB9C000029C07C /* DrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerController.swift; sourceTree = "<group>"; };
 		0A11347224FBFA650029C07C /* EmbedDrawerControllerSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbedDrawerControllerSegue.swift; sourceTree = "<group>"; };
 		0A11347424FBFB2F0029C07C /* EmbedMainControllerSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbedMainControllerSegue.swift; sourceTree = "<group>"; };
-		0A1A3875257554A700278C08 /* CAPSPageMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAPSPageMenu.swift; sourceTree = "<group>"; };
-		0A1A38782575550C00278C08 /* CAPSPageMenuConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAPSPageMenuConfiguration.swift; sourceTree = "<group>"; };
+		0A1A3875257554A700278C08 /* TabLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabLayout.swift; sourceTree = "<group>"; };
+		0A1A38782575550C00278C08 /* TabLayoutConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabLayoutConfiguration.swift; sourceTree = "<group>"; };
 		0A1A387B2575555500278C08 /* MenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemView.swift; sourceTree = "<group>"; };
 		0A211A5B2533745F00937FEF /* TabHostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TabHostViewController.swift; path = knu_minigroup/Viewcontrollers/TabHostViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A21862E257924B700ACD350 /* Tab1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tab1ViewController.swift; path = knu_minigroup/Viewcontrollers/Tab1ViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -70,7 +69,6 @@
 		0AC523DC25752EAA00D2501E /* HeaderedTabScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderedTabScrollViewController.swift; sourceTree = "<group>"; };
 		0AF3F4BA2517940F0005D5E3 /* FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FindViewController.swift; path = knu_minigroup/Viewcontrollers/FindViewController.swift; sourceTree = SOURCE_ROOT; };
 		0AF3F4BC2517A7270005D5E3 /* RequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RequestViewController.swift; path = knu_minigroup/Viewcontrollers/RequestViewController.swift; sourceTree = SOURCE_ROOT; };
-		0AF5B9EC2577DECF00AC9890 /* HeaderedCAPSPageMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderedCAPSPageMenuViewController.swift; sourceTree = "<group>"; };
 		0AF5B9EF2577E4CD00AC9890 /* PlaceholderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -170,10 +168,9 @@
 			isa = PBXGroup;
 			children = (
 				0AC523DC25752EAA00D2501E /* HeaderedTabScrollViewController.swift */,
-				0A1A3875257554A700278C08 /* CAPSPageMenu.swift */,
-				0A1A38782575550C00278C08 /* CAPSPageMenuConfiguration.swift */,
+				0A1A3875257554A700278C08 /* TabLayout.swift */,
+				0A1A38782575550C00278C08 /* TabLayoutConfiguration.swift */,
 				0A1A387B2575555500278C08 /* MenuItemView.swift */,
-				0AF5B9EC2577DECF00AC9890 /* HeaderedCAPSPageMenuViewController.swift */,
 				0AF5B9EF2577E4CD00AC9890 /* PlaceholderViewController.swift */,
 			);
 			path = HeaderedTabScrollViewController;
@@ -252,13 +249,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A1A3876257554A700278C08 /* CAPSPageMenu.swift in Sources */,
+				0A1A3876257554A700278C08 /* TabLayout.swift in Sources */,
 				0A11347324FBFA650029C07C /* EmbedDrawerControllerSegue.swift in Sources */,
 				0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */,
 				0A11347124FB9C000029C07C /* DrawerController.swift in Sources */,
 				0AF5B9F02577E4CD00AC9890 /* PlaceholderViewController.swift in Sources */,
 				0A211A5C2533745F00937FEF /* TabHostViewController.swift in Sources */,
-				0A1A38792575550C00278C08 /* CAPSPageMenuConfiguration.swift in Sources */,
+				0A1A38792575550C00278C08 /* TabLayoutConfiguration.swift in Sources */,
 				0A21862F257924B700ACD350 /* Tab1ViewController.swift in Sources */,
 				0AA26C0224F22B9600FA4D5A /* LoginViewController.swift in Sources */,
 				0A5D0F69250E317B008376EC /* UnivNoticeViewController.swift in Sources */,
@@ -266,7 +263,6 @@
 				0AC523DD25752EAA00D2501E /* HeaderedTabScrollViewController.swift in Sources */,
 				0AF3F4BB2517940F0005D5E3 /* FindViewController.swift in Sources */,
 				0AA26BFE24F22B9600FA4D5A /* AppDelegate.swift in Sources */,
-				0AF5B9ED2577DECF00AC9890 /* HeaderedCAPSPageMenuViewController.swift in Sources */,
 				0A11347524FBFB2F0029C07C /* EmbedMainControllerSegue.swift in Sources */,
 				0A218635257924F000ACD350 /* Tab3ViewController.swift in Sources */,
 				0A03AEA42519083F00677BDF /* CreateViewController.swift in Sources */,

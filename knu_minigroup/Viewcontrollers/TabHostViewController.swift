@@ -8,12 +8,16 @@
 
 import UIKit
 
-class TabHostViewController: HeaderedCAPSPageMenuViewController {
+class TabHostViewController: HeaderedTabScrollViewController {
     let tabsTexts = ["소식", "일정", "맴버", "설정"]
     
     @IBOutlet weak var header: UIView!
     
+    @IBOutlet weak var tabMenuContainer: UIView!
+    
     //private var navBarOverlay: UIView?
+    
+    public var pageMenuController: TabLayout?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,13 +43,13 @@ class TabHostViewController: HeaderedCAPSPageMenuViewController {
             controllers.append(vc)
         }
         
-        let parameters: [CAPSPageMenuOption] = [
+        let parameters: [TabLayoutOption] = [
             .scrollMenuBackgroundColor(#colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 0.5)),
             .viewBackgroundColor(#colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 0.5)),
             .bottomMenuHairlineColor(UIColor(red: 20.0 / 255.0, green: 20.0 / 255.0, blue: 20.0 / 255.0, alpha: 0.1)),
-            .selectionIndicatorColor(#colorLiteral(red: 0.8404174447, green: 0.396413058, blue: 0, alpha: 1)),
+            .selectionIndicatorColor(#colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)),
             .menuMargin(0.0),
-            .menuHeight(40.0),
+            .menuHeight(48.0),
             .selectedMenuItemLabelColor(.white),
             .unselectedMenuItemLabelColor(.white),
             .useMenuLikeSegmentedControl(true),
@@ -54,11 +58,24 @@ class TabHostViewController: HeaderedCAPSPageMenuViewController {
             .menuItemWidthBasedOnTitleTextWidth(false)
         ]
         
-        self.addPageMenu(menu: CAPSPageMenu(viewControllers: controllers, frame: CGRect(x: 0, y: 0, width: pageMenuContainer.frame.width, height: pageMenuContainer.frame.height), pageMenuOptions: parameters))
-        
         self.headerBackgroundColor = #colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 1)
         //self.navBarTransparancy = 0
         self.navBarItemsColor = .white
+        
+        // 탭 레이아웃
+        self.view.addSubview(tabMenuContainer)
+        tabMenuContainer.frame = CGRect(x: 0, y: headerHeight, width: self.view.frame.width, height: self.view.frame.height - navBarOffset())
+        tabMenuContainer.translatesAutoresizingMaskIntoConstraints = false
+        tabMenuContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        tabMenuContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        tabTopConstraint = tabMenuContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: headerHeight)
+        tabTopConstraint!.isActive = true
+        tabMenuContainer.heightAnchor.constraint(equalToConstant: self.view.frame.height - navBarOffset()).isActive = true
+        
+        // 탭 레이아웃 추가
+        pageMenuController = TabLayout(viewControllers: controllers, frame: CGRect(x: 0, y: 0, width: tabMenuContainer.frame.width, height: tabMenuContainer.frame.height), pageMenuOptions: parameters)
+        
+        tabMenuContainer.addSubview(pageMenuController!.view)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -129,7 +146,7 @@ struct MockupData {
 }
 
 
-public enum CAPSPageMenuOption {
+public enum TabLayoutOption {
     case selectionIndicatorHeight(CGFloat)
     case menuItemSeparatorWidth(CGFloat)
     case scrollMenuBackgroundColor(UIColor)

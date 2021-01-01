@@ -1,5 +1,5 @@
 //
-//  CAPSPageMenu.swift
+//  TabLayout.swift
 //  knu_minigroup
 //
 //  Created by 홍희표 on 2020/12/01.
@@ -8,17 +8,17 @@
 
 import UIKit
 
-@objc public protocol CAPSPageMenuDelegate {
+@objc public protocol TabLayoutDelegate {
     // MARK: - Delegate functions
 
     @objc optional func willMoveToPage(_ controller: UIViewController, index: Int)
     @objc optional func didMoveToPage(_ controller: UIViewController, index: Int)
 }
 
-open class CAPSPageMenu: UIViewController {
+open class TabLayout : UIViewController {
 
     //MARK: - Configuration
-    var configuration = CAPSPageMenuConfiguration()
+    var configuration = TabLayoutConfiguration()
     
     // MARK: - Properties
 
@@ -45,17 +45,17 @@ open class CAPSPageMenu: UIViewController {
 
     var lastControllerScrollViewContentOffset: CGFloat = 0.0
 
-    var lastScrollDirection: CAPSPageMenuScrollDirection = .other
+    var lastScrollDirection: TabLayoutScrollDirection = .other
     var startingPageForScroll: Int = 0
     var didTapMenuItemToScroll: Bool = false
 
     var pagesAddedDictionary: [Int : Int] = [:]
 
-    open weak var delegate: CAPSPageMenuDelegate?
+    open weak var delegate: TabLayoutDelegate?
 
     var tapTimer: Timer?
 
-    enum CAPSPageMenuScrollDirection: Int {
+    enum TabLayoutScrollDirection: Int {
         case left
         case right
         case other
@@ -78,7 +78,7 @@ open class CAPSPageMenu: UIViewController {
         self.view.frame = frame
     }
     
-    public convenience init(viewControllers: [UIViewController], frame: CGRect, pageMenuOptions: [CAPSPageMenuOption]?) {
+    public convenience init(viewControllers: [UIViewController], frame: CGRect, pageMenuOptions: [TabLayoutOption]?) {
         self.init(viewControllers: viewControllers, frame: frame, options: nil)
         
         if let options = pageMenuOptions {
@@ -99,7 +99,7 @@ open class CAPSPageMenu: UIViewController {
     - parameter frame: Frame for page menu view
     - parameter configuration: A configuration instance for page menu
     */
-    public init(viewControllers: [UIViewController], frame: CGRect, configuration: CAPSPageMenuConfiguration) {
+    public init(viewControllers: [UIViewController], frame: CGRect, configuration: TabLayoutConfiguration) {
         super.init(nibName: nil, bundle: nil)
         self.configuration = configuration
         controllerArray = viewControllers
@@ -120,7 +120,7 @@ open class CAPSPageMenu: UIViewController {
      - parameter storyBoard: Parent storyboard for rendering a page menu
      - parameter configuration: A configuration instance for page menu
      */
-    public init(viewControllers: [UIViewController], in controller: UIViewController, with configuration: CAPSPageMenuConfiguration, usingStoryboards: Bool = false) {
+    public init(viewControllers: [UIViewController], in controller: UIViewController, with configuration: TabLayoutConfiguration, usingStoryboards: Bool = false) {
         super.init(nibName: nil, bundle: nil)
         self.configuration = configuration
         controllerArray = viewControllers
@@ -151,7 +151,7 @@ open class CAPSPageMenu: UIViewController {
 
 
 
-extension CAPSPageMenu {
+extension TabLayout {
     // MARK: - Handle Selection Indicator
     func moveSelectionIndicator(_ pageIndex: Int) {
         if pageIndex >= 0 && pageIndex < controllerArray.count {
@@ -351,8 +351,8 @@ extension CAPSPageMenu {
     }
 }
 
-extension CAPSPageMenu {
-    func configurePageMenu(options: [CAPSPageMenuOption]) {
+extension TabLayout {
+    func configurePageMenu(options: [TabLayoutOption]) {
         for option in options {
             switch (option) {
             case let .selectionIndicatorHeight(value):
@@ -477,7 +477,7 @@ extension CAPSPageMenu {
     
     func configureUserInterface() {
         // Add tap gesture recognizer to controller scroll view to recognize menu item selection
-        let menuItemTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CAPSPageMenu.handleMenuItemTap(_:)))
+        let menuItemTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(TabLayout.handleMenuItemTap(_:)))
         menuItemTapGestureRecognizer.numberOfTapsRequired = 1
         menuItemTapGestureRecognizer.numberOfTouchesRequired = 1
         menuItemTapGestureRecognizer.delegate = self
@@ -596,7 +596,7 @@ extension CAPSPageMenu {
     }
 }
 
-extension CAPSPageMenu : UIGestureRecognizerDelegate {
+extension TabLayout : UIGestureRecognizerDelegate {
     @objc func handleMenuItemTap(_ gestureRecognizer: UITapGestureRecognizer) {
         let tappedPoint: CGPoint = gestureRecognizer.location(in: menuScrollView)
         
@@ -674,13 +674,13 @@ extension CAPSPageMenu : UIGestureRecognizerDelegate {
                 }
                 
                 let timerInterval: TimeInterval = Double(configuration.scrollAnimationDurationOnMenuItemTap) * 0.001
-                tapTimer = Timer.scheduledTimer(timeInterval: timerInterval, target: self, selector: #selector(CAPSPageMenu.scrollViewDidEndTapScrollingAnimation), userInfo: nil, repeats: false)
+                tapTimer = Timer.scheduledTimer(timeInterval: timerInterval, target: self, selector: #selector(TabLayout.scrollViewDidEndTapScrollingAnimation), userInfo: nil, repeats: false)
             }
         }
     }
 }
 
-extension CAPSPageMenu : UIScrollViewDelegate {
+extension TabLayout : UIScrollViewDelegate {
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if !didLayoutSubviewsAfterRotation {
             if scrollView.isEqual(controllerScrollView) {
@@ -689,7 +689,7 @@ extension CAPSPageMenu : UIScrollViewDelegate {
                         // Check if scroll direction changed
                         if !didTapMenuItemToScroll {
                             if didScrollAlready {
-                                var newScrollDirection: CAPSPageMenuScrollDirection = .other
+                                var newScrollDirection: TabLayoutScrollDirection = .other
                                 
                                 if (CGFloat(startingPageForScroll) * scrollView.frame.width > scrollView.contentOffset.x) {
                                     newScrollDirection = .right

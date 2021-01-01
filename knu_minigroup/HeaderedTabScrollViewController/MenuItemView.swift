@@ -38,7 +38,7 @@ class MenuItemView: UIView {
         }
     }
     
-    func configure(for pageMenu: CAPSPageMenu, controller: UIViewController, index: CGFloat) {
+    func configure(for pageMenu: TabLayout, controller: UIViewController, index: CGFloat) {
         if pageMenu.configuration.useMenuLikeSegmentedControl {
             //**************************拡張*************************************
             if pageMenu.menuItemMargin > 0 {

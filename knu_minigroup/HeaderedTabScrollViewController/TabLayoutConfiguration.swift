@@ -1,5 +1,5 @@
 //
-//  CAPSPageMenuConfiguration.swift
+//  TabLayoutConfiguration.swift
 //  knu_minigroup
 //
 //  Created by 홍희표 on 2020/12/01.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class CAPSPageMenuConfiguration {
+public class TabLayoutConfiguration {
     open var menuHeight : CGFloat = 34.0
     open var menuMargin : CGFloat = 15.0
     open var menuItemWidth : CGFloat = 111.0

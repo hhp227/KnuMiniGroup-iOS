@@ -12,7 +12,7 @@ open class HeaderedCAPSPageMenuViewController: HeaderedTabScrollViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
         
-        // PageMenu
+        // 탭레이아웃
         self.view.addSubview(pageMenuContainer)
         pageMenuContainer.frame = CGRect(x: 0, y: headerHeight, width: self.view.frame.width, height: self.view.frame.height - navBarOffset())
         pageMenuContainer.translatesAutoresizingMaskIntoConstraints = false
