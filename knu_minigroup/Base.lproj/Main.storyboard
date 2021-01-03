@@ -207,6 +207,9 @@
                         <viewLayoutGuide key="safeArea" id="ez4-dB-A5w"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <outlet property="textLabel" destination="RJu-s4-wh2" id="Rtd-AC-Evw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3yD-dN-oG5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -231,6 +234,9 @@
                         <viewLayoutGuide key="safeArea" id="4PQ-aN-evL"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <outlet property="textLabel" destination="z9O-oO-na8" id="DVt-Gv-GsB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KtC-MZ-6ku" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -255,6 +261,9 @@
                         <viewLayoutGuide key="safeArea" id="WH3-pn-Bm8"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <outlet property="textLabel" destination="45P-2y-Z0n" id="sJX-mb-w3S"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pql-m8-dKb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -279,6 +288,9 @@
                         <viewLayoutGuide key="safeArea" id="kV1-Ui-XYb"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <outlet property="textLabel" destination="dpV-tQ-mVV" id="lEv-fL-Hp8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kc7-1T-fmA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

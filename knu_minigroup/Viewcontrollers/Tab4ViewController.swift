@@ -9,7 +9,8 @@
 import UIKit
 
 class Tab4ViewController: UIViewController {
-
+    @IBOutlet weak var textLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

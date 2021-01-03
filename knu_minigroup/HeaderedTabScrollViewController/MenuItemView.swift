@@ -11,8 +11,8 @@ import UIKit
 class MenuItemView: UIView {
     // MARK: - Menu item view
     
-    var titleLabel : UILabel?
-    var menuItemSeparator : UIView?
+    var titleLabel: UILabel?
+    var menuItemSeparator: UIView?
     
     func setUpMenuItemView(_ menuItemWidth: CGFloat, menuScrollViewHeight: CGFloat, indicatorHeight: CGFloat, separatorPercentageHeight: CGFloat, separatorWidth: CGFloat, separatorRoundEdges: Bool, menuItemSeparatorColor: UIColor) {
         titleLabel = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: menuItemWidth, height: menuScrollViewHeight - indicatorHeight))

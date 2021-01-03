@@ -10,8 +10,8 @@ import UIKit
 
 @objc public protocol TabLayoutDelegate {
     // MARK: - Delegate functions
-
     @objc optional func willMoveToPage(_ controller: UIViewController, index: Int)
+    
     @objc optional func didMoveToPage(_ controller: UIViewController, index: Int)
 }
 
@@ -596,7 +596,7 @@ extension TabLayout {
     }
 }
 
-extension TabLayout : UIGestureRecognizerDelegate {
+extension TabLayout: UIGestureRecognizerDelegate {
     @objc func handleMenuItemTap(_ gestureRecognizer: UITapGestureRecognizer) {
         let tappedPoint: CGPoint = gestureRecognizer.location(in: menuScrollView)
         
@@ -680,7 +680,7 @@ extension TabLayout : UIGestureRecognizerDelegate {
     }
 }
 
-extension TabLayout : UIScrollViewDelegate {
+extension TabLayout: UIScrollViewDelegate {
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if !didLayoutSubviewsAfterRotation {
             if scrollView.isEqual(controllerScrollView) {
