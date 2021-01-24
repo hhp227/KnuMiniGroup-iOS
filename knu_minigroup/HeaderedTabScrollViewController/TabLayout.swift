@@ -16,40 +16,47 @@ import UIKit
 }
 
 open class TabLayout: UIViewController {
-
-    //MARK: - Configuration
     var configuration = TabLayoutConfiguration()
-    
-    // MARK: - Properties
 
     let menuScrollView = UIScrollView()
+    
     let controllerScrollView = UIScrollView()
+    
     var controllerArray: [UIViewController] = []
+    
     var menuItems: [MenuItemView] = []
+    
     var menuItemWidths: [CGFloat] = []
     
     var totalMenuItemWidthIfDifferentWidths: CGFloat = 0.0
     
     var startingMenuMargin: CGFloat = 0.0
+    
     var menuItemMargin: CGFloat = 0.0
 
     var selectionIndicatorView: UIView = UIView()
 
     public var currentPageIndex: Int = 0
+    
     var lastPageIndex: Int = 0
 
     var currentOrientationIsPortrait: Bool = true
+    
     var pageIndexForOrientationChange: Int = 0
+    
     var didLayoutSubviewsAfterRotation: Bool = false
+    
     var didScrollAlready: Bool = false
 
     var lastControllerScrollViewContentOffset: CGFloat = 0.0
 
     var lastScrollDirection: TabLayoutScrollDirection = .other
+    
     var startingPageForScroll: Int = 0
+    
     var didTapMenuItemToScroll: Bool = false
 
-    var pagesAddedDictionary: [Int : Int] = [:]
+    var pagesAddedDictionary: [Int: Int] = [:]
 
     open weak var delegate: TabLayoutDelegate?
 
@@ -72,9 +79,7 @@ open class TabLayout: UIViewController {
      */
     public init(viewControllers: [UIViewController], frame: CGRect, options: [String: AnyObject]?) {
         super.init(nibName: nil, bundle: nil)
-        
         controllerArray = viewControllers
-        
         self.view.frame = frame
     }
     
@@ -84,9 +89,7 @@ open class TabLayout: UIViewController {
         if let options = pageMenuOptions {
             configurePageMenu(options: options)
         }
-        
         setUpUserInterface()
-        
         if menuScrollView.subviews.count == 0 {
             configureUserInterface()
         }
@@ -103,7 +106,6 @@ open class TabLayout: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.configuration = configuration
         controllerArray = viewControllers
-
         self.view.frame = frame
         
         //Build UI
@@ -127,12 +129,12 @@ open class TabLayout: UIViewController {
         
         //Setup storyboard
         self.view.frame = CGRect(x: 0, y: 0, width: controller.view.frame.size.width, height: controller.view.frame.size.height)
+        
         if usingStoryboards {
             controller.addChild(self)
             controller.view.addSubview(self.view)
             didMove(toParent: controller)
-        }
-        else {
+        } else {
             controller.view.addSubview(self.view)
         }
         
@@ -172,11 +174,7 @@ extension TabLayout {
                         }
                     }
                 } else {
-                    if self.configuration.centerMenuItems && pageIndex == 0 {
-                        selectionIndicatorX = self.startingMenuMargin + self.configuration.menuMargin
-                    } else {
-                        selectionIndicatorX = self.configuration.menuItemWidth * CGFloat(pageIndex) + self.configuration.menuMargin * CGFloat(pageIndex + 1) + self.startingMenuMargin
-                    }
+                    selectionIndicatorX = self.configuration.centerMenuItems && pageIndex == 0 ? self.startingMenuMargin + self.configuration.menuMargin : self.configuration.menuItemWidth * CGFloat(pageIndex) + self.configuration.menuMargin * CGFloat(pageIndex + 1) + self.startingMenuMargin
                 }
                 
                 self.selectionIndicatorView.frame = CGRect(x: selectionIndicatorX, y: self.selectionIndicatorView.frame.origin.y, width: selectionIndicatorWidth, height: self.selectionIndicatorView.frame.height)
@@ -196,14 +194,11 @@ extension TabLayout {
     func addPageAtIndex(_ index: Int) {
         // Call didMoveToPage delegate function
         let currentController = controllerArray[index]
-        delegate?.willMoveToPage?(currentController, index: index)
-        
         let newVC = controllerArray[index]
-        
-        newVC.willMove(toParent: self)
-        
         newVC.view.frame = CGRect(x: self.view.frame.width * CGFloat(index), y: configuration.menuHeight, width: self.view.frame.width, height: self.view.frame.height - configuration.menuHeight)
         
+        delegate?.willMoveToPage?(currentController, index: index)
+        newVC.willMove(toParent: self)
         self.addChild(newVC)
         self.controllerScrollView.addSubview(newVC.view)
         newVC.didMove(toParent: self)
@@ -213,10 +208,8 @@ extension TabLayout {
         let oldVC = controllerArray[index]
         
         oldVC.willMove(toParent: nil)
-        
         oldVC.view.removeFromSuperview()
         oldVC.removeFromParent()
-        
         oldVC.didMove(toParent: nil)
     }
     
@@ -226,13 +219,16 @@ extension TabLayout {
     override open func viewDidLayoutSubviews() {
         // Configure controller scroll view content size
         controllerScrollView.contentSize = CGSize(width: self.view.frame.width * CGFloat(controllerArray.count), height: self.view.frame.height - configuration.menuHeight)
-        
         let oldCurrentOrientationIsPortrait: Bool = currentOrientationIsPortrait
+        
         if UIDevice.current.orientation != UIDeviceOrientation.unknown {
             currentOrientationIsPortrait = UIDevice.current.orientation.isPortrait || UIDevice.current.orientation.isFlat
         }
         
         if (oldCurrentOrientationIsPortrait && UIDevice.current.orientation.isLandscape) || (!oldCurrentOrientationIsPortrait && (UIDevice.current.orientation.isPortrait || UIDevice.current.orientation.isFlat)) {
+            let xOffset: CGFloat = CGFloat(self.currentPageIndex) * controllerScrollView.frame.width
+            controllerScrollView.setContentOffset(CGPoint(x: xOffset, y: controllerScrollView.contentOffset.y), animated: false)
+            let ratio: CGFloat = (menuScrollView.contentSize.width - self.view.frame.width) / (controllerScrollView.contentSize.width - self.view.frame.width)
             didLayoutSubviewsAfterRotation = true
             
             //Resize menu items if using as segmented control
@@ -251,7 +247,6 @@ extension TabLayout {
                     item.frame = CGRect(x: self.view.frame.width / CGFloat(controllerArray.count) * CGFloat(index), y: 0.0, width: self.view.frame.width / CGFloat(controllerArray.count), height: configuration.menuHeight)
                     item.titleLabel!.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width / CGFloat(controllerArray.count), height: configuration.menuHeight)
                     item.menuItemSeparator!.frame = CGRect(x: item.frame.width - (configuration.menuItemSeparatorWidth / 2), y: item.menuItemSeparator!.frame.origin.y, width: item.menuItemSeparator!.frame.width, height: item.menuItemSeparator!.frame.height)
-                    
                     index += 1
                 }
             } else if configuration.centerMenuItems {
@@ -268,28 +263,17 @@ extension TabLayout {
                 var index: Int = 0
                 
                 for item: MenuItemView in menuItems as [MenuItemView] {
-                    if index == 0 {
-                        item.frame = CGRect(x: startingMenuMargin + configuration.menuMargin, y: 0.0, width: configuration.menuItemWidth, height: configuration.menuHeight)
-                    } else {
-                        item.frame = CGRect(x: configuration.menuItemWidth * CGFloat(index) + configuration.menuMargin * CGFloat(index + 1) + startingMenuMargin, y: 0.0, width: configuration.menuItemWidth, height: configuration.menuHeight)
-                    }
-                    
+                    item.frame = CGRect(x: index == 0 ? startingMenuMargin + configuration.menuMargin : configuration.menuItemWidth, y: 0.0, width: index == 0 ? configuration.menuItemWidth : configuration.menuItemWidth, height: configuration.menuHeight)
                     index += 1
                 }
             }
-            
             for view in controllerScrollView.subviews {
                 view.frame = CGRect(x: self.view.frame.width * CGFloat(self.currentPageIndex), y: configuration.menuHeight, width: controllerScrollView.frame.width, height: self.view.frame.height - configuration.menuHeight)
             }
-            
-            let xOffset: CGFloat = CGFloat(self.currentPageIndex) * controllerScrollView.frame.width
-            controllerScrollView.setContentOffset(CGPoint(x: xOffset, y: controllerScrollView.contentOffset.y), animated: false)
-            
-            let ratio: CGFloat = (menuScrollView.contentSize.width - self.view.frame.width) / (controllerScrollView.contentSize.width - self.view.frame.width)
-            
             if menuScrollView.contentSize.width > self.view.frame.width {
                 var offset: CGPoint = menuScrollView.contentOffset
                 offset.x = controllerScrollView.contentOffset.x * ratio
+                
                 menuScrollView.setContentOffset(offset, animated: false)
             }
         }
@@ -314,16 +298,18 @@ extension TabLayout {
      */
     open func moveToPage(_ index: Int) {
         if index >= 0 && index < controllerArray.count {
+            // Move controller scroll view when tapping menu item
+            let duration: Double = Double(configuration.scrollAnimationDurationOnMenuItemTap) / Double(1000)
+            
             // Update page if changed
             if index != currentPageIndex {
+                let smallerIndex: Int = lastPageIndex < currentPageIndex ? lastPageIndex : currentPageIndex
+                let largerIndex: Int = lastPageIndex > currentPageIndex ? lastPageIndex : currentPageIndex
                 startingPageForScroll = index
                 lastPageIndex = currentPageIndex
                 currentPageIndex = index
                 didTapMenuItemToScroll = true
-                
                 // Add pages in between current and tapped page if necessary
-                let smallerIndex: Int = lastPageIndex < currentPageIndex ? lastPageIndex : currentPageIndex
-                let largerIndex: Int = lastPageIndex > currentPageIndex ? lastPageIndex : currentPageIndex
                 
                 if smallerIndex + 1 != largerIndex {
                     for i in (smallerIndex + 1)...(largerIndex - 1) {
@@ -333,16 +319,11 @@ extension TabLayout {
                         }
                     }
                 }
-                
                 addPageAtIndex(index)
                 
                 // Add page from which tap is initiated so it can be removed after tap is done
                 pagesAddedDictionary[lastPageIndex] = lastPageIndex
             }
-            
-            // Move controller scroll view when tapping menu item
-            let duration: Double = Double(configuration.scrollAnimationDurationOnMenuItemTap) / Double(1000)
-            
             UIView.animate(withDuration: duration, animations: { () -> Void in
                 let xOffset: CGFloat = CGFloat(index) * self.controllerScrollView.frame.width
                 self.controllerScrollView.setContentOffset(CGPoint(x: xOffset, y: self.controllerScrollView.contentOffset.y), animated: false)
@@ -405,7 +386,6 @@ extension TabLayout {
                 configuration.hideTopMenuBar = value
             }
         }
-        
         if configuration.hideTopMenuBar {
             configuration.addBottomMenuHairline = false
             configuration.menuHeight = 0.0
@@ -414,8 +394,8 @@ extension TabLayout {
     
     func setUpUserInterface() {
         let viewsDictionary = [
-            "menuScrollView" : menuScrollView,
-            "controllerScrollView" : controllerScrollView
+            "menuScrollView": menuScrollView,
+            "controllerScrollView": controllerScrollView
         ]
         
         // Set up controller scroll view
@@ -423,45 +403,28 @@ extension TabLayout {
         controllerScrollView.translatesAutoresizingMaskIntoConstraints = false
         controllerScrollView.alwaysBounceHorizontal = configuration.enableHorizontalBounce
         controllerScrollView.bounces = configuration.enableHorizontalBounce
-        
         controllerScrollView.frame = CGRect(x: 0.0, y: configuration.menuHeight, width: self.view.frame.width, height: self.view.frame.height)// - configuration.menuHeight)
-        
-        self.view.addSubview(controllerScrollView)
-        
-        let controllerScrollView_constraint_H: Array = NSLayoutConstraint.constraints(withVisualFormat: "H:|[controllerScrollView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
-        let controllerScrollView_constraint_V: Array = NSLayoutConstraint.constraints(withVisualFormat: "V:|[controllerScrollView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
-        
-        self.view.addConstraints(controllerScrollView_constraint_H)
-        self.view.addConstraints(controllerScrollView_constraint_V)
         
         // Set up menu scroll view
         menuScrollView.translatesAutoresizingMaskIntoConstraints = false
-        
         menuScrollView.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: configuration.menuHeight)
         
+        self.view.addSubview(controllerScrollView)
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[controllerScrollView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[controllerScrollView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary))
         self.view.addSubview(menuScrollView)
-        
-        let menuScrollView_constraint_H: Array = NSLayoutConstraint.constraints(withVisualFormat: "H:|[menuScrollView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
-        let menuScrollView_constraint_V: Array = NSLayoutConstraint.constraints(withVisualFormat: "V:[menuScrollView(\(configuration.menuHeight))]", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
-        
-        self.view.addConstraints(menuScrollView_constraint_H)
-        self.view.addConstraints(menuScrollView_constraint_V)
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[menuScrollView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[menuScrollView(\(configuration.menuHeight))]", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary))
         
         // Add hairline to menu scroll view
         if configuration.addBottomMenuHairline {
             let menuBottomHairline: UIView = UIView()
-            
             menuBottomHairline.translatesAutoresizingMaskIntoConstraints = false
+            menuBottomHairline.backgroundColor = configuration.bottomMenuHairlineColor
             
             self.view.addSubview(menuBottomHairline)
-            
-            let menuBottomHairline_constraint_H: Array = NSLayoutConstraint.constraints(withVisualFormat: "H:|[menuBottomHairline]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["menuBottomHairline": menuBottomHairline])
-            let menuBottomHairline_constraint_V: Array = NSLayoutConstraint.constraints(withVisualFormat: "V:|-\(configuration.menuHeight)-[menuBottomHairline(0.5)]", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["menuBottomHairline": menuBottomHairline])
-            
-            self.view.addConstraints(menuBottomHairline_constraint_H)
-            self.view.addConstraints(menuBottomHairline_constraint_V)
-            
-            menuBottomHairline.backgroundColor = configuration.bottomMenuHairlineColor
+            self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[menuBottomHairline]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["menuBottomHairline": menuBottomHairline]))
+            self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-\(configuration.menuHeight)-[menuBottomHairline(0.5)]", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["menuBottomHairline": menuBottomHairline]))
         }
         
         // Disable scroll bars
@@ -481,7 +444,6 @@ extension TabLayout {
         menuItemTapGestureRecognizer.numberOfTapsRequired = 1
         menuItemTapGestureRecognizer.numberOfTouchesRequired = 1
         menuItemTapGestureRecognizer.delegate = self
-        menuScrollView.addGestureRecognizer(menuItemTapGestureRecognizer)
         
         // Set delegate for controller scroll view
         controllerScrollView.delegate = self
@@ -493,6 +455,26 @@ extension TabLayout {
         menuScrollView.scrollsToTop = false;
         controllerScrollView.scrollsToTop = false;
         
+        // Configure controller scroll view content size
+        controllerScrollView.contentSize = CGSize(width: self.view.frame.width * CGFloat(controllerArray.count), height: 0.0)
+        var index: CGFloat = 0.0
+        
+        // Configure selection indicator view
+        selectionIndicatorView = UIView(frame: CGRect(
+            x: configuration.useMenuLikeSegmentedControl ?
+                0.0 : configuration.menuItemWidthBasedOnTitleTextWidth ?
+                configuration.menuMargin : configuration.centerMenuItems ?
+                startingMenuMargin + configuration.menuMargin : configuration.menuMargin,
+            y: configuration.menuHeight - configuration.selectionIndicatorHeight,
+            width: configuration.useMenuLikeSegmentedControl ?
+                self.view.frame.width / CGFloat(controllerArray.count) : configuration.menuItemWidthBasedOnTitleTextWidth ?
+                menuItemWidths[0] : configuration.menuItemWidth,
+            height: configuration.selectionIndicatorHeight
+        ))
+        selectionIndicatorView.backgroundColor = configuration.selectionIndicatorColor
+        
+        menuScrollView.addGestureRecognizer(menuItemTapGestureRecognizer)
+        
         // Configure menu scroll view
         if configuration.useMenuLikeSegmentedControl {
             menuScrollView.isScrollEnabled = false
@@ -501,11 +483,6 @@ extension TabLayout {
         } else {
             menuScrollView.contentSize = CGSize(width: (configuration.menuItemWidth + configuration.menuMargin) * CGFloat(controllerArray.count) + configuration.menuMargin, height: configuration.menuHeight)
         }
-        
-        // Configure controller scroll view content size
-        controllerScrollView.contentSize = CGSize(width: self.view.frame.width * CGFloat(controllerArray.count), height: 0.0)
-        
-        var index: CGFloat = 0.0
         
         for controller in controllerArray {
             if index == 0.0 {
@@ -530,14 +507,12 @@ extension TabLayout {
                 //**************************拡張ここまで*************************************
             } else if configuration.menuItemWidthBasedOnTitleTextWidth {
                 let controllerTitle: String? = controller.title
-                
                 let titleText: String = controllerTitle != nil ? controllerTitle! : "Menu \(Int(index) + 1)"
                 let itemWidthRect: CGRect = (titleText as NSString).boundingRect(with: CGSize(width: 1000, height: 1000), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font:configuration.menuItemFont], context: nil)
                 configuration.menuItemWidth = itemWidthRect.width
-                
                 menuItemFrame = CGRect(x: totalMenuItemWidthIfDifferentWidths + configuration.menuMargin + (configuration.menuMargin * index), y: 0.0, width: configuration.menuItemWidth, height: configuration.menuHeight)
-                
                 totalMenuItemWidthIfDifferentWidths += itemWidthRect.width
+                
                 menuItemWidths.append(itemWidthRect.width)
             } else {
                 if configuration.centerMenuItems && index == 0.0  {
@@ -574,24 +549,6 @@ extension TabLayout {
                 menuItems[currentPageIndex].titleLabel!.textColor = configuration.selectedMenuItemLabelColor
             }
         }
-        
-        // Configure selection indicator view
-        var selectionIndicatorFrame: CGRect = CGRect()
-        
-        if configuration.useMenuLikeSegmentedControl {
-            selectionIndicatorFrame = CGRect(x: 0.0, y: configuration.menuHeight - configuration.selectionIndicatorHeight, width: self.view.frame.width / CGFloat(controllerArray.count), height: configuration.selectionIndicatorHeight)
-        } else if configuration.menuItemWidthBasedOnTitleTextWidth {
-            selectionIndicatorFrame = CGRect(x: configuration.menuMargin, y: configuration.menuHeight - configuration.selectionIndicatorHeight, width: menuItemWidths[0], height: configuration.selectionIndicatorHeight)
-        } else {
-            if configuration.centerMenuItems  {
-                selectionIndicatorFrame = CGRect(x: startingMenuMargin + configuration.menuMargin, y: configuration.menuHeight - configuration.selectionIndicatorHeight, width: configuration.menuItemWidth, height: configuration.selectionIndicatorHeight)
-            } else {
-                selectionIndicatorFrame = CGRect(x: configuration.menuMargin, y: configuration.menuHeight - configuration.selectionIndicatorHeight, width: configuration.menuItemWidth, height: configuration.selectionIndicatorHeight)
-            }
-        }
-        
-        selectionIndicatorView = UIView(frame: selectionIndicatorFrame)
-        selectionIndicatorView.backgroundColor = configuration.selectionIndicatorColor
         menuScrollView.addSubview(selectionIndicatorView)
     }
 }
@@ -627,11 +584,7 @@ extension TabLayout: UIGestureRecognizerDelegate {
                 let rawItemIndex: CGFloat = ((tappedPoint.x - startingMenuMargin) - configuration.menuMargin / 2) / (configuration.menuMargin + configuration.menuItemWidth)
                 
                 // Prevent moving to first item when tapping left to first item
-                if rawItemIndex < 0 {
-                    itemIndex = -1
-                } else {
-                    itemIndex = Int(rawItemIndex)
-                }
+                itemIndex = rawItemIndex < 0 ? -1 : Int(rawItemIndex)
             }
             
             if itemIndex >= 0 && itemIndex < controllerArray.count {
@@ -649,8 +602,9 @@ extension TabLayout: UIGestureRecognizerDelegate {
                     if smallerIndex + 1 != largerIndex {
                         for index in (smallerIndex + 1)...(largerIndex - 1) {
                             if pagesAddedDictionary[index] != index {
-                                addPageAtIndex(index)
                                 pagesAddedDictionary[index] = index
+                                
+                                addPageAtIndex(index)
                             }
                         }
                     }
@@ -661,20 +615,15 @@ extension TabLayout: UIGestureRecognizerDelegate {
                     pagesAddedDictionary[lastPageIndex] = lastPageIndex
                 }
                 
-                // Move controller scroll view when tapping menu item
-                let duration: Double = Double(configuration.scrollAnimationDurationOnMenuItemTap) / Double(1000)
-                
-                UIView.animate(withDuration: duration, animations: { () -> Void in
+                UIView.animate(withDuration: Double(configuration.scrollAnimationDurationOnMenuItemTap) / Double(1000), animations: { () -> Void in
                     let xOffset: CGFloat = CGFloat(itemIndex) * self.controllerScrollView.frame.width
                     self.controllerScrollView.setContentOffset(CGPoint(x: xOffset, y: self.controllerScrollView.contentOffset.y), animated: false)
                 })
-                
                 if tapTimer != nil {
                     tapTimer!.invalidate()
                 }
                 
-                let timerInterval: TimeInterval = Double(configuration.scrollAnimationDurationOnMenuItemTap) * 0.001
-                tapTimer = Timer.scheduledTimer(timeInterval: timerInterval, target: self, selector: #selector(TabLayout.scrollViewDidEndTapScrollingAnimation), userInfo: nil, repeats: false)
+                tapTimer = Timer.scheduledTimer(timeInterval: Double(configuration.scrollAnimationDurationOnMenuItemTap) * 0.001, target: self, selector: #selector(TabLayout.scrollViewDidEndTapScrollingAnimation), userInfo: nil, repeats: false)
             }
         }
     }
