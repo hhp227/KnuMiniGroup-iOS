@@ -8,15 +8,17 @@
 
 import UIKit
 
-class Tab1ViewController: UIViewController {
-    @IBOutlet weak var textLabel: UILabel!
+class Tab1ViewController: TabViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet weak var tableView: UITableView!
+    
+    let test = ["아티클1", "아티클2", "아티클3"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        tableView.delegate = self
+        tableView.dataSource = self
         // Do any additional setup after loading the view.
     }
-    
 
     /*
     // MARK: - Navigation
@@ -27,5 +29,16 @@ class Tab1ViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return test.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "articleCell", for: indexPath)
+        
+        cell.textLabel?.text = test[(indexPath as NSIndexPath).row]
+        return cell
+    }
 
 }

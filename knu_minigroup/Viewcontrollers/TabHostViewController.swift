@@ -9,8 +9,6 @@
 import UIKit
 
 class TabHostViewController: UIViewController {
-    let tabsTexts = ["소식", "일정", "맴버", "설정"]
-    
     @IBOutlet weak var header: UIView? {
         didSet {
             if header != nil {
@@ -32,6 +30,8 @@ class TabHostViewController: UIViewController {
     private var headerHeightConstraint: NSLayoutConstraint?
 
     private var lastTabScrollViewOffset: CGPoint = .zero
+    
+    let tabsTexts = ["소식", "일정", "맴버", "설정"]
     
     var headerTopConstraint: NSLayoutConstraint?
     
@@ -76,26 +76,6 @@ class TabHostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        /*var controllers = [
-            storyboard?.instantiateViewController(withIdentifier: "Tab1ViewController") as! UIViewController,
-            storyboard?.instantiateViewController(withIdentifier: "Tab2ViewController") as! UIViewController,
-            storyboard?.instantiateViewController(withIdentifier: "Tab3ViewController") as! UIViewController,
-            storyboard?.instantiateViewController(withIdentifier: "Tab4ViewController") as! UIViewController
-        ]*/
-        var controllers: [UIViewController] = []
-        
-        for i in 0 ..< tabsTexts.count {
-            let vc = PlaceholderViewController()
-            vc.placeholderContent = MockupData.subpagesContent[i]
-            vc.contentText.backgroundColor = #colorLiteral(red: 0.07159858197, green: 0.09406698495, blue: 0.1027848646, alpha: 1)
-            vc.contentText.textColor = .white
-            vc.scrollDelegateFunc = { [weak self] in self?.pleaseScroll($0) }
-            
-            vc.title = tabsTexts[i]
-            controllers.append(vc)
-        }
-        
         let parameters: [TabLayoutOption] = [
             .scrollMenuBackgroundColor(#colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 0.5)),
             .viewBackgroundColor(#colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 0.5)),
@@ -110,6 +90,18 @@ class TabHostViewController: UIViewController {
             .menuItemFont(UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)),
             .menuItemWidthBasedOnTitleTextWidth(false)
         ]
+        
+        let controllers = [
+            storyboard?.instantiateViewController(withIdentifier: "Tab1ViewController") as! TabViewController,
+            storyboard?.instantiateViewController(withIdentifier: "Tab2ViewController") as! TabViewController,
+            storyboard?.instantiateViewController(withIdentifier: "Tab3ViewController") as! TabViewController,
+            storyboard?.instantiateViewController(withIdentifier: "Tab4ViewController") as! TabViewController
+        ]
+        
+        for i in controllers.indices {
+            controllers[i].scrollDelegateFunc = { self.pleaseScroll($0) }
+            controllers[i].title = tabsTexts[i]
+        }
         
         self.headerBackgroundColor = #colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 1)
         //self.navBarTransparancy = 0
@@ -184,6 +176,7 @@ class TabHostViewController: UIViewController {
     public func updateNavBarAccordingToScrollPosition(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
         let alphaOffset: CGFloat = (minY - maxY) * 0.3 // alpha start changing at 1/3 of the way up
         var alpha = (currentY + alphaOffset - minY) / (maxY + alphaOffset - minY)
+        
         if currentY > minY - alphaOffset {
             alpha = 0
         }

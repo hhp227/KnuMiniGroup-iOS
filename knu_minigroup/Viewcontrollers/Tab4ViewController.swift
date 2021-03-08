@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Tab4ViewController: UIViewController {
+class Tab4ViewController: TabViewController {
     @IBOutlet weak var textLabel: UILabel!
     
     override func viewDidLoad() {

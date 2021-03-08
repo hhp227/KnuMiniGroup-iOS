@@ -14,6 +14,7 @@ class PlaceholderViewController: UIViewController, UITextViewDelegate {
     var placeholderContent: String = "" {
         didSet {
             self.contentText.text = placeholderContent
+            
             contentText.sizeToFit()
             // Scroll to top
             contentText.setContentOffset(CGPoint(x: 0, y: -contentText.contentInset.top), animated: false)

@@ -8,19 +8,12 @@
 
 import UIKit
 
-@objc public protocol TabLayoutDelegate {
-    // MARK: - Delegate functions
-    @objc optional func willMoveToPage(_ controller: UIViewController, index: Int)
-    
-    @objc optional func didMoveToPage(_ controller: UIViewController, index: Int)
-}
-
 open class TabLayout: UIViewController {
-    var configuration = TabLayoutConfiguration()
-
     let menuScrollView = UIScrollView()
     
     let controllerScrollView = UIScrollView()
+    
+    var configuration = TabLayoutConfiguration()
     
     var controllerArray: [UIViewController] = []
     
@@ -35,8 +28,6 @@ open class TabLayout: UIViewController {
     var menuItemMargin: CGFloat = 0.0
 
     var selectionIndicatorView: UIView = UIView()
-
-    public var currentPageIndex: Int = 0
     
     var lastPageIndex: Int = 0
 
@@ -58,9 +49,11 @@ open class TabLayout: UIViewController {
 
     var pagesAddedDictionary: [Int: Int] = [:]
 
-    open weak var delegate: TabLayoutDelegate?
-
     var tapTimer: Timer?
+    
+    open weak var delegate: TabLayoutDelegate?
+    
+    public var currentPageIndex: Int = 0
 
     enum TabLayoutScrollDirection: Int {
         case left
@@ -85,7 +78,6 @@ open class TabLayout: UIViewController {
     
     public convenience init(viewControllers: [UIViewController], frame: CGRect, pageMenuOptions: [TabLayoutOption]?) {
         self.init(viewControllers: viewControllers, frame: frame, options: nil)
-        
         if let options = pageMenuOptions {
             configurePageMenu(options: options)
         }
@@ -176,8 +168,7 @@ extension TabLayout {
                 } else {
                     selectionIndicatorX = self.configuration.centerMenuItems && pageIndex == 0 ? self.startingMenuMargin + self.configuration.menuMargin : self.configuration.menuItemWidth * CGFloat(pageIndex) + self.configuration.menuMargin * CGFloat(pageIndex + 1) + self.startingMenuMargin
                 }
-                
-                self.selectionIndicatorView.frame = CGRect(x: selectionIndicatorX, y: self.selectionIndicatorView.frame.origin.y, width: selectionIndicatorWidth, height: self.selectionIndicatorView.frame.height)
+                self.setSelectionIndicatorViewFrame(rect: CGRect(x: selectionIndicatorX, y: self.selectionIndicatorView.frame.origin.y, width: selectionIndicatorWidth, height: self.selectionIndicatorView.frame.height))
                 
                 // Switch newly selected menu item title label to selected color and old one to unselected color
                 if self.menuItems.count > 0 {
@@ -188,6 +179,10 @@ extension TabLayout {
                 }
             })
         }
+    }
+    
+    func setSelectionIndicatorViewFrame(rect: CGRect) {
+        self.selectionIndicatorView.frame = rect
     }
     
     // MARK: - Remove/Add Page
@@ -224,7 +219,6 @@ extension TabLayout {
         if UIDevice.current.orientation != UIDeviceOrientation.unknown {
             currentOrientationIsPortrait = UIDevice.current.orientation.isPortrait || UIDevice.current.orientation.isFlat
         }
-        
         if (oldCurrentOrientationIsPortrait && UIDevice.current.orientation.isLandscape) || (!oldCurrentOrientationIsPortrait && (UIDevice.current.orientation.isPortrait || UIDevice.current.orientation.isFlat)) {
             let xOffset: CGFloat = CGFloat(self.currentPageIndex) * controllerScrollView.frame.width
             controllerScrollView.setContentOffset(CGPoint(x: xOffset, y: controllerScrollView.contentOffset.y), animated: false)
@@ -250,12 +244,7 @@ extension TabLayout {
                     index += 1
                 }
             } else if configuration.centerMenuItems {
-                startingMenuMargin = ((self.view.frame.width - ((CGFloat(controllerArray.count) * configuration.menuItemWidth) + (CGFloat(controllerArray.count - 1) * configuration.menuMargin))) / 2.0) -  configuration.menuMargin
-                
-                if startingMenuMargin < 0.0 {
-                    startingMenuMargin = 0.0
-                }
-                
+                startingMenuMargin = startingMenuMargin < 0.0 ? 0.0 : ((self.view.frame.width - ((CGFloat(controllerArray.count) * configuration.menuItemWidth) + (CGFloat(controllerArray.count - 1) * configuration.menuMargin))) / 2.0) -  configuration.menuMargin
                 let selectionIndicatorX: CGFloat = self.configuration.menuItemWidth * CGFloat(currentPageIndex) + self.configuration.menuMargin * CGFloat(currentPageIndex + 1) + self.startingMenuMargin
                 selectionIndicatorView.frame = CGRect(x: selectionIndicatorX, y: self.selectionIndicatorView.frame.origin.y, width: self.selectionIndicatorView.frame.width, height: self.selectionIndicatorView.frame.height)
                 
@@ -485,16 +474,15 @@ extension TabLayout {
         }
         
         for controller in controllerArray {
+            // Set up menu item for menu scroll view
+            var menuItemFrame: CGRect = CGRect()
+            
             if index == 0.0 {
                 // Add first two controllers to scrollview and as child view controller
                 controller.viewWillAppear(true)
                 addPageAtIndex(0)
                 controller.viewDidAppear(true)
             }
-            
-            // Set up menu item for menu scroll view
-            var menuItemFrame: CGRect = CGRect()
-            
             if configuration.useMenuLikeSegmentedControl {
                 //**************************拡張*************************************
                 if menuItemMargin > 0 {
@@ -608,17 +596,21 @@ extension TabLayout: UIGestureRecognizerDelegate {
                             }
                         }
                     }
-                    
                     addPageAtIndex(itemIndex)
                     
                     // Add page from which tap is initiated so it can be removed after tap is done
                     pagesAddedDictionary[lastPageIndex] = lastPageIndex
                 }
                 
-                UIView.animate(withDuration: Double(configuration.scrollAnimationDurationOnMenuItemTap) / Double(1000), animations: { () -> Void in
-                    let xOffset: CGFloat = CGFloat(itemIndex) * self.controllerScrollView.frame.width
-                    self.controllerScrollView.setContentOffset(CGPoint(x: xOffset, y: self.controllerScrollView.contentOffset.y), animated: false)
-                })
+                UIView.animate(withDuration: Double(configuration.scrollAnimationDurationOnMenuItemTap) / Double(1000)) { () -> Void in
+                    self.controllerScrollView.setContentOffset(
+                        CGPoint(
+                            x: CGFloat(itemIndex) * self.controllerScrollView.frame.width,
+                            y: self.controllerScrollView.contentOffset.y
+                        ),
+                        animated: false
+                    )
+                }
                 if tapTimer != nil {
                     tapTimer!.invalidate()
                 }
@@ -645,7 +637,6 @@ extension TabLayout: UIScrollViewDelegate {
                                 } else if (CGFloat(startingPageForScroll) * scrollView.frame.width < scrollView.contentOffset.x) {
                                     newScrollDirection = .left
                                 }
-                                
                                 if newScrollDirection != .other {
                                     if lastScrollDirection != newScrollDirection {
                                         let index: Int = newScrollDirection == .left ? currentPageIndex + 1 : currentPageIndex - 1
@@ -653,8 +644,9 @@ extension TabLayout: UIScrollViewDelegate {
                                         if index >= 0 && index < controllerArray.count {
                                             // Check dictionary if page was already added
                                             if pagesAddedDictionary[index] != index {
-                                                addPageAtIndex(index)
                                                 pagesAddedDictionary[index] = index
+                                                
+                                                addPageAtIndex(index)
                                             }
                                         }
                                     }
@@ -670,8 +662,9 @@ extension TabLayout: UIScrollViewDelegate {
                                         let index = currentPageIndex - 1
                                         
                                         if pagesAddedDictionary[index] != index && index < controllerArray.count && index >= 0 {
-                                            addPageAtIndex(index)
                                             pagesAddedDictionary[index] = index
+                                            
+                                            addPageAtIndex(index)
                                         }
                                         
                                         lastScrollDirection = .right
@@ -682,8 +675,9 @@ extension TabLayout: UIScrollViewDelegate {
                                         let index: Int = currentPageIndex + 1
                                         
                                         if pagesAddedDictionary[index] != index && index < controllerArray.count && index >= 0 {
-                                            addPageAtIndex(index)
                                             pagesAddedDictionary[index] = index
+                                            
+                                            addPageAtIndex(index)
                                         }
                                         
                                         lastScrollDirection = .left
@@ -698,13 +692,13 @@ extension TabLayout: UIScrollViewDelegate {
                         
                         var ratio: CGFloat = 1.0
                         
-                        
                         // Calculate ratio between scroll views
                         ratio = (menuScrollView.contentSize.width - self.view.frame.width) / (controllerScrollView.contentSize.width - self.view.frame.width)
                         
                         if menuScrollView.contentSize.width > self.view.frame.width {
                             var offset: CGPoint = menuScrollView.contentOffset
                             offset.x = controllerScrollView.contentOffset.x * ratio
+                            
                             menuScrollView.setContentOffset(offset, animated: false)
                         }
                         
@@ -730,11 +724,12 @@ extension TabLayout: UIScrollViewDelegate {
                                 
                                 // Make sure only up to 3 page views are in memory when fast scrolling, otherwise there should only be one in memory
                                 let indexLeftTwo: Int = page - 2
+                                let indexRightTwo: Int = page + 2
+                                
                                 if pagesAddedDictionary[indexLeftTwo] == indexLeftTwo {
                                     pagesAddedDictionary.removeValue(forKey: indexLeftTwo)
                                     removePageAtIndex(indexLeftTwo)
                                 }
-                                let indexRightTwo: Int = page + 2
                                 if pagesAddedDictionary[indexRightTwo] == indexRightTwo {
                                     pagesAddedDictionary.removeValue(forKey: indexRightTwo)
                                     removePageAtIndex(indexRightTwo)
@@ -747,7 +742,6 @@ extension TabLayout: UIScrollViewDelegate {
                     }
                 } else {
                     var ratio: CGFloat = 1.0
-                    
                     ratio = (menuScrollView.contentSize.width - self.view.frame.width) / (controllerScrollView.contentSize.width - self.view.frame.width)
                     
                     if menuScrollView.contentSize.width > self.view.frame.width {
@@ -769,6 +763,7 @@ extension TabLayout: UIScrollViewDelegate {
         if scrollView.isEqual(controllerScrollView) {
             // Call didMoveToPage delegate function
             let currentController = controllerArray[currentPageIndex]
+            
             delegate?.didMoveToPage?(currentController, index: currentPageIndex)
             
             // Remove all but current page after decelerating
@@ -781,7 +776,6 @@ extension TabLayout: UIScrollViewDelegate {
             didScrollAlready = false
             startingPageForScroll = currentPageIndex
             
-            
             // Empty out pages in dictionary
             pagesAddedDictionary.removeAll(keepingCapacity: false)
         }
@@ -790,6 +784,7 @@ extension TabLayout: UIScrollViewDelegate {
     @objc func scrollViewDidEndTapScrollingAnimation() {
         // Call didMoveToPage delegate function
         let currentController = controllerArray[currentPageIndex]
+        
         delegate?.didMoveToPage?(currentController, index: currentPageIndex)
         
         // Remove all but current page after decelerating
@@ -805,4 +800,11 @@ extension TabLayout: UIScrollViewDelegate {
         // Empty out pages in dictionary
         pagesAddedDictionary.removeAll(keepingCapacity: false)
     }
+}
+
+@objc public protocol TabLayoutDelegate {
+    // MARK: - Delegate functions
+    @objc optional func willMoveToPage(_ controller: UIViewController, index: Int)
+    
+    @objc optional func didMoveToPage(_ controller: UIViewController, index: Int)
 }
