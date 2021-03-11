@@ -35,10 +35,18 @@ class Tab1ViewController: TabViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "articleCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath)
         
         cell.textLabel?.text = test[(indexPath as NSIndexPath).row]
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath)
+        let articleViewController = storyboard?.instantiateViewController(identifier: "ArticleViewController") as! ArticleViewController
+        let mainNav = storyboard?.instantiateViewController(identifier: "MainNav") as! UINavigationController
+        
+        print("row: \(indexPath.row), \(mainNav), \(test)")
     }
 
 }

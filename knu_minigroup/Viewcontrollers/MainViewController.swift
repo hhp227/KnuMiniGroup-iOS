@@ -56,17 +56,11 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         switch item {
         case mFindTabBarItem:
-            let findViewController = storyboard?.instantiateViewController(withIdentifier: "FindViewController") as! FindViewController
-            
-            navigationController?.pushViewController(findViewController, animated: true)
+            performSegue(withIdentifier: "findGroup", sender: item)
         case mRequestTabBarItem:
-            let requestViewController = storyboard?.instantiateViewController(withIdentifier: "RequestViewController") as! RequestViewController
-            
-            navigationController?.pushViewController(requestViewController, animated: true)
+            performSegue(withIdentifier: "requestJoin", sender: item)
         case mCreateTabBarItem:
-            let createViewController = storyboard?.instantiateViewController(withIdentifier: "CreateViewController") as! CreateViewController
-            
-            navigationController?.pushViewController(createViewController, animated: true)
+            performSegue(withIdentifier: "createGroup", sender: item)
         default:
             break
         }

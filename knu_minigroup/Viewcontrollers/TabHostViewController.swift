@@ -90,7 +90,6 @@ class TabHostViewController: UIViewController {
             .menuItemFont(UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)),
             .menuItemWidthBasedOnTitleTextWidth(false)
         ]
-        
         let controllers = [
             storyboard?.instantiateViewController(withIdentifier: "Tab1ViewController") as! TabViewController,
             storyboard?.instantiateViewController(withIdentifier: "Tab2ViewController") as! TabViewController,
