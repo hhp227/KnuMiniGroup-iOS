@@ -184,6 +184,7 @@
                     <connections>
                         <outlet property="header" destination="JlL-r0-HBF" id="XHT-5c-qma"/>
                         <outlet property="tabMenuContainer" destination="a7d-Sh-EeL" id="uFW-99-EFe"/>
+                        <segue destination="VP5-Ac-BOW" kind="show" identifier="articleDetail" id="56V-Yi-Vv7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ahf-PH-MLx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

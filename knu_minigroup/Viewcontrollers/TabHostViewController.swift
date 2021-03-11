@@ -98,7 +98,11 @@ class TabHostViewController: UIViewController {
         ]
         
         for i in controllers.indices {
-            controllers[i].scrollDelegateFunc = { self.pleaseScroll($0) }
+            controllers[i].scrollDelegateFunc = self.pleaseScroll
+            controllers[i].segueDelegateFunc = {
+                self.performSegue(withIdentifier: $0, sender: $1)
+                print("Test \(i)")
+            }
             controllers[i].title = tabsTexts[i]
         }
         
