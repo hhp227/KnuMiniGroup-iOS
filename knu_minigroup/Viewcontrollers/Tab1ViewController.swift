@@ -43,7 +43,9 @@ class Tab1ViewController: TabViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath)
         
-        segueDelegateFunc!("articleDetail", cell)
+        if segueDelegateFunc != nil {
+            segueDelegateFunc!("articleDetail", cell)
+        }
     }
 
 }
