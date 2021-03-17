@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -176,12 +177,31 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ucf-WP-gmM">
+                                <rect key="frame" x="322" y="790.5" width="72" height="71"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="72" id="kde-i6-DBi"/>
+                                    <constraint firstAttribute="height" constant="72" id="sLm-jS-B7z"/>
+                                </constraints>
+                                <color key="tintColor" red="1" green="0.19258575350000001" blue="0.2459843702" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" backgroundImage="circle.fill" catalog="system">
+                                    <imageReference key="image" image="plus" catalog="system" symbolScale="large" renderingMode="original"/>
+                                </state>
+                                <connections>
+                                    <action selector="fabClick:" destination="Fem-6I-ClF" eventType="touchUpInside" id="XBD-ry-ucM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2t8-52-Hox"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Ucf-WP-gmM" firstAttribute="bottom" secondItem="2t8-52-Hox" secondAttribute="bottom" id="3s3-Tg-KXq"/>
+                            <constraint firstItem="2t8-52-Hox" firstAttribute="trailing" secondItem="Ucf-WP-gmM" secondAttribute="trailing" constant="20" id="WGH-AO-1x8"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="XFC-fD-QKf"/>
                     <connections>
+                        <outlet property="fab" destination="Ucf-WP-gmM" id="Q2Z-ox-RJh"/>
                         <outlet property="header" destination="JlL-r0-HBF" id="XHT-5c-qma"/>
                         <outlet property="tabMenuContainer" destination="a7d-Sh-EeL" id="uFW-99-EFe"/>
                         <segue destination="VP5-Ac-BOW" kind="show" identifier="articleDetail" id="56V-Yi-Vv7"/>
@@ -612,8 +632,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="circle.fill" catalog="system" width="128" height="121"/>
         <image name="hamburger-menu-icon" width="25" height="25"/>
         <image name="knu_minigroup.png" width="434" height="213"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

@@ -25,6 +25,8 @@ class TabHostViewController: UIViewController {
     
     @IBOutlet weak var tabMenuContainer: UIView!
     
+    @IBOutlet weak var fab: UIButton!
+    
     private let headerContainer = UIView()
     
     private var headerHeightConstraint: NSLayoutConstraint?
@@ -135,6 +137,7 @@ class TabHostViewController: UIViewController {
         pageMenuController = TabLayout(viewControllers: controllers, frame: CGRect(x: 0, y: 0, width: tabMenuContainer.frame.width, height: tabMenuContainer.frame.height), pageMenuOptions: parameters)
         
         tabMenuContainer.addSubview(pageMenuController!.view)
+        self.view.addSubview(fab)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -168,6 +171,10 @@ class TabHostViewController: UIViewController {
             //navBarOverlay?.removeFromSuperview()
             navCtrl.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:self.navBarItemsColor.withAlphaComponent(1)]
         }
+    }
+    
+    @IBAction func fabClick(_ sender: UIButton) {
+        print("FAB 클릭")
     }
     
     func headerDidScroll(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
