@@ -51,6 +51,8 @@ open class TabLayout: UIViewController {
 
     var tapTimer: Timer?
     
+    var tabSelectedDelegateFunc: ((Int) -> Void)?
+    
     open weak var delegate: TabLayoutDelegate?
     
     public var currentPageIndex: Int = 0
@@ -689,7 +691,7 @@ extension TabLayout: UIScrollViewDelegate {
                             
                             lastControllerScrollViewContentOffset = scrollView.contentOffset.x
                         }
-                        
+    
                         var ratio: CGFloat = 1.0
                         
                         // Calculate ratio between scroll views
@@ -735,10 +737,16 @@ extension TabLayout: UIScrollViewDelegate {
                                     removePageAtIndex(indexRightTwo)
                                 }
                             }
+                            if tabSelectedDelegateFunc != nil {
+                                tabSelectedDelegateFunc!(page)
+                            }
                         }
                         
                         // Move selection indicator view when swiping
                         moveSelectionIndicator(page)
+                        if didTapMenuItemToScroll && !didScrollAlready && tabSelectedDelegateFunc != nil {
+                            tabSelectedDelegateFunc!(currentPageIndex)
+                        }
                     }
                 } else {
                     var ratio: CGFloat = 1.0
@@ -747,6 +755,7 @@ extension TabLayout: UIScrollViewDelegate {
                     if menuScrollView.contentSize.width > self.view.frame.width {
                         var offset: CGPoint = menuScrollView.contentOffset
                         offset.x = controllerScrollView.contentOffset.x * ratio
+                        
                         menuScrollView.setContentOffset(offset, animated: false)
                     }
                 }

@@ -14,12 +14,12 @@ class TabHostViewController: UIViewController {
     @IBOutlet weak var tabMenuContainer: UIView!
     
     @IBOutlet weak var fab: UIButton!
-    
-    private var headerHeightConstraint: NSLayoutConstraint?
 
     private var lastTabScrollViewOffset: CGPoint = .zero
     
     let tabsTexts = ["소식", "일정", "맴버", "설정"]
+    
+    var headerHeightConstraint: NSLayoutConstraint?
     
     var headerTopConstraint: NSLayoutConstraint?
     
@@ -78,7 +78,7 @@ class TabHostViewController: UIViewController {
             .menuItemFont(UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)),
             .menuItemWidthBasedOnTitleTextWidth(false)
         ]
-        let controllers = [
+        let controllers: [TabViewController] = [
             storyboard?.instantiateViewController(withIdentifier: "Tab1ViewController") as! TabViewController,
             storyboard?.instantiateViewController(withIdentifier: "Tab2ViewController") as! TabViewController,
             storyboard?.instantiateViewController(withIdentifier: "Tab3ViewController") as! TabViewController,
@@ -97,12 +97,9 @@ class TabHostViewController: UIViewController {
         self.headerBackgroundColor = #colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 1)
         //self.navBarTransparancy = 0
         self.navBarItemsColor = .white
-        
-        // 헤더
-        self.view.addSubview(headerContainer)
-        headerContainer.translatesAutoresizingMaskIntoConstraints = false
         headerTopConstraint = headerContainer.topAnchor.constraint(equalTo: self.view.topAnchor)
         headerTopConstraint!.isActive = true
+        headerContainer.translatesAutoresizingMaskIntoConstraints = false
         headerContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         headerContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         headerHeightConstraint = headerContainer.heightAnchor.constraint(equalToConstant: self.headerHeight)
@@ -118,6 +115,10 @@ class TabHostViewController: UIViewController {
         
         // 탭 레이아웃 추가
         pageMenuController = TabLayout(viewControllers: controllers, frame: CGRect(x: 0, y: 0, width: tabMenuContainer.frame.width, height: tabMenuContainer.frame.height), pageMenuOptions: parameters)
+        pageMenuController?.tabSelectedDelegateFunc = { self.fab.isHidden = $0 != 0 }
+        
+        // 헤더
+        self.view.addSubview(headerContainer)
         
         // 탭 레이아웃
         self.view.addSubview(tabMenuContainer)
@@ -144,17 +145,16 @@ class TabHostViewController: UIViewController {
         }
         
         //self.navBarColor = #colorLiteral(red: 0.07159858197, green: 0.09406698495, blue: 0.1027848646, alpha: 0)
-        //UIApplication.shared.statusBarStyle = .lightContent
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         if let navCtrl = self.navigationController {
             let navBar = navCtrl.navigationBar
             navBar.shadowImage = nil
+            navCtrl.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:self.navBarItemsColor.withAlphaComponent(1)]
             
             navBar.setBackgroundImage(nil, for: UIBarMetrics.default)
             //navBarOverlay?.removeFromSuperview()
-            navCtrl.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:self.navBarItemsColor.withAlphaComponent(1)]
         }
     }
     
