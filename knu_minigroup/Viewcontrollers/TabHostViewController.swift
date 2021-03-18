@@ -122,9 +122,6 @@ class TabHostViewController: UIViewController {
         headerHeightConstraint = headerContainer.heightAnchor.constraint(equalToConstant: self.headerHeight)
         headerHeightConstraint!.isActive = true
         lastTabScrollViewOffset = CGPoint(x: CGFloat(0), y: navBarOffset())
-        
-        // 탭 레이아웃
-        self.view.addSubview(tabMenuContainer)
         tabMenuContainer.frame = CGRect(x: 0, y: headerHeight, width: self.view.frame.width, height: self.view.frame.height - navBarOffset())
         tabMenuContainer.translatesAutoresizingMaskIntoConstraints = false
         tabMenuContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
@@ -136,6 +133,8 @@ class TabHostViewController: UIViewController {
         // 탭 레이아웃 추가
         pageMenuController = TabLayout(viewControllers: controllers, frame: CGRect(x: 0, y: 0, width: tabMenuContainer.frame.width, height: tabMenuContainer.frame.height), pageMenuOptions: parameters)
         
+        // 탭 레이아웃
+        self.view.addSubview(tabMenuContainer)
         tabMenuContainer.addSubview(pageMenuController!.view)
         self.view.addSubview(fab)
     }
