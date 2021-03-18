@@ -9,15 +9,15 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-    @IBOutlet var mTextFieldId: UITextField!
+    @IBOutlet var textFieldId: UITextField!
     
-    @IBOutlet var mTextFieldPassword: UITextField!
+    @IBOutlet var textFieldPassword: UITextField!
     
-    let mDefaultValues = UserDefaults.standard
+    let defaultValues = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if mDefaultValues.string(forKey: "userId") != nil {
+        if defaultValues.string(forKey: "userId") != nil {
             let drawerController = storyboard?.instantiateViewController(withIdentifier: "DrawerController") as! DrawerController
             
             navigationController?.pushViewController(drawerController, animated: false)
@@ -25,14 +25,14 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func loginClick(_ sender: UIButton) {
-        guard let id = mTextFieldId.text else { return }
-        guard let password = mTextFieldPassword.text else { return }
+        guard let id = textFieldId.text else { return }
+        guard let password = textFieldPassword.text else { return }
         
         if !id.isEmpty && !password.isEmpty {
             let drawerController = storyboard?.instantiateViewController(withIdentifier: "DrawerController") as! DrawerController
             
-            mDefaultValues.set(id, forKey: "userId")
-            mDefaultValues.set(password, forKey: "password")
+            defaultValues.set(id, forKey: "userId")
+            defaultValues.set(password, forKey: "password")
             navigationController?.pushViewController(drawerController, animated: true)
             dismiss(animated: false, completion: nil)
         } else {

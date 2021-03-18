@@ -119,8 +119,8 @@
                     <navigationItem key="navigationItem" id="Sfw-9I-8jL"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="mTextFieldId" destination="Ru4-hF-6Bj" id="Tmv-NT-7OO"/>
-                        <outlet property="mTextFieldPassword" destination="Uhf-6w-iYB" id="wtC-A7-NRi"/>
+                        <outlet property="textFieldId" destination="Ru4-hF-6Bj" id="EOR-Kd-hZM"/>
+                        <outlet property="textFieldPassword" destination="Uhf-6w-iYB" id="yyA-kC-nPM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -202,7 +202,7 @@
                     <navigationItem key="navigationItem" id="XFC-fD-QKf"/>
                     <connections>
                         <outlet property="fab" destination="Ucf-WP-gmM" id="Q2Z-ox-RJh"/>
-                        <outlet property="header" destination="JlL-r0-HBF" id="XHT-5c-qma"/>
+                        <outlet property="headerContainer" destination="JlL-r0-HBF" id="NNy-rz-oWW"/>
                         <outlet property="tabMenuContainer" destination="a7d-Sh-EeL" id="uFW-99-EFe"/>
                         <segue destination="VP5-Ac-BOW" kind="show" identifier="articleDetail" id="56V-Yi-Vv7"/>
                     </connections>
