@@ -9,15 +9,15 @@
 import UIKit
 
 class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    @IBOutlet var mTabBar: UITabBar!
+    @IBOutlet var tabBar: UITabBar!
     
-    @IBOutlet var mFindTabBarItem: UITabBarItem!
+    @IBOutlet var findTabBarItem: UITabBarItem!
     
-    @IBOutlet var mRequestTabBarItem: UITabBarItem!
+    @IBOutlet var requestTabBarItem: UITabBarItem!
     
-    @IBOutlet var mCreateTabBarItem: UITabBarItem!
+    @IBOutlet var createTabBarItem: UITabBarItem!
     
-    @IBOutlet var mCollectionView: UICollectionView!
+    @IBOutlet var collectionView: UICollectionView!
     
     var estimateWidth = 160.0
     
@@ -25,11 +25,11 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mTabBar.delegate = self
-        mCollectionView.delegate = self
-        mCollectionView.dataSource = self
+        tabBar.delegate = self
+        collectionView.delegate = self
+        collectionView.dataSource = self
         
-        mCollectionView.reloadData()
+        collectionView.reloadData()
         setupCollectionView()
     }
     
@@ -37,7 +37,7 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         super.viewDidLayoutSubviews()
         setupCollectionView()
         DispatchQueue.main.async {
-            self.mCollectionView.reloadData()
+            self.collectionView.reloadData()
         }
     }
     
@@ -48,18 +48,18 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
     }
     
     func setupCollectionView() {
-        let flow = mCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        let flow = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         flow.minimumInteritemSpacing = CGFloat(cellMarginSize)
         flow.minimumLineSpacing = CGFloat(cellMarginSize)
     }
     
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         switch item {
-        case mFindTabBarItem:
+        case findTabBarItem:
             performSegue(withIdentifier: "findGroup", sender: item)
-        case mRequestTabBarItem:
+        case requestTabBarItem:
             performSegue(withIdentifier: "requestJoin", sender: item)
-        case mCreateTabBarItem:
+        case createTabBarItem:
             performSegue(withIdentifier: "createGroup", sender: item)
         default:
             break

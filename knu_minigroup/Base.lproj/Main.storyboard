@@ -486,11 +486,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="mCollectionView" destination="lCN-am-hza" id="OAk-kD-Q06"/>
-                        <outlet property="mCreateTabBarItem" destination="SMD-iA-GPY" id="naV-ra-df8"/>
-                        <outlet property="mFindTabBarItem" destination="Ypk-3d-p9d" id="Bee-Ea-4w0"/>
-                        <outlet property="mRequestTabBarItem" destination="HqX-Z4-DHo" id="rsI-Ez-301"/>
-                        <outlet property="mTabBar" destination="t0C-z8-73g" id="hj0-vw-OMM"/>
+                        <outlet property="collectionView" destination="lCN-am-hza" id="ULo-JA-dlj"/>
+                        <outlet property="createTabBarItem" destination="SMD-iA-GPY" id="anS-Ym-5Ue"/>
+                        <outlet property="findTabBarItem" destination="Ypk-3d-p9d" id="dWy-yi-m7w"/>
+                        <outlet property="requestTabBarItem" destination="HqX-Z4-DHo" id="Iu3-9y-ayq"/>
+                        <outlet property="tabBar" destination="t0C-z8-73g" id="sPR-YB-s73"/>
                         <segue destination="qAn-7E-rBd" kind="show" identifier="findGroup" id="gFP-yS-arR"/>
                         <segue destination="Ney-k6-bZZ" kind="show" identifier="requestJoin" id="g2f-gL-IAX"/>
                         <segue destination="cAb-yR-OKY" kind="show" identifier="createGroup" id="ndx-af-nyY"/>
