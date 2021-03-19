@@ -51,8 +51,6 @@ open class TabLayout: UIViewController {
 
     var tapTimer: Timer?
     
-    var tabSelectedDelegateFunc: ((Int) -> Void)?
-    
     open weak var delegate: TabLayoutDelegate?
     
     public var currentPageIndex: Int = 0
@@ -737,16 +735,10 @@ extension TabLayout: UIScrollViewDelegate {
                                     removePageAtIndex(indexRightTwo)
                                 }
                             }
-                            if tabSelectedDelegateFunc != nil {
-                                tabSelectedDelegateFunc!(page)
-                            }
                         }
                         
                         // Move selection indicator view when swiping
                         moveSelectionIndicator(page)
-                        if didTapMenuItemToScroll && !didScrollAlready && tabSelectedDelegateFunc != nil {
-                            tabSelectedDelegateFunc!(currentPageIndex)
-                        }
                     }
                 } else {
                     var ratio: CGFloat = 1.0

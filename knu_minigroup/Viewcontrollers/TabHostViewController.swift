@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TabHostViewController: UIViewController {
+class TabHostViewController: UIViewController, TabLayoutDelegate {
     @IBOutlet weak var headerContainer: UIView!
     
     @IBOutlet weak var tabMenuContainer: UIView!
@@ -35,16 +35,16 @@ class TabHostViewController: UIViewController {
     
     public var headerBackgroundColor: UIColor? {
         get {
-            return self.view.backgroundColor
+            return view.backgroundColor
         }
         set(value) {
-            self.view.backgroundColor = value
+            view.backgroundColor = value
         }
     }
     
     public var navBarItemsColor: UIColor = .white {
         didSet {
-            if let navCtrl = self.navigationController {
+            if let navCtrl = navigationController {
                 navCtrl.navigationBar.tintColor = navBarItemsColor
             }
         }
@@ -52,7 +52,7 @@ class TabHostViewController: UIViewController {
     
     public var navBarTitleColor: UIColor = .white {
         didSet {
-            if let navCtrl = self.navigationController {
+            if let navCtrl = navigationController {
                 navCtrl.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: navBarTitleColor]
             }
         }
@@ -78,52 +78,52 @@ class TabHostViewController: UIViewController {
             .menuItemFont(UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)),
             .menuItemWidthBasedOnTitleTextWidth(false)
         ]
-        let controllers: [TabViewController] = [
-            storyboard?.instantiateViewController(withIdentifier: "Tab1ViewController") as! TabViewController,
-            storyboard?.instantiateViewController(withIdentifier: "Tab2ViewController") as! TabViewController,
-            storyboard?.instantiateViewController(withIdentifier: "Tab3ViewController") as! TabViewController,
-            storyboard?.instantiateViewController(withIdentifier: "Tab4ViewController") as! TabViewController
-        ]
-        
-        for i in controllers.indices {
-            controllers[i].scrollDelegateFunc = self.pleaseScroll
-            controllers[i].segueDelegateFunc = {
-                self.performSegue(withIdentifier: $0, sender: $1)
-                print("Test \(i)")
+        let controllers: [TabViewController] = {
+            let array = [
+                storyboard?.instantiateViewController(withIdentifier: "Tab1ViewController") as! TabViewController,
+                storyboard?.instantiateViewController(withIdentifier: "Tab2ViewController") as! TabViewController,
+                storyboard?.instantiateViewController(withIdentifier: "Tab3ViewController") as! TabViewController,
+                storyboard?.instantiateViewController(withIdentifier: "Tab4ViewController") as! TabViewController
+            ]
+            
+            for i in array.indices {
+                array[i].scrollDelegateFunc = pleaseScroll
+                array[i].segueDelegateFunc = {
+                    self.performSegue(withIdentifier: $0, sender: $1)
+                    print("Test \(i)")
+                }
+                array[i].title = tabsTexts[i]
             }
-            controllers[i].title = tabsTexts[i]
-        }
-        
-        self.headerBackgroundColor = #colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 1)
+            return array
+        }()
+        headerBackgroundColor = #colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 1)
         //self.navBarTransparancy = 0
-        self.navBarItemsColor = .white
-        headerTopConstraint = headerContainer.topAnchor.constraint(equalTo: self.view.topAnchor)
+        navBarItemsColor = .white
+        headerTopConstraint = headerContainer.topAnchor.constraint(equalTo: view.topAnchor)
         headerTopConstraint!.isActive = true
         headerContainer.translatesAutoresizingMaskIntoConstraints = false
-        headerContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        headerContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        headerHeightConstraint = headerContainer.heightAnchor.constraint(equalToConstant: self.headerHeight)
+        headerContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        headerContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        headerHeightConstraint = headerContainer.heightAnchor.constraint(equalToConstant: headerHeight)
         headerHeightConstraint!.isActive = true
         lastTabScrollViewOffset = CGPoint(x: CGFloat(0), y: navBarOffset())
-        tabMenuContainer.frame = CGRect(x: 0, y: headerHeight, width: self.view.frame.width, height: self.view.frame.height - navBarOffset())
+        tabMenuContainer.frame = CGRect(x: 0, y: headerHeight, width: view.frame.width, height: view.frame.height - navBarOffset())
         tabMenuContainer.translatesAutoresizingMaskIntoConstraints = false
-        tabMenuContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        tabMenuContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        tabTopConstraint = tabMenuContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: headerHeight)
+        tabMenuContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        tabMenuContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tabTopConstraint = tabMenuContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: headerHeight)
         tabTopConstraint!.isActive = true
-        tabMenuContainer.heightAnchor.constraint(equalToConstant: self.view.frame.height - navBarOffset()).isActive = true
+        tabMenuContainer.heightAnchor.constraint(equalToConstant: view.frame.height - navBarOffset()).isActive = true
         
         // 탭 레이아웃 추가
         pageMenuController = TabLayout(viewControllers: controllers, frame: CGRect(x: 0, y: 0, width: tabMenuContainer.frame.width, height: tabMenuContainer.frame.height), pageMenuOptions: parameters)
-        pageMenuController?.tabSelectedDelegateFunc = { self.fab.isHidden = $0 != 0 }
+        //pageMenuController?.tabSelectedDelegateFunc = { self.fab.isHidden = $0 != 0 }
+        pageMenuController?.delegate = self
         
-        // 헤더
-        self.view.addSubview(headerContainer)
-        
-        // 탭 레이아웃
-        self.view.addSubview(tabMenuContainer)
+        view.addSubview(headerContainer)
+        view.addSubview(tabMenuContainer)
         tabMenuContainer.addSubview(pageMenuController!.view)
-        self.view.addSubview(fab)
+        view.addSubview(fab)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -160,12 +160,6 @@ class TabHostViewController: UIViewController {
     
     @IBAction func fabClick(_ sender: UIButton) {
         print("FAB 클릭")
-    }
-    
-    func headerDidScroll(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
-        updateNavBarAccordingToScrollPosition(minY: minY, maxY: maxY, currentY: currentY)
-        updateHeaderPositionAccordingToScrollPosition(minY: minY, maxY: maxY, currentY: currentY)
-        updateHeaderAlphaAccordingToScrollPosition(minY: minY, maxY: maxY, currentY: currentY)
     }
     
     public func updateNavBarAccordingToScrollPosition(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
@@ -237,6 +231,16 @@ class TabHostViewController: UIViewController {
         lastTabScrollViewOffset = scrollView.contentOffset
         
         headerDidScroll(minY: minY, maxY: maxY, currentY: tabTopConstraint!.constant)
+    }
+    
+    func willMoveToPage(_ controller: UIViewController, index: Int) {
+        fab.isHidden = index != 0
+    }
+    
+    func headerDidScroll(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
+        updateNavBarAccordingToScrollPosition(minY: minY, maxY: maxY, currentY: currentY)
+        updateHeaderPositionAccordingToScrollPosition(minY: minY, maxY: maxY, currentY: currentY)
+        updateHeaderAlphaAccordingToScrollPosition(minY: minY, maxY: maxY, currentY: currentY)
     }
     
     func navBarOffset() -> CGFloat {
