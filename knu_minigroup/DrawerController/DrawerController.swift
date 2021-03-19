@@ -8,15 +8,6 @@
 
 import UIKit
 
-@objc public protocol DrawerControllerDelegate {
-    @objc optional func drawerController(_ drawerController: DrawerController, willChangeState state: DrawerController.DrawerState)
-    
-    @objc optional func drawerController(_ drawerController: DrawerController, didChangeState state: DrawerController.DrawerState)
-    
-    @available(*, deprecated, renamed: "drawerController(_:didChangeState:)")
-    @objc optional func drawerController(_ drawerController: DrawerController, stateChanged state: DrawerController.DrawerState)
-}
-
 open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     @objc public enum DrawerDirection: Int {
         case left, right
@@ -438,4 +429,13 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
             return touch.view == gestureRecognizer.view
         }
     }
+}
+
+@objc public protocol DrawerControllerDelegate {
+    @objc optional func drawerController(_ drawerController: DrawerController, willChangeState state: DrawerController.DrawerState)
+    
+    @objc optional func drawerController(_ drawerController: DrawerController, didChangeState state: DrawerController.DrawerState)
+    
+    @available(*, deprecated, renamed: "drawerController(_:didChangeState:)")
+    @objc optional func drawerController(_ drawerController: DrawerController, stateChanged state: DrawerController.DrawerState)
 }

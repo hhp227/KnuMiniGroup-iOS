@@ -31,6 +31,7 @@
 		0AA26C0A24F22B9700FA4D5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AA26C0824F22B9700FA4D5A /* LaunchScreen.storyboard */; };
 		0AAD5B06251A533F00B77FDA /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAD5B05251A533F00B77FDA /* MainCollectionViewCell.swift */; };
 		0AAD5B08251A57A400B77FDA /* MainCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAD5B07251A57A400B77FDA /* MainCollectionReusableView.swift */; };
+		0ACEE73D2604E1C500A4D4C8 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACEE73C2604E1C500A4D4C8 /* WriteViewController.swift */; };
 		0ADEF76825E25A010000F12D /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADEF76725E25A010000F12D /* TabViewController.swift */; };
 		0AF3F4BB2517940F0005D5E3 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF3F4BA2517940F0005D5E3 /* FindViewController.swift */; };
 		0AF3F4BD2517A7270005D5E3 /* RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF3F4BC2517A7270005D5E3 /* RequestViewController.swift */; };
@@ -64,6 +65,7 @@
 		0AA26C0B24F22B9700FA4D5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AAD5B05251A533F00B77FDA /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		0AAD5B07251A57A400B77FDA /* MainCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionReusableView.swift; sourceTree = "<group>"; };
+		0ACEE73C2604E1C500A4D4C8 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		0ADEF76725E25A010000F12D /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		0AF3F4BA2517940F0005D5E3 /* FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FindViewController.swift; path = knu_minigroup/Viewcontrollers/FindViewController.swift; sourceTree = SOURCE_ROOT; };
 		0AF3F4BC2517A7270005D5E3 /* RequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RequestViewController.swift; path = knu_minigroup/Viewcontrollers/RequestViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -107,6 +109,7 @@
 				0A218634257924F000ACD350 /* Tab3ViewController.swift */,
 				0A2186372579251A00ACD350 /* Tab4ViewController.swift */,
 				0A236E8825F6638300C30737 /* ArticleViewController.swift */,
+				0ACEE73C2604E1C500A4D4C8 /* WriteViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 				0A11347524FBFB2F0029C07C /* EmbedMainControllerSegue.swift in Sources */,
 				0A218635257924F000ACD350 /* Tab3ViewController.swift in Sources */,
 				0A03AEA42519083F00677BDF /* CreateViewController.swift in Sources */,
+				0ACEE73D2604E1C500A4D4C8 /* WriteViewController.swift in Sources */,
 				0AAD5B08251A57A400B77FDA /* MainCollectionReusableView.swift in Sources */,
 				0A2186382579251A00ACD350 /* Tab4ViewController.swift in Sources */,
 				0AF3F4BD2517A7270005D5E3 /* RequestViewController.swift in Sources */,

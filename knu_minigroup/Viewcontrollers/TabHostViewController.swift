@@ -14,8 +14,6 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     @IBOutlet weak var tabMenuContainer: UIView!
     
     @IBOutlet weak var fab: UIButton!
-
-    private var lastTabScrollViewOffset: CGPoint = .zero
     
     let tabsTexts = ["소식", "일정", "맴버", "설정"]
     
@@ -24,6 +22,8 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     var headerTopConstraint: NSLayoutConstraint?
     
     var tabTopConstraint: NSLayoutConstraint?
+    
+    private var lastTabScrollViewOffset: CGPoint = .zero
 
     public var headerHeight: CGFloat = 240 {
         didSet {
@@ -117,7 +117,6 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         
         // 탭 레이아웃 추가
         pageMenuController = TabLayout(viewControllers: controllers, frame: CGRect(x: 0, y: 0, width: tabMenuContainer.frame.width, height: tabMenuContainer.frame.height), pageMenuOptions: parameters)
-        //pageMenuController?.tabSelectedDelegateFunc = { self.fab.isHidden = $0 != 0 }
         pageMenuController?.delegate = self
         
         view.addSubview(headerContainer)
