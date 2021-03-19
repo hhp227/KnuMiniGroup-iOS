@@ -157,10 +157,6 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         }
     }
     
-    @IBAction func fabClick(_ sender: UIButton) {
-        print("FAB 클릭")
-    }
-    
     public func updateNavBarAccordingToScrollPosition(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
         let alphaOffset: CGFloat = (minY - maxY) * 0.3 // alpha start changing at 1/3 of the way up
         var alpha = (currentY + alphaOffset - minY) / (maxY + alphaOffset - minY)
