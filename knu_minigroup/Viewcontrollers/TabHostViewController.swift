@@ -42,22 +42,6 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         }
     }
     
-    public var navBarItemsColor: UIColor = .white {
-        didSet {
-            if let navCtrl = navigationController {
-                navCtrl.navigationBar.tintColor = navBarItemsColor
-            }
-        }
-    }
-    
-    public var navBarTitleColor: UIColor = .white {
-        didSet {
-            if let navCtrl = navigationController {
-                navCtrl.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: navBarTitleColor]
-            }
-        }
-    }
-    
     //private var navBarOverlay: UIView?
     
     public var pageMenuController: TabLayout?
@@ -96,9 +80,9 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
             }
             return array
         }()
+        title = "Knu MiniGroup"
         headerBackgroundColor = #colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 1)
         //self.navBarTransparancy = 0
-        navBarItemsColor = .white
         headerTopConstraint = headerContainer.topAnchor.constraint(equalTo: view.topAnchor)
         headerTopConstraint!.isActive = true
         headerContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -127,11 +111,9 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.title = "Knu MiniGroup"
         if let navController = self.navigationController {
             let navBar = navController.navigationBar
             navBar.shadowImage = UIImage()
-            navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.thin)]
             
             // navBar 투명하게 해줌
             navBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -147,10 +129,9 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        if let navCtrl = self.navigationController {
+        if let navCtrl = navigationController {
             let navBar = navCtrl.navigationBar
             navBar.shadowImage = nil
-            navCtrl.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:self.navBarItemsColor.withAlphaComponent(1)]
             
             navBar.setBackgroundImage(nil, for: UIBarMetrics.default)
             //navBarOverlay?.removeFromSuperview()
@@ -228,7 +209,7 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         headerDidScroll(minY: minY, maxY: maxY, currentY: tabTopConstraint!.constant)
     }
     
-    func willMoveToPage(_ controller: UIViewController, index: Int) {
+    func didMoveToPage(_ controller: UIViewController, index: Int) {
         fab.isHidden = index != 0
     }
     

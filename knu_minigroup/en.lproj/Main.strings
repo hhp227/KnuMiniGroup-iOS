@@ -1,0 +1,57 @@
+
+/* Class = "UINavigationItem"; title = "메인화면"; ObjectID = "0pr-3D-Yuz"; */
+"0pr-3D-Yuz.title" = "메인화면";
+
+/* Class = "UILabel"; text = "패스워드"; ObjectID = "2fO-hf-NOK"; */
+"2fO-hf-NOK.text" = "패스워드";
+
+/* Class = "UILabel"; text = "Tab3"; ObjectID = "45P-2y-Z0n"; */
+"45P-2y-Z0n.text" = "Tab3";
+
+/* Class = "UILabel"; text = "가입방식"; ObjectID = "6Za-Mc-Gqp"; */
+"6Za-Mc-Gqp.text" = "가입방식";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "734-Yb-RVL"; */
+"734-Yb-RVL.title" = "Item";
+
+/* Class = "UILabel"; text = "경북대학교 통합정보시스템으로  로그인 가능합니다."; ObjectID = "CN3-wU-S6Z"; */
+"CN3-wU-S6Z.text" = "경북대학교 통합정보시스템으로  로그인 가능합니다.";
+
+/* Class = "UIButton"; normalTitle = "Option B"; ObjectID = "GFZ-j3-TX4"; */
+"GFZ-j3-TX4.normalTitle" = "Option B";
+
+/* Class = "UITextField"; placeholder = "ID"; ObjectID = "Ru4-hF-6Bj"; */
+"Ru4-hF-6Bj.placeholder" = "ID";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "S0t-Wg-ySU"; */
+"S0t-Wg-ySU.title" = "Item";
+
+/* Class = "UIButton"; normalTitle = "로그인"; ObjectID = "UIw-s7-BUc"; */
+"UIw-s7-BUc.normalTitle" = "로그인";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "Uhf-6w-iYB"; */
+"Uhf-6w-iYB.placeholder" = "Password";
+
+/* Class = "UINavigationItem"; title = "공지사항"; ObjectID = "bWz-y6-s2V"; */
+"bWz-y6-s2V.title" = "공지사항";
+
+/* Class = "UILabel"; text = "Tab4"; ObjectID = "dpV-tQ-mVV"; */
+"dpV-tQ-mVV.text" = "Tab4";
+
+/* Class = "UILabel"; text = "아이디"; ObjectID = "hjn-Mp-UKd"; */
+"hjn-Mp-UKd.text" = "아이디";
+
+/* Class = "UIButton"; normalTitle = "Option A"; ObjectID = "jcg-dP-A9A"; */
+"jcg-dP-A9A.normalTitle" = "Option A";
+
+/* Class = "UILabel"; text = "경북대 LMS소셜네트워크"; ObjectID = "nbO-Vd-x5v"; */
+"nbO-Vd-x5v.text" = "경북대 LMS소셜네트워크";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "oIj-Ye-B9M"; */
+"oIj-Ye-B9M.title" = "Item";
+
+/* Class = "UILabel"; text = "ID와 Password는 통합정보시스템과 동일합니다."; ObjectID = "t2K-J3-Evh"; */
+"t2K-J3-Evh.text" = "ID와 Password는 통합정보시스템과 동일합니다.";
+
+/* Class = "UILabel"; text = "Tab2"; ObjectID = "z9O-oO-na8"; */
+"z9O-oO-na8.text" = "Tab2";
