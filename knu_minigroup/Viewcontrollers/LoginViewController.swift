@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var textFieldId: UITextField!
     
     @IBOutlet var textFieldPassword: UITextField!
@@ -17,6 +17,11 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        textFieldId.delegate = self
+        textFieldId.tag = 0
+        textFieldPassword.delegate = self
+        textFieldPassword.tag = 1
+        
         if defaultValues.string(forKey: "userId") != nil {
             let drawerController = storyboard?.instantiateViewController(withIdentifier: "DrawerController") as! DrawerController
             
@@ -40,5 +45,13 @@ class LoginViewController: UIViewController {
         }
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+            nextField.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
 }
 

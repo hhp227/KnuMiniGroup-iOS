@@ -19,6 +19,7 @@ class CreateViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        textFieldGroupTitle.delegate = self
         textViewGroupDescription.placeholder = "그룹 설명을 입력하세요."
     }
 
@@ -40,6 +41,15 @@ class CreateViewController: UIViewController {
     }
 }
 
+extension CreateViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == textFieldGroupTitle {
+            textViewGroupDescription.becomeFirstResponder()
+        }
+        return true
+    }
+}
+
 extension UITextView: UITextViewDelegate {
     override open var bounds: CGRect {
         didSet {
@@ -49,12 +59,10 @@ extension UITextView: UITextViewDelegate {
     
     public var placeholder: String? {
         get {
-            var placeholderText: String?
-            
-            if let placeholderLabel = viewWithTag(100) as? UILabel {
-                placeholderText = placeholderLabel.text
+            guard let placeholderLabel = viewWithTag(100) as? UILabel else {
+                return nil
             }
-            return placeholderText
+            return placeholderLabel.text
         }
         set {
             if let placeholderLabel = viewWithTag(100) as! UILabel? {

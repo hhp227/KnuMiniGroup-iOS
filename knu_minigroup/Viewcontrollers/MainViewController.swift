@@ -100,15 +100,9 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = self.calculateWidth()
-        return CGSize(width: width, height: width)
-    }
-    
-    func calculateWidth() -> CGFloat {
-        let estimatedWidth = CGFloat(estimateWidth)
-        let cellCount = floor(CGFloat(self.view.frame.size.width / estimatedWidth))
+        let cellCount = floor(CGFloat(view.frame.size.width / CGFloat(estimateWidth)))
         let margin = CGFloat(cellMarginSize * 2)
-        let width = (self.view.frame.size.width - CGFloat(cellMarginSize) * (cellCount - 1) - margin) / cellCount
-        return width
+        let width = (view.frame.size.width - CGFloat(cellMarginSize) * (cellCount - 1) - margin) / cellCount
+        return CGSize(width: width, height: width)
     }
 }

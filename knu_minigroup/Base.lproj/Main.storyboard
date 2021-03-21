@@ -49,7 +49,7 @@
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="ID" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ru4-hF-6Bj">
                                         <rect key="frame" x="0.0" y="27" width="382" height="34"/>
                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Vh-DX-kLa">
                                         <rect key="frame" x="0.0" y="71" width="382" height="10"/>
@@ -67,7 +67,7 @@
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Uhf-6w-iYB">
                                         <rect key="frame" x="0.0" y="118" width="382" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wyv-K2-cJo">
                                         <rect key="frame" x="0.0" y="162" width="382" height="10"/>
@@ -219,8 +219,28 @@
                     <view key="view" contentMode="scaleToFill" id="xxL-w0-4Mf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="322" translatesAutoresizingMaskIntoConstraints="NO" id="W9t-Qg-iMJ">
+                                <rect key="frame" x="0.0" y="832" width="414" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H5U-nJ-8RG">
+                                        <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ze6-BJ-F4d">
+                                        <rect key="frame" x="368" y="0.0" width="46" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="iwY-gn-jtn"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="W9t-Qg-iMJ" firstAttribute="bottom" secondItem="iwY-gn-jtn" secondAttribute="bottom" id="TwV-ch-kwf"/>
+                            <constraint firstItem="W9t-Qg-iMJ" firstAttribute="trailing" secondItem="iwY-gn-jtn" secondAttribute="trailing" id="XKz-GX-khy"/>
+                            <constraint firstItem="W9t-Qg-iMJ" firstAttribute="leading" secondItem="iwY-gn-jtn" secondAttribute="leading" id="fU9-Bt-zal"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cUJ-LC-AT2">
                         <barButtonItem key="rightBarButtonItem" title="Item" id="S0t-Wg-ySU"/>
@@ -228,7 +248,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3ED-cX-hLY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1119" y="2035"/>
+            <point key="canvasLocation" x="1118.840579710145" y="2034.375"/>
         </scene>
         <!--Tab1 View Controller-->
         <scene sceneID="tna-eg-0Ex">
@@ -401,7 +421,7 @@
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="그룹 이름 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ICU-G2-IOv">
                                         <rect key="frame" x="0.0" y="0.0" width="388.5" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oa3-zC-nAp">
                                         <rect key="frame" x="396.5" y="0.0" width="17.5" height="34"/>
@@ -414,10 +434,10 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3ff-3v-tS8">
-                                <rect key="frame" x="0.0" y="130" width="414" height="282"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_photo" translatesAutoresizingMaskIntoConstraints="NO" id="3ff-3v-tS8">
+                                <rect key="frame" x="0.0" y="130" width="414" height="306"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="282" id="tkR-xV-9n6"/>
+                                    <constraint firstAttribute="height" constant="306" id="tkR-xV-9n6"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bfr-yo-fFd">
@@ -452,7 +472,7 @@
                                 </subviews>
                             </stackView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QEz-ia-1gC">
-                                <rect key="frame" x="0.0" y="420" width="414" height="404"/>
+                                <rect key="frame" x="0.0" y="444" width="414" height="380"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -725,6 +745,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="add_photo" width="1400" height="1040"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>
         <image name="hamburger-menu-icon" width="25" height="25"/>
         <image name="knu_minigroup.png" width="434" height="213"/>
