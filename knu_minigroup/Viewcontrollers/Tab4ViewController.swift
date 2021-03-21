@@ -9,12 +9,12 @@
 import UIKit
 
 class Tab4ViewController: TabViewController {
-    @IBOutlet weak var textLabel: UILabel!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        scrollView.delegate = self
     }
     
 
@@ -27,5 +27,8 @@ class Tab4ViewController: TabViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    /*override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("Scroll")
+    }*/
 }

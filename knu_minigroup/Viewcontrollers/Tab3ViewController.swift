@@ -8,12 +8,13 @@
 
 import UIKit
 
-class Tab3ViewController: TabViewController {
-    @IBOutlet weak var textLabel: UILabel!
+class Tab3ViewController: TabViewController, UICollectionViewDelegate {
+    @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        collectionView.delegate = self
+        collectionView.dataSource = self
         // Do any additional setup after loading the view.
     }
     
@@ -27,5 +28,27 @@ class Tab3ViewController: TabViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+}
 
+extension Tab3ViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        cell.contentView.layer.cornerRadius = 10.0
+        cell.contentView.layer.borderWidth = 1.0
+        cell.contentView.layer.borderColor = UIColor.clear.cgColor
+        cell.contentView.layer.masksToBounds = false
+        cell.layer.shadowColor = UIColor.gray.cgColor
+        cell.layer.shadowOffset = CGSize(width: 0, height: 1.0)
+        cell.layer.shadowRadius = 4.0
+        cell.layer.shadowOpacity = 1.0
+        cell.layer.masksToBounds = false
+        cell.layer.shadowPath = UIBezierPath(roundedRect: cell.bounds, cornerRadius: cell.contentView.layer.cornerRadius).cgPath
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
 }

@@ -38,7 +38,6 @@ class LoginViewController: UIViewController {
         } else {
             print("No")
         }
-        
     }
     
 }

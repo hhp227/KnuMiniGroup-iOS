@@ -181,9 +181,12 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         
         // Vertical bounds
         let maxY: CGFloat = navBarOffset()
-        let minY: CGFloat = self.headerHeight
+        let minY: CGFloat = headerHeight
         
-        if tabTopConstraint == nil { return }
+        guard tabTopConstraint != nil else {
+            return
+        }
+        //if tabTopConstraint == nil { return }
         //we compress the top view
         if delta > 0 && tabTopConstraint!.constant > maxY && scrollView.contentOffset.y > 0 {
             if tabTopConstraint!.constant - delta < maxY {
