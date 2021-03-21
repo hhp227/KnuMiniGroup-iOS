@@ -18,9 +18,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         textFieldId.delegate = self
-        textFieldId.tag = 0
         textFieldPassword.delegate = self
-        textFieldPassword.tag = 1
         
         if defaultValues.string(forKey: "userId") != nil {
             let drawerController = storyboard?.instantiateViewController(withIdentifier: "DrawerController") as! DrawerController
