@@ -17,10 +17,15 @@ class CreateViewController: UIViewController {
     
     @IBOutlet weak var buttonTitleReset: UIButton!
     
+    @IBOutlet weak var stackViewGroupType: UIStackView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         textFieldGroupTitle.delegate = self
         textViewGroupDescription.placeholder = "그룹 설명을 입력하세요."
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     @IBAction func actionSend(_ sender: UIBarButtonItem) {
@@ -32,12 +37,43 @@ class CreateViewController: UIViewController {
             print("그룹 설명을 입력하세요.")
             return
         }
+        
         print(textViewGroupDescription.text!)
         
     }
     
     @IBAction func actionTitleReset(_ sender: UIButton) {
         textFieldGroupTitle.text = nil
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            stackViewGroupType.frame.origin.y -= keyboardHeight
+        }
+        print("show")
+        print({ () -> Bool in
+            guard let keyboardWindowClass = NSClassFromString("UIRemoteKeyboardWindow") else {
+                return false
+            }
+                return UIApplication.shared.windows.contains(where: { $0.isKind(of: keyboardWindowClass) })
+            }())
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            stackViewGroupType.frame.origin.y += keyboardHeight
+        }
+        print("hide")
+        print({ () -> Bool in
+            guard let keyboardWindowClass = NSClassFromString("UIRemoteKeyboardWindow") else {
+                return false
+            }
+                return UIApplication.shared.windows.contains(where: { $0.isKind(of: keyboardWindowClass) })
+            }())
     }
 }
 

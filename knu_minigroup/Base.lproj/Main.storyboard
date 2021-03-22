@@ -220,15 +220,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="322" translatesAutoresizingMaskIntoConstraints="NO" id="W9t-Qg-iMJ">
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="W9t-Qg-iMJ">
                                 <rect key="frame" x="0.0" y="832" width="414" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H5U-nJ-8RG">
-                                        <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="203" height="30"/>
                                         <state key="normal" title="Button"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ze6-BJ-F4d">
-                                        <rect key="frame" x="368" y="0.0" width="46" height="30"/>
+                                        <rect key="frame" x="211" y="0.0" width="203" height="30"/>
                                         <state key="normal" title="Button"/>
                                     </button>
                                 </subviews>
@@ -507,6 +507,7 @@
                     <connections>
                         <outlet property="barButtonItem" destination="zXE-8R-5nH" id="xu5-Tq-djV"/>
                         <outlet property="buttonTitleReset" destination="oa3-zC-nAp" id="UmG-Kl-hUQ"/>
+                        <outlet property="stackViewGroupType" destination="Bfr-yo-fFd" id="gT1-ro-8fV"/>
                         <outlet property="textFieldGroupTitle" destination="ICU-G2-IOv" id="WNO-OC-swS"/>
                         <outlet property="textViewGroupDescription" destination="QEz-ia-1gC" id="aJB-j0-zcC"/>
                     </connections>
