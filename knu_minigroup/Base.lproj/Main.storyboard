@@ -297,10 +297,34 @@
                     <view key="view" contentMode="scaleToFill" id="2vG-3O-Hig">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dSY-T8-7hZ">
+                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
+                                <items>
+                                    <barButtonItem style="plain" id="fUr-8o-Rhn">
+                                        <textField key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" id="uSk-la-M5w">
+                                            <rect key="frame" x="20" y="10" width="97" height="34"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </barButtonItem>
+                                    <barButtonItem title="Item" id="5EM-R4-wDR"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="kf6-sJ-1Ff"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="dSY-T8-7hZ" firstAttribute="trailing" secondItem="kf6-sJ-1Ff" secondAttribute="trailing" id="Frg-HB-aKt"/>
+                            <constraint firstItem="dSY-T8-7hZ" firstAttribute="leading" secondItem="kf6-sJ-1Ff" secondAttribute="leading" id="KLu-HU-Iq9"/>
+                            <constraint firstItem="dSY-T8-7hZ" firstAttribute="bottom" secondItem="kf6-sJ-1Ff" secondAttribute="bottom" id="xIo-te-JUa"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="sdU-7Y-vsr"/>
+                    <connections>
+                        <outlet property="toolbar" destination="dSY-T8-7hZ" id="72a-ut-MJZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eiO-E2-ev3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
