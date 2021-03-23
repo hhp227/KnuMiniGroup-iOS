@@ -23,11 +23,7 @@ class ArticleViewController: UIViewController {
             let keyboardHeight = keyboardRectangle.height
             toolbar.frame.origin.y -= keyboardHeight
             
-            if #available(iOS 11.0, *) {
-                let window = UIApplication.shared.windows.first { $0.isKeyWindow }
-                let bottomPadding = window?.safeAreaInsets.bottom ?? 0.0
-                toolbar.frame.origin.y += bottomPadding
-            }
+            excludeBottomPadding { $0 + $1 }
         }
         print("show")
         print({ () -> Bool in
@@ -44,12 +40,7 @@ class ArticleViewController: UIViewController {
             let keyboardHeight = keyboardRectangle.height
             toolbar.frame.origin.y += keyboardHeight
             
-            if #available(iOS 11.0, *) {
-                let window = UIApplication.shared.windows.first { $0.isKeyWindow }
-                let bottomPadding = window?.safeAreaInsets.bottom ?? 0.0
-                toolbar.frame.origin.y -= bottomPadding
-                
-            }
+            excludeBottomPadding { $0 - $1 }
         }
         print("hide")
         print({ () -> Bool in
@@ -58,6 +49,14 @@ class ArticleViewController: UIViewController {
             }
                 return UIApplication.shared.windows.contains(where: { $0.isKind(of: keyboardWindowClass) })
             }())
+    }
+    
+    private func excludeBottomPadding(function: (CGFloat, CGFloat) -> CGFloat) {
+        if #available(iOS 11.0, *) {
+            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+            let bottomPadding = window?.safeAreaInsets.bottom
+            toolbar.frame.origin.y = function(toolbar.frame.origin.y, bottomPadding!)
+        }
     }
     /*
     // MARK: - Navigation
