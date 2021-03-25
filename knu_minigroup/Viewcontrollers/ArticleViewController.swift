@@ -19,10 +19,9 @@ class ArticleViewController: UIViewController {
         super.viewDidLoad()
         /*NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)*/
-        let inputView = UIView()
         let sendLabel = UILabel()
         
-        inputView.backgroundColor = .gray
+        viewToolbar.backgroundColor = .gray
         sendLabel.text = "send"
         
         textViewInput.delegate = self
@@ -34,34 +33,34 @@ class ArticleViewController: UIViewController {
         textViewInput.placeHolderColor = UIColor(white: 0.8, alpha: 1.0)             //플레이스홀더 색상
         textViewInput.font = UIFont.systemFont(ofSize: 17)
      
-        inputView.translatesAutoresizingMaskIntoConstraints = false
+        viewToolbar.translatesAutoresizingMaskIntoConstraints = false
         textViewInput.translatesAutoresizingMaskIntoConstraints = false
         sendLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(inputView)
-        inputView.addSubview(textViewInput)
-        inputView.addSubview(sendLabel)
+        view.addSubview(viewToolbar)
+        viewToolbar.addSubview(textViewInput)
+        viewToolbar.addSubview(sendLabel)
 
         if #available(iOS 11.0, *) {
-            inputView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-            bottomConstraint = inputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-            inputView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+            viewToolbar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+            bottomConstraint = viewToolbar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            viewToolbar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         } else {
-            inputView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-            bottomConstraint = inputView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            inputView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            viewToolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            bottomConstraint = viewToolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            viewToolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         }
         bottomConstraint?.isActive = true
         
-        sendLabel.bottomAnchor.constraint(equalTo: inputView.bottomAnchor).isActive = true
-        sendLabel.trailingAnchor.constraint(equalTo: inputView.trailingAnchor, constant: -8).isActive = true
+        sendLabel.bottomAnchor.constraint(equalTo: viewToolbar.bottomAnchor).isActive = true
+        sendLabel.trailingAnchor.constraint(equalTo: viewToolbar.trailingAnchor, constant: -8).isActive = true
         sendLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
         sendLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        textViewInput.topAnchor.constraint(equalTo: inputView.topAnchor, constant: 8).isActive = true
-        textViewInput.leadingAnchor.constraint(equalTo: inputView.leadingAnchor, constant: 8).isActive = true
+        textViewInput.topAnchor.constraint(equalTo: viewToolbar.topAnchor, constant: 8).isActive = true
+        textViewInput.leadingAnchor.constraint(equalTo: viewToolbar.leadingAnchor, constant: 8).isActive = true
         textViewInput.trailingAnchor.constraint(equalTo: sendLabel.leadingAnchor, constant: -8).isActive = true
-        textViewInput.bottomAnchor.constraint(equalTo: inputView.bottomAnchor, constant: -8).isActive = true
+        textViewInput.bottomAnchor.constraint(equalTo: viewToolbar.bottomAnchor, constant: -8).isActive = true
     
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         

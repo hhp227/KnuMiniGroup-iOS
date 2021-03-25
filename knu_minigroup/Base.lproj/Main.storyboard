@@ -298,11 +298,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QI2-7X-rab">
-                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QI2-7X-rab">
+                                <rect key="frame" x="0.0" y="801" width="414" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nr9-GN-S43" customClass="TextViewExtension" customModule="knu_minigroup" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="8" width="337" height="33"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nr9-GN-S43" customClass="TextViewExtension" customModule="knu_minigroup" customModuleProvider="target">
+                                        <rect key="frame" x="8" y="8" width="352" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" systemColor="systemTealColor"/>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -310,34 +312,23 @@
                                     </textView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="linkColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="nr9-GN-S43" secondAttribute="bottom" constant="8" id="7O6-kz-gTB"/>
-                                    <constraint firstItem="nr9-GN-S43" firstAttribute="leading" secondItem="QI2-7X-rab" secondAttribute="leading" constant="8" id="enV-ln-Fbr"/>
-                                    <constraint firstAttribute="trailing" secondItem="nr9-GN-S43" secondAttribute="trailing" constant="69" id="oNf-aG-2XC"/>
-                                    <constraint firstItem="nr9-GN-S43" firstAttribute="top" secondItem="QI2-7X-rab" secondAttribute="top" constant="8" id="tF4-28-gxe"/>
-                                </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ubi-2F-F1g">
-                                <rect key="frame" x="87" y="227" width="230" height="49"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGreenColor"/>
-                                <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FZZ-Tj-mki">
+                                <rect key="frame" x="0.0" y="88" width="414" height="717"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="kf6-sJ-1Ff"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="QI2-7X-rab" firstAttribute="trailing" secondItem="kf6-sJ-1Ff" secondAttribute="trailing" id="Hhn-IJ-A0N"/>
-                            <constraint firstItem="QI2-7X-rab" firstAttribute="bottom" secondItem="kf6-sJ-1Ff" secondAttribute="bottom" id="RIT-vW-TuF"/>
-                            <constraint firstItem="QI2-7X-rab" firstAttribute="top" secondItem="kf6-sJ-1Ff" secondAttribute="top" constant="725" id="qX6-b3-pF2"/>
-                            <constraint firstItem="QI2-7X-rab" firstAttribute="leading" secondItem="kf6-sJ-1Ff" secondAttribute="leading" id="ydE-Dk-cWW"/>
+                            <constraint firstAttribute="bottom" secondItem="FZZ-Tj-mki" secondAttribute="bottom" constant="91" id="efu-dH-fTH"/>
+                            <constraint firstItem="FZZ-Tj-mki" firstAttribute="leading" secondItem="kf6-sJ-1Ff" secondAttribute="leading" id="mAc-RO-FzN"/>
+                            <constraint firstItem="FZZ-Tj-mki" firstAttribute="trailing" secondItem="kf6-sJ-1Ff" secondAttribute="trailing" id="mEl-dc-gLi"/>
+                            <constraint firstItem="FZZ-Tj-mki" firstAttribute="top" secondItem="kf6-sJ-1Ff" secondAttribute="top" id="u75-K1-P1t"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="sdU-7Y-vsr"/>
                     <connections>
-                        <outlet property="bottomConstraint" destination="RIT-vW-TuF" id="6oH-By-ZeJ"/>
                         <outlet property="textViewInput" destination="nr9-GN-S43" id="cYW-is-2cX"/>
                         <outlet property="viewToolbar" destination="QI2-7X-rab" id="WPt-XN-4FU"/>
                     </connections>
@@ -800,9 +791,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
