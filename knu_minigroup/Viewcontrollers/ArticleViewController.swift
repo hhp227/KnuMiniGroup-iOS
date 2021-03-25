@@ -20,27 +20,26 @@ class ArticleViewController: UIViewController {
         /*NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)*/
         let inputView = UIView()
-        let textViewMaster = TextViewExtension()
         let sendLabel = UILabel()
         
         inputView.backgroundColor = .gray
         sendLabel.text = "send"
         
-        textViewMaster.delegate = self
-        textViewMaster.layer.cornerRadius = 5
-        textViewMaster.isAnimate = true                                               //에니메이션 사용여부
-        textViewMaster.maxLength = 200                                                //최대 글자수
-        textViewMaster.maxHeight = 100                                                //최대 높이 제한
-        textViewMaster.placeHolder = "메세지를 입력해주세요."                               //플레이스홀더
-        textViewMaster.placeHolderColor = UIColor(white: 0.8, alpha: 1.0)             //플레이스홀더 색상
-        textViewMaster.font = UIFont.systemFont(ofSize: 17)
+        textViewInput.delegate = self
+        textViewInput.layer.cornerRadius = 5
+        textViewInput.isAnimate = true                                               //에니메이션 사용여부
+        textViewInput.maxLength = 200                                                //최대 글자수
+        textViewInput.maxHeight = 100                                                //최대 높이 제한
+        textViewInput.placeHolder = "메세지를 입력해주세요."                               //플레이스홀더
+        textViewInput.placeHolderColor = UIColor(white: 0.8, alpha: 1.0)             //플레이스홀더 색상
+        textViewInput.font = UIFont.systemFont(ofSize: 17)
      
         inputView.translatesAutoresizingMaskIntoConstraints = false
-        textViewMaster.translatesAutoresizingMaskIntoConstraints = false
+        textViewInput.translatesAutoresizingMaskIntoConstraints = false
         sendLabel.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(inputView)
-        inputView.addSubview(textViewMaster)
+        inputView.addSubview(textViewInput)
         inputView.addSubview(sendLabel)
 
         if #available(iOS 11.0, *) {
@@ -59,10 +58,10 @@ class ArticleViewController: UIViewController {
         sendLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
         sendLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        textViewMaster.topAnchor.constraint(equalTo: inputView.topAnchor, constant: 8).isActive = true
-        textViewMaster.leadingAnchor.constraint(equalTo: inputView.leadingAnchor, constant: 8).isActive = true
-        textViewMaster.trailingAnchor.constraint(equalTo: sendLabel.leadingAnchor, constant: -8).isActive = true
-        textViewMaster.bottomAnchor.constraint(equalTo: inputView.bottomAnchor, constant: -8).isActive = true
+        textViewInput.topAnchor.constraint(equalTo: inputView.topAnchor, constant: 8).isActive = true
+        textViewInput.leadingAnchor.constraint(equalTo: inputView.leadingAnchor, constant: 8).isActive = true
+        textViewInput.trailingAnchor.constraint(equalTo: sendLabel.leadingAnchor, constant: -8).isActive = true
+        textViewInput.bottomAnchor.constraint(equalTo: inputView.bottomAnchor, constant: -8).isActive = true
     
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
