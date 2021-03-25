@@ -21,6 +21,7 @@
 		0A2186382579251A00ACD350 /* Tab4ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2186372579251A00ACD350 /* Tab4ViewController.swift */; };
 		0A236E8925F6638300C30737 /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A236E8825F6638300C30737 /* ArticleViewController.swift */; };
 		0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */; };
+		0A2F097A260CB95700BEF1C8 /* TextViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2F0979260CB95700BEF1C8 /* TextViewExtension.swift */; };
 		0A5D0F69250E317B008376EC /* UnivNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */; };
 		0A5D0F6B250E5F47008376EC /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0F6A250E5F47008376EC /* DrawerViewController.swift */; };
 		0AA26BFE24F22B9600FA4D5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA26BFD24F22B9600FA4D5A /* AppDelegate.swift */; };
@@ -53,6 +54,7 @@
 		0A2186372579251A00ACD350 /* Tab4ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tab4ViewController.swift; path = knu_minigroup/Viewcontrollers/Tab4ViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A236E8825F6638300C30737 /* ArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ArticleViewController.swift; path = knu_minigroup/Viewcontrollers/ArticleViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		0A2F0979260CB95700BEF1C8 /* TextViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewExtension.swift; sourceTree = "<group>"; };
 		0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnivNoticeViewController.swift; sourceTree = "<group>"; };
 		0A5D0F6A250E5F47008376EC /* DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
 		0AA26BFA24F22B9600FA4D5A /* knu_minigroup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = knu_minigroup.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,6 +93,14 @@
 				0A11347424FBFB2F0029C07C /* EmbedMainControllerSegue.swift */,
 			);
 			path = DrawerController;
+			sourceTree = "<group>";
+		};
+		0A2F0978260CB91E00BEF1C8 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				0A2F0979260CB95700BEF1C8 /* TextViewExtension.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		0A3D625C24FB7785001DB686 /* ViewControllers */ = {
@@ -133,6 +143,7 @@
 		0AA26BFC24F22B9600FA4D5A /* knu_minigroup */ = {
 			isa = PBXGroup;
 			children = (
+				0A2F0978260CB91E00BEF1C8 /* UI */,
 				0AC523DB25752E7100D2501E /* HeaderedTabScrollViewController */,
 				0AAD5B04251A52E200B77FDA /* Cells */,
 				0A11346F24FB9BC80029C07C /* DrawerController */,
@@ -254,6 +265,7 @@
 				0A236E8925F6638300C30737 /* ArticleViewController.swift in Sources */,
 				0AF3F4BB2517940F0005D5E3 /* FindViewController.swift in Sources */,
 				0AA26BFE24F22B9600FA4D5A /* AppDelegate.swift in Sources */,
+				0A2F097A260CB95700BEF1C8 /* TextViewExtension.swift in Sources */,
 				0A11347524FBFB2F0029C07C /* EmbedMainControllerSegue.swift in Sources */,
 				0A218635257924F000ACD350 /* Tab3ViewController.swift in Sources */,
 				0A03AEA42519083F00677BDF /* CreateViewController.swift in Sources */,
