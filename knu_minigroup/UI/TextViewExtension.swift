@@ -9,12 +9,16 @@
 import UIKit
 
 class TextViewExtension: UITextView {
-    public var isAnimate: Bool = true                                          //에니메이션 사용여부
-    public var maxLength: Int = 0                                              //최대 글자수
-    public var minHeight: CGFloat = 0                                          //최소 높이 제한
-    public var maxHeight: CGFloat = 0                                          //최대 높이 제한
+    @IBInspectable public var isAnimate: Bool = true
 
-    public var placeHolder: String = ""                                        //플레이스홀더
+    @IBInspectable public var maxLength: Int = 0                                              //최대 글자수
+    @IBInspectable public var minHeight: CGFloat = 0                                          //최소 높이 제한
+    @IBInspectable public var maxHeight: CGFloat = 0                                          //최대 높이 제한
+
+    @IBInspectable public var placeHolder: String? {
+        didSet { setNeedsDisplay() }
+    }
+    
     public var placeHolderFont: UIFont = UIFont.systemFont(ofSize: 17)         //플레이스홀더 폰트
     public var placeHolderColor: UIColor = UIColor(white: 0.8, alpha: 1.0)     //플레이스홀더 컬러
     public var placeHolderTopPadding: CGFloat = 0                              //플레이스홀더 위 여백
@@ -147,8 +151,7 @@ extension TextViewExtension {
         gc.saveGState()
         defer { gc.restoreGState() }
 
-        placeHolder.draw(in: placeHolderRect, withAttributes: getPlaceHolderAttribues())
-
+        placeHolder?.draw(in: placeHolderRect, withAttributes: getPlaceHolderAttribues())
     }
 }
 

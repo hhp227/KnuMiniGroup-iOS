@@ -21,15 +21,10 @@ class ArticleViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)*/
         let sendLabel = UILabel()
         
-        viewToolbar.backgroundColor = .gray
         sendLabel.text = "send"
         
         textViewInput.delegate = self
         textViewInput.layer.cornerRadius = 5
-        textViewInput.isAnimate = true                                               //에니메이션 사용여부
-        textViewInput.maxLength = 200                                                //최대 글자수
-        textViewInput.maxHeight = 100                                                //최대 높이 제한
-        textViewInput.placeHolder = "메세지를 입력해주세요."                               //플레이스홀더
         textViewInput.placeHolderColor = UIColor(white: 0.8, alpha: 1.0)             //플레이스홀더 색상
         textViewInput.font = UIFont.systemFont(ofSize: 17)
      
@@ -73,9 +68,17 @@ class ArticleViewController: UIViewController {
     }
     
     @objc func keyboardWillChangeFrame(_ notification: Notification) {
-        let endFrame = ((notification as NSNotification).userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        bottomConstraint?.constant = -(view.bounds.height - endFrame.origin.y)
-        self.view.layoutIfNeeded()
+        if let endFrame = ((notification as NSNotification).userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            var keyboardHeight = view.bounds.height - endFrame.origin.y
+            
+            if #available(iOS 11.0, *) {
+                if keyboardHeight > 0 {
+                    keyboardHeight -= view.safeAreaInsets.bottom
+                }
+            }
+            bottomConstraint?.constant = -(keyboardHeight)
+        }
+        view.layoutIfNeeded()
     }
 
     @objc func tapGestureHandler() {
