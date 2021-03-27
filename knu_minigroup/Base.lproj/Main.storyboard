@@ -303,11 +303,11 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nr9-GN-S43" customClass="TextViewExtension" customModule="knu_minigroup" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="8" width="352" height="45"/>
+                                        <rect key="frame" x="8" y="8" width="344" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" systemColor="systemTealColor"/>
                                         <color key="textColor" systemColor="labelColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="isAnimate" value="YES"/>
@@ -320,6 +320,14 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="메시지를 입력하세요."/>
                                         </userDefinedRuntimeAttributes>
                                     </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aQZ-WO-cOb">
+                                        <rect key="frame" x="365" y="15" width="36" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Send"/>
+                                        <connections>
+                                            <action selector="actionSend:" destination="VP5-Ac-BOW" eventType="touchUpInside" id="aXD-Rr-h8i"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                             </view>
@@ -339,6 +347,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="sdU-7Y-vsr"/>
                     <connections>
+                        <outlet property="buttonSend" destination="aQZ-WO-cOb" id="YNk-gl-JTC"/>
                         <outlet property="textViewInput" destination="nr9-GN-S43" id="cYW-is-2cX"/>
                         <outlet property="viewToolbar" destination="QI2-7X-rab" id="WPt-XN-4FU"/>
                     </connections>

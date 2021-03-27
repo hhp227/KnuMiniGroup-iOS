@@ -11,19 +11,24 @@ import UIKit
 class TextViewExtension: UITextView {
     @IBInspectable public var isAnimate: Bool = true
 
-    @IBInspectable public var maxLength: Int = 0                                              //최대 글자수
-    @IBInspectable public var minHeight: CGFloat = 0                                          //최소 높이 제한
-    @IBInspectable public var maxHeight: CGFloat = 0                                          //최대 높이 제한
+    @IBInspectable public var maxLength: Int = 0
+    
+    @IBInspectable public var minHeight: CGFloat = 0
+    
+    @IBInspectable public var maxHeight: CGFloat = 0
 
     @IBInspectable public var placeHolder: String? {
         didSet { setNeedsDisplay() }
     }
     
-    public var placeHolderFont: UIFont = UIFont.systemFont(ofSize: 17)         //플레이스홀더 폰트
     public var placeHolderColor: UIColor = UIColor(white: 0.8, alpha: 1.0)     //플레이스홀더 컬러
+    
     public var placeHolderTopPadding: CGFloat = 0                              //플레이스홀더 위 여백
+    
     public var placeHolderBottomPadding: CGFloat = 0                           //플레이스홀더 아래 여백
+    
     public var placeHolderRightPadding: CGFloat = 5                            //플레이스홀더 오른쪽 여백
+    
     public var placeHolderLeftPadding: CGFloat = 5                             //플레이스홀더 왼쪽 여백
 
     private weak var heightConstraint: NSLayoutConstraint?
@@ -53,8 +58,8 @@ class TextViewExtension: UITextView {
     override public func layoutSubviews() {
         super.layoutSubviews()
         let height = checkHeightConstraint()
+        
         setNewHieghtConstraintConstant(with: height)
-
         if isAnimate {
             UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveLinear, animations: { [weak self] in
                 guard let self = self, let delegate = self.delegate as? TextViewMasterDelegate else { return }
@@ -99,7 +104,6 @@ extension TextViewExtension {
         if heightConstraint == nil {
             setHeightConstraint(with: height)
         }
-        
         return height
     }
 
@@ -111,20 +115,20 @@ extension TextViewExtension {
     private func getHieght() -> CGFloat {
         let size = sizeThatFits(CGSize(width: bounds.size.width, height: CGFloat.greatestFiniteMagnitude))
         var height = size.height
-        
         height = minHeight > 0 ? max(height, minHeight) : height
         height = maxHeight > 0 ? min(height, maxHeight) : height
-        
         return height
     }
     
     private func setHeightConstraint(with height: CGFloat) {
         heightConstraint = self.heightAnchor.constraint(equalToConstant: height)
+        
         addConstraint(heightConstraint!)
     }
     
     private func scrollToBottom() {
         let bottom = self.contentSize.height - self.bounds.size.height
+        
         self.setContentOffset(CGPoint(x: 0, y: bottom), animated: false)
     }
     
@@ -135,8 +139,7 @@ extension TextViewExtension {
             .foregroundColor: placeHolderColor,
             .paragraphStyle: paragraphStyle
         ]
-        attributes[.font] = placeHolderFont
-        
+        attributes[.font] = self.font
         return attributes
     }
     
@@ -146,11 +149,10 @@ extension TextViewExtension {
         let width = rect.size.width - xValue - (textContainerInset.right + placeHolderRightPadding)
         let height = rect.size.height - yValue - (textContainerInset.bottom + placeHolderBottomPadding)
         let placeHolderRect = CGRect(x: xValue, y: yValue, width: width, height: height)
-
         guard let gc = UIGraphicsGetCurrentContext() else { return }
+        
         gc.saveGState()
         defer { gc.restoreGState() }
-
         placeHolder?.draw(in: placeHolderRect, withAttributes: getPlaceHolderAttribues())
     }
 }
@@ -166,6 +168,7 @@ extension TextViewExtension {
             if maxLength > 0 && text.count > maxLength {
                 let endIndex = text.index(text.startIndex, offsetBy: maxLength)
                 text = String(text[..<endIndex])
+                
                 undoManager?.removeAllActions()
             }
             setNeedsDisplay()
@@ -180,7 +183,6 @@ extension TextViewExtension: TextViewMasterDelegate {
             guard let value = delegate.growingTextView?(growingTextView: self, shouldChangeTextInRange: range, replacementText: text) else { return false }
             return value
         }
-        
         if text == "\n" {
             if let delegate = delegate as? TextViewMasterDelegate {
                 delegate.growingTextViewShouldReturn?(growingTextView: self)

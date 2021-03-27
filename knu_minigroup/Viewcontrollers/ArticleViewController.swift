@@ -15,26 +15,24 @@ class ArticleViewController: UIViewController {
     
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var buttonSend: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         /*NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)*/
-        let sendLabel = UILabel()
-        
-        sendLabel.text = "send"
         
         textViewInput.delegate = self
         textViewInput.layer.cornerRadius = 5
         textViewInput.placeHolderColor = UIColor(white: 0.8, alpha: 1.0)             //플레이스홀더 색상
-        textViewInput.font = UIFont.systemFont(ofSize: 17)
      
         viewToolbar.translatesAutoresizingMaskIntoConstraints = false
         textViewInput.translatesAutoresizingMaskIntoConstraints = false
-        sendLabel.translatesAutoresizingMaskIntoConstraints = false
+        buttonSend.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(viewToolbar)
         viewToolbar.addSubview(textViewInput)
-        viewToolbar.addSubview(sendLabel)
+        viewToolbar.addSubview(buttonSend)
 
         if #available(iOS 11.0, *) {
             viewToolbar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
@@ -47,14 +45,14 @@ class ArticleViewController: UIViewController {
         }
         bottomConstraint?.isActive = true
         
-        sendLabel.bottomAnchor.constraint(equalTo: viewToolbar.bottomAnchor).isActive = true
-        sendLabel.trailingAnchor.constraint(equalTo: viewToolbar.trailingAnchor, constant: -8).isActive = true
-        sendLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        sendLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        buttonSend.bottomAnchor.constraint(equalTo: viewToolbar.bottomAnchor).isActive = true
+        buttonSend.trailingAnchor.constraint(equalTo: viewToolbar.trailingAnchor, constant: -8).isActive = true
+        buttonSend.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        buttonSend.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         textViewInput.topAnchor.constraint(equalTo: viewToolbar.topAnchor, constant: 8).isActive = true
         textViewInput.leadingAnchor.constraint(equalTo: viewToolbar.leadingAnchor, constant: 8).isActive = true
-        textViewInput.trailingAnchor.constraint(equalTo: sendLabel.leadingAnchor, constant: -8).isActive = true
+        textViewInput.trailingAnchor.constraint(equalTo: buttonSend.leadingAnchor, constant: -8).isActive = true
         textViewInput.bottomAnchor.constraint(equalTo: viewToolbar.bottomAnchor, constant: -8).isActive = true
     
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
@@ -65,6 +63,10 @@ class ArticleViewController: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    @IBAction func actionSend(_ sender: UIButton) {
+        print("send")
     }
     
     @objc func keyboardWillChangeFrame(_ notification: Notification) {
