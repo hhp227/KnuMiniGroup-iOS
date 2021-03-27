@@ -43,7 +43,6 @@ class TextViewExtension: UITextView {
         NotificationCenter.default.addObserver(self, selector: #selector(textDidEndEditing), name: UITextView.textDidEndEditingNotification, object: self)
     }
     
-    //MARK: - override
     override public func layoutSubviews() {
         super.layoutSubviews()
         let height = checkHeightConstraint()
@@ -51,15 +50,15 @@ class TextViewExtension: UITextView {
         
         if isAnimate {
             UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveLinear, animations: { [weak self] in
-                guard let self = self, let delegate = self.delegate as? TextViewMasterDelegate else { return }
+                guard let self = self, let delegate = self.delegate as? TextViewExtensionDelegate else { return }
                 delegate.growingTextView?(growingTextView: self, willChangeHeight: height)
                 self.scrollToBottom()
             }) { [weak self] _ in
-                guard let self = self, let delegate = self.delegate as? TextViewMasterDelegate else { return }
+                guard let self = self, let delegate = self.delegate as? TextViewExtensionDelegate else { return }
                 delegate.growingTextView?(growingTextView: self, didChangeHeight: height)
             }
         } else {
-            guard let delegate = delegate as? TextViewMasterDelegate else { return }
+            guard let delegate = delegate as? TextViewExtensionDelegate else { return }
             delegate.growingTextView?(growingTextView: self, willChangeHeight: height)
             self.scrollToBottom()
             delegate.growingTextView?(growingTextView: self, didChangeHeight: height)
@@ -73,8 +72,6 @@ class TextViewExtension: UITextView {
             let yValue = textContainerInset.top
             let width = rect.size.width - xValue - textContainerInset.right
             let height = rect.size.height - yValue - textContainerInset.bottom
-            
-            
             let placeHolderRect = CGRect(x: xValue, y: yValue, width: width, height: height)
             guard let gc = UIGraphicsGetCurrentContext() else { return }
             
@@ -84,62 +81,6 @@ class TextViewExtension: UITextView {
         }
     }
     
-    private func checkHeightConstraint() -> CGFloat {
-        let height = getHieght()
-        
-        if heightConstraint == nil {
-            heightConstraint = self.heightAnchor.constraint(equalToConstant: height)
-            
-            addConstraint(heightConstraint!)
-        }
-        return height
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-}
-
-@objc public protocol TextViewMasterDelegate: UITextViewDelegate {
-    @objc optional func growingTextView(growingTextView: UITextView, shouldChangeTextInRange range:NSRange, replacementText text:String) -> Bool
-    
-    @objc optional func growingTextViewShouldReturn(growingTextView: UITextView)
-    
-    @objc optional func growingTextView(growingTextView: UITextView, willChangeHeight height:CGFloat)
-    
-    @objc optional func growingTextView(growingTextView: UITextView, didChangeHeight height:CGFloat)
-}
-
-//MARK: - custom func
-extension TextViewExtension {
-    private func getHieght() -> CGFloat {
-        let size = sizeThatFits(CGSize(width: bounds.size.width, height: CGFloat.greatestFiniteMagnitude))
-        var height = size.height
-        height = minHeight > 0 ? max(height, minHeight) : height
-        height = maxHeight > 0 ? min(height, maxHeight) : height
-        return height
-    }
-    
-    private func scrollToBottom() {
-        let bottom = self.contentSize.height - self.bounds.size.height
-        
-        self.setContentOffset(CGPoint(x: 0, y: bottom), animated: false)
-    }
-    
-    private func getPlaceHolderAttribues() -> [NSAttributedString.Key: Any] {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = textAlignment
-        var attributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: placeHolderColor,
-            .paragraphStyle: paragraphStyle
-        ]
-        attributes[.font] = self.font
-        return attributes
-    }
-}
-
-//MARK: - NotificationCenter
-extension TextViewExtension {
     @objc private func textDidEndEditing(notification: Notification) {
         scrollToBottom()
     }
@@ -155,17 +96,67 @@ extension TextViewExtension {
             setNeedsDisplay()
         }
     }
+    
+    private func checkHeightConstraint() -> CGFloat {
+        let height = getHieght()
+        
+        if heightConstraint == nil {
+            heightConstraint = self.heightAnchor.constraint(equalToConstant: height)
+            
+            addConstraint(heightConstraint!)
+        }
+        return height
+    }
+    
+    private func getHieght() -> CGFloat {
+        let size = sizeThatFits(CGSize(width: bounds.size.width, height: CGFloat.greatestFiniteMagnitude))
+        var height = size.height
+        height = minHeight > 0 ? max(height, minHeight) : height
+        height = maxHeight > 0 ? min(height, maxHeight) : height
+        return height
+    }
+    
+    private func scrollToBottom() {
+        let bottom = self.contentSize.height - self.bounds.size.height
+        
+        setContentOffset(CGPoint(x: 0, y: bottom), animated: false)
+    }
+    
+    private func getPlaceHolderAttribues() -> [NSAttributedString.Key: Any] {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = textAlignment
+        var attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: placeHolderColor,
+            .paragraphStyle: paragraphStyle
+        ]
+        attributes[.font] = self.font
+        return attributes
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
-extension TextViewExtension: TextViewMasterDelegate {
+@objc public protocol TextViewExtensionDelegate: UITextViewDelegate {
+    @objc optional func growingTextView(growingTextView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool
+    
+    @objc optional func growingTextViewShouldReturn(growingTextView: UITextView)
+    
+    @objc optional func growingTextView(growingTextView: UITextView, willChangeHeight height: CGFloat)
+    
+    @objc optional func growingTextView(growingTextView: UITextView, didChangeHeight height: CGFloat)
+}
+
+extension TextViewExtension: TextViewExtensionDelegate {
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard textView.hasText || text != "" else { return false }
-        if let delegate = delegate as? TextViewMasterDelegate {
+        if let delegate = delegate as? TextViewExtensionDelegate {
             guard let value = delegate.growingTextView?(growingTextView: self, shouldChangeTextInRange: range, replacementText: text) else { return false }
             return value
         }
         if text == "\n" {
-            if let delegate = delegate as? TextViewMasterDelegate {
+            if let delegate = delegate as? TextViewExtensionDelegate {
                 delegate.growingTextViewShouldReturn?(growingTextView: self)
                 return true
             } else {

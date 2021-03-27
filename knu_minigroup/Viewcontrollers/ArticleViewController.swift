@@ -147,7 +147,7 @@ class ArticleViewController: UIViewController {
     */
 
 }
-extension ArticleViewController: TextViewMasterDelegate {
+extension ArticleViewController: TextViewExtensionDelegate {
     private func growingTextView(growingTextView: TextViewExtension, willChangeHeight height: CGFloat) {
         self.view.layoutIfNeeded()
     }
