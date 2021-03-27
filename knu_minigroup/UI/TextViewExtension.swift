@@ -16,6 +16,8 @@ class TextViewExtension: UITextView {
     @IBInspectable public var minHeight: CGFloat = 0
     
     @IBInspectable public var maxHeight: CGFloat = 0
+    
+    @IBInspectable public var cornerRadius: CGFloat = 0
 
     @IBInspectable public var placeHolder: String? {
         didSet { setNeedsDisplay() }
@@ -37,16 +39,11 @@ class TextViewExtension: UITextView {
         commonInit()
     }
     
-    private func commonInit() {
-        contentMode = .redraw
-        NotificationCenter.default.addObserver(self, selector: #selector(textDidChange), name: UITextView.textDidChangeNotification, object: self)
-        NotificationCenter.default.addObserver(self, selector: #selector(textDidEndEditing), name: UITextView.textDidEndEditingNotification, object: self)
-    }
-    
     override public func layoutSubviews() {
         super.layoutSubviews()
         let height = checkHeightConstraint()
         heightConstraint?.constant = height
+        layer.cornerRadius = cornerRadius
         
         if isAnimate {
             UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveLinear, animations: { [weak self] in
@@ -95,6 +92,12 @@ class TextViewExtension: UITextView {
             }
             setNeedsDisplay()
         }
+    }
+    
+    private func commonInit() {
+        contentMode = .redraw
+        NotificationCenter.default.addObserver(self, selector: #selector(textDidChange), name: UITextView.textDidChangeNotification, object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(textDidEndEditing), name: UITextView.textDidEndEditingNotification, object: self)
     }
     
     private func checkHeightConstraint() -> CGFloat {
