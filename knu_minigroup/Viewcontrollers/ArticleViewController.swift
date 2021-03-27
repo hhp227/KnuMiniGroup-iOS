@@ -28,10 +28,6 @@ class ArticleViewController: UIViewController {
         viewToolbar.translatesAutoresizingMaskIntoConstraints = false
         textViewInput.translatesAutoresizingMaskIntoConstraints = false
         buttonSend.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(viewToolbar)
-        viewToolbar.addSubview(textViewInput)
-        viewToolbar.addSubview(buttonSend)
 
         if #available(iOS 11.0, *) {
             viewToolbar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
@@ -43,7 +39,6 @@ class ArticleViewController: UIViewController {
             viewToolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         }
         bottomConstraint?.isActive = true
-        
         buttonSend.bottomAnchor.constraint(equalTo: viewToolbar.bottomAnchor).isActive = true
         buttonSend.trailingAnchor.constraint(equalTo: viewToolbar.trailingAnchor, constant: -8).isActive = true
         buttonSend.widthAnchor.constraint(equalToConstant: 40).isActive = true
@@ -53,7 +48,8 @@ class ArticleViewController: UIViewController {
         textViewInput.leadingAnchor.constraint(equalTo: viewToolbar.leadingAnchor, constant: 8).isActive = true
         textViewInput.trailingAnchor.constraint(equalTo: buttonSend.leadingAnchor, constant: -8).isActive = true
         textViewInput.bottomAnchor.constraint(equalTo: viewToolbar.bottomAnchor, constant: -8).isActive = true
-    
+        
+        view.addSubview(viewToolbar)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler))
