@@ -51,13 +51,7 @@ class ArticleViewController: UIViewController {
         
         view.addSubview(viewToolbar)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler))
-        view.addGestureRecognizer(tapGesture)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler)))
     }
     
     @IBAction func actionSend(_ sender: UIButton) {
@@ -142,6 +136,9 @@ class ArticleViewController: UIViewController {
     }
     */
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 extension ArticleViewController: TextViewExtensionDelegate {
     private func growingTextView(growingTextView: TextViewExtension, willChangeHeight height: CGFloat) {
