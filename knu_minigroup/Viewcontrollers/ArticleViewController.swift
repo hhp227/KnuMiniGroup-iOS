@@ -24,7 +24,6 @@ class ArticleViewController: UIViewController {
         
         textViewInput.delegate = self
         textViewInput.layer.cornerRadius = 5
-        textViewInput.placeHolderColor = UIColor(white: 0.8, alpha: 1.0)             //플레이스홀더 색상
      
         viewToolbar.translatesAutoresizingMaskIntoConstraints = false
         textViewInput.translatesAutoresizingMaskIntoConstraints = false
