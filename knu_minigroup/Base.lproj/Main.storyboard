@@ -298,13 +298,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QI2-7X-rab">
-                                <rect key="frame" x="0.0" y="801" width="414" height="61"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QI2-7X-rab">
+                                <rect key="frame" x="0.0" y="800" width="414" height="62"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nr9-GN-S43" customClass="TextViewExtension" customModule="knu_minigroup" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="8" width="344" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nr9-GN-S43" customClass="TextViewExtension" customModule="knu_minigroup" customModuleProvider="target">
+                                        <rect key="frame" x="8" y="8" width="344" height="46"/>
                                         <color key="backgroundColor" systemColor="systemTealColor"/>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -323,9 +321,8 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </textView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aQZ-WO-cOb">
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aQZ-WO-cOb">
                                         <rect key="frame" x="365" y="15" width="36" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Send"/>
                                         <connections>
                                             <action selector="actionSend:" destination="VP5-Ac-BOW" eventType="touchUpInside" id="aXD-Rr-h8i"/>
@@ -333,6 +330,14 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <constraints>
+                                    <constraint firstItem="aQZ-WO-cOb" firstAttribute="leading" secondItem="nr9-GN-S43" secondAttribute="trailing" constant="13" id="Wvr-1K-KZ9"/>
+                                    <constraint firstItem="nr9-GN-S43" firstAttribute="leading" secondItem="QI2-7X-rab" secondAttribute="leading" constant="8" id="XhY-OW-k6q"/>
+                                    <constraint firstAttribute="trailing" secondItem="aQZ-WO-cOb" secondAttribute="trailing" constant="13" id="cq7-cb-PTO"/>
+                                    <constraint firstItem="aQZ-WO-cOb" firstAttribute="bottom" secondItem="QI2-7X-rab" secondAttribute="bottom" constant="-13" id="j30-U3-dCH"/>
+                                    <constraint firstAttribute="bottom" secondItem="nr9-GN-S43" secondAttribute="bottom" constant="8" id="kfA-eJ-nLk"/>
+                                    <constraint firstItem="nr9-GN-S43" firstAttribute="top" secondItem="QI2-7X-rab" secondAttribute="top" constant="8" id="r0z-9W-h8i"/>
+                                </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FZZ-Tj-mki">
                                 <rect key="frame" x="0.0" y="88" width="414" height="717"/>
@@ -342,6 +347,9 @@
                         <viewLayoutGuide key="safeArea" id="kf6-sJ-1Ff"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="QI2-7X-rab" firstAttribute="leading" secondItem="FZZ-Tj-mki" secondAttribute="leading" id="F67-0k-TJH"/>
+                            <constraint firstItem="QI2-7X-rab" firstAttribute="trailing" secondItem="FZZ-Tj-mki" secondAttribute="trailing" id="MvL-9S-RyJ"/>
+                            <constraint firstItem="QI2-7X-rab" firstAttribute="bottom" secondItem="kf6-sJ-1Ff" secondAttribute="bottom" id="aul-iH-YaW"/>
                             <constraint firstAttribute="bottom" secondItem="FZZ-Tj-mki" secondAttribute="bottom" constant="91" id="efu-dH-fTH"/>
                             <constraint firstItem="FZZ-Tj-mki" firstAttribute="leading" secondItem="kf6-sJ-1Ff" secondAttribute="leading" id="mAc-RO-FzN"/>
                             <constraint firstItem="FZZ-Tj-mki" firstAttribute="trailing" secondItem="kf6-sJ-1Ff" secondAttribute="trailing" id="mEl-dc-gLi"/>
@@ -352,6 +360,7 @@
                     <connections>
                         <outlet property="buttonSend" destination="aQZ-WO-cOb" id="YNk-gl-JTC"/>
                         <outlet property="textViewInput" destination="nr9-GN-S43" id="cYW-is-2cX"/>
+                        <outlet property="toolbarBottomConstraint" destination="aul-iH-YaW" id="QjA-8h-1qW"/>
                         <outlet property="viewToolbar" destination="QI2-7X-rab" id="WPt-XN-4FU"/>
                     </connections>
                 </viewController>

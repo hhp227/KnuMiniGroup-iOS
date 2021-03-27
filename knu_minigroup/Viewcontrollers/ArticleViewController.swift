@@ -13,9 +13,9 @@ class ArticleViewController: UIViewController {
     
     @IBOutlet weak var textViewInput: TextViewExtension!
     
-    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var buttonSend: UIButton!
+    
+    @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,27 +25,7 @@ class ArticleViewController: UIViewController {
         textViewInput.delegate = self
         viewToolbar.translatesAutoresizingMaskIntoConstraints = false
         textViewInput.translatesAutoresizingMaskIntoConstraints = false
-        buttonSend.translatesAutoresizingMaskIntoConstraints = false
-        buttonSend.bottomAnchor.constraint(equalTo: viewToolbar.bottomAnchor).isActive = true
-        buttonSend.trailingAnchor.constraint(equalTo: viewToolbar.trailingAnchor, constant: -8).isActive = true
-        buttonSend.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        buttonSend.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        textViewInput.topAnchor.constraint(equalTo: viewToolbar.topAnchor, constant: 8).isActive = true
-        textViewInput.leadingAnchor.constraint(equalTo: viewToolbar.leadingAnchor, constant: 8).isActive = true
-        textViewInput.trailingAnchor.constraint(equalTo: buttonSend.leadingAnchor, constant: -8).isActive = true
-        textViewInput.bottomAnchor.constraint(equalTo: viewToolbar.bottomAnchor, constant: -8).isActive = true
         
-        if #available(iOS 11.0, *) {
-            viewToolbar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-            bottomConstraint = viewToolbar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-            viewToolbar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-            bottomConstraint?.isActive = true
-        } else {
-            viewToolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-            bottomConstraint = viewToolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            viewToolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-            bottomConstraint?.isActive = true
-        }
         view.addSubview(viewToolbar)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler)))
@@ -57,7 +37,7 @@ class ArticleViewController: UIViewController {
     
     @objc func keyboardWillChangeFrame(_ notification: Notification) {
         if let endFrame = ((notification as NSNotification).userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            bottomConstraint?.constant = {
+            toolbarBottomConstraint?.constant = {
                 var keyboardHeight = view.bounds.height - endFrame.origin.y
                 
                 if #available(iOS 11.0, *) {
