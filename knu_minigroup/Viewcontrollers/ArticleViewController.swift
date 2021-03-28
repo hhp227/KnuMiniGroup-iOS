@@ -62,6 +62,7 @@ class ArticleViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         /*NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: view.window)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: view.window)*/
+        NotificationCenter.default.removeObserver(self)
     }
     
     /*@objc private func keyboardWillShow(_ notification: Notification) {
@@ -114,10 +115,6 @@ class ArticleViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
 }
 extension ArticleViewController: TextViewExtensionDelegate {
     private func growingTextView(growingTextView: TextViewExtension, willChangeHeight height: CGFloat) {

@@ -233,18 +233,50 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UQq-B1-exj">
+                                <rect key="frame" x="0.0" y="88" width="414" height="736"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="inputText" rowHeight="200" id="xgs-KE-DSM">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="200"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xgs-KE-DSM" id="7Tc-D1-Svb">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rBc-GM-wf3">
+                                                    <rect key="frame" x="152" y="0.0" width="110" height="200"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </stackView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="iwY-gn-jtn"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="UQq-B1-exj" firstAttribute="trailing" secondItem="iwY-gn-jtn" secondAttribute="trailing" id="2Fa-Gw-yB4"/>
+                            <constraint firstItem="UQq-B1-exj" firstAttribute="top" secondItem="iwY-gn-jtn" secondAttribute="top" id="Cii-4w-gxZ"/>
+                            <constraint firstItem="iwY-gn-jtn" firstAttribute="bottom" secondItem="UQq-B1-exj" secondAttribute="bottom" constant="38" id="Ryc-ao-oYd"/>
                             <constraint firstItem="W9t-Qg-iMJ" firstAttribute="bottom" secondItem="iwY-gn-jtn" secondAttribute="bottom" id="TwV-ch-kwf"/>
                             <constraint firstItem="W9t-Qg-iMJ" firstAttribute="trailing" secondItem="iwY-gn-jtn" secondAttribute="trailing" id="XKz-GX-khy"/>
+                            <constraint firstItem="UQq-B1-exj" firstAttribute="leading" secondItem="iwY-gn-jtn" secondAttribute="leading" id="d2s-1r-LgQ"/>
                             <constraint firstItem="W9t-Qg-iMJ" firstAttribute="leading" secondItem="iwY-gn-jtn" secondAttribute="leading" id="fU9-Bt-zal"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cUJ-LC-AT2">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="S0t-Wg-ySU"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="S0t-Wg-ySU">
+                            <connections>
+                                <action selector="actionSend:" destination="Xh4-vy-YDk" id="uRs-8G-F6e"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="UQq-B1-exj" id="WQW-Fz-yKZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3ED-cX-hLY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -760,7 +792,7 @@
         <!--Navigation Controller-->
         <scene sceneID="bfg-RN-e71">
             <objects>
-                <navigationController storyboardIdentifier="MainNav" automaticallyAdjustsScrollViewInsets="NO" id="5VM-wI-AH2" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="mainNav" automaticallyAdjustsScrollViewInsets="NO" id="5VM-wI-AH2" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Qpc-3p-gcI">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -786,7 +818,7 @@
         <!--Navigation Controller-->
         <scene sceneID="tg0-Uf-u2g">
             <objects>
-                <navigationController storyboardIdentifier="UnivNoticeNav" automaticallyAdjustsScrollViewInsets="NO" id="PPV-oV-2vO" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="univNoticeNav" automaticallyAdjustsScrollViewInsets="NO" id="PPV-oV-2vO" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9pC-5C-PE9">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -805,6 +837,51 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Plh-VW-GiT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1119" y="-96"/>
+        </scene>
+        <!--시간표-->
+        <scene sceneID="Kfd-bf-Yim">
+            <objects>
+                <viewController id="6f9-fs-rb1" customClass="TimetableViewController" customModule="knu_minigroup" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hx4-KM-la5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="R9g-pK-L6R"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="시간표" id="LKR-EQ-XBR">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="hamburger-menu-icon" id="n5c-rz-uTl">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="barButtonItemClick:" destination="6f9-fs-rb1" id="PME-h6-A8M"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HUf-9t-pWR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1887" y="613"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Nya-NB-wQf">
+            <objects>
+                <navigationController storyboardIdentifier="timetableNav" automaticallyAdjustsScrollViewInsets="NO" id="Xzv-eq-MbJ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DRC-ol-DQX">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="6f9-fs-rb1" kind="relationship" relationship="rootViewController" id="Nt1-ns-CdM"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4bd-Lx-XLh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1888" y="-96"/>
         </scene>
     </scenes>
     <resources>

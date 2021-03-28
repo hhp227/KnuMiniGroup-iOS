@@ -20,6 +20,7 @@
 		0A218635257924F000ACD350 /* Tab3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A218634257924F000ACD350 /* Tab3ViewController.swift */; };
 		0A2186382579251A00ACD350 /* Tab4ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2186372579251A00ACD350 /* Tab4ViewController.swift */; };
 		0A236E8925F6638300C30737 /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A236E8825F6638300C30737 /* ArticleViewController.swift */; };
+		0A28F36E2610BBBC00A89069 /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28F36D2610BBBC00A89069 /* TimetableViewController.swift */; };
 		0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */; };
 		0A2F097A260CB95700BEF1C8 /* TextViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2F0979260CB95700BEF1C8 /* TextViewExtension.swift */; };
 		0A5D0F69250E317B008376EC /* UnivNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */; };
@@ -53,6 +54,7 @@
 		0A218634257924F000ACD350 /* Tab3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tab3ViewController.swift; path = knu_minigroup/Viewcontrollers/Tab3ViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A2186372579251A00ACD350 /* Tab4ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tab4ViewController.swift; path = knu_minigroup/Viewcontrollers/Tab4ViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A236E8825F6638300C30737 /* ArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ArticleViewController.swift; path = knu_minigroup/Viewcontrollers/ArticleViewController.swift; sourceTree = SOURCE_ROOT; };
+		0A28F36D2610BBBC00A89069 /* TimetableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimetableViewController.swift; sourceTree = "<group>"; };
 		0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0A2F0979260CB95700BEF1C8 /* TextViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewExtension.swift; sourceTree = "<group>"; };
 		0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnivNoticeViewController.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				0A2186372579251A00ACD350 /* Tab4ViewController.swift */,
 				0A236E8825F6638300C30737 /* ArticleViewController.swift */,
 				0ACEE73C2604E1C500A4D4C8 /* WriteViewController.swift */,
+				0A28F36D2610BBBC00A89069 /* TimetableViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 			files = (
 				0ADEF76825E25A010000F12D /* TabViewController.swift in Sources */,
 				0A1A3876257554A700278C08 /* TabLayout.swift in Sources */,
+				0A28F36E2610BBBC00A89069 /* TimetableViewController.swift in Sources */,
 				0A11347324FBFA650029C07C /* EmbedDrawerControllerSegue.swift in Sources */,
 				0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */,
 				0A11347124FB9C000029C07C /* DrawerController.swift in Sources */,

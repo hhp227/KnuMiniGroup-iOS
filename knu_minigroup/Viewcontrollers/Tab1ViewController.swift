@@ -46,5 +46,6 @@ class Tab1ViewController: TabViewController, UITableViewDelegate, UITableViewDat
         if segueDelegateFunc != nil {
             segueDelegateFunc!("articleDetail", cell)
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
