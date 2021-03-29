@@ -190,12 +190,12 @@ extension TabLayout {
         // Call didMoveToPage delegate function
         let currentController = controllerArray[index]
         let newVC = controllerArray[index]
-        newVC.view.frame = CGRect(x: self.view.frame.width * CGFloat(index), y: configuration.menuHeight, width: self.view.frame.width, height: self.view.frame.height - configuration.menuHeight)
+        newVC.view.frame = CGRect(x: view.frame.width * CGFloat(index), y: configuration.menuHeight, width: view.frame.width, height: view.frame.height - configuration.menuHeight)
         
         delegate?.willMoveToPage?(currentController, index: index)
         newVC.willMove(toParent: self)
-        self.addChild(newVC)
-        self.controllerScrollView.addSubview(newVC.view)
+        addChild(newVC)
+        controllerScrollView.addSubview(newVC.view)
         newVC.didMove(toParent: self)
     }
     
@@ -208,45 +208,42 @@ extension TabLayout {
         oldVC.didMove(toParent: nil)
     }
     
-    
-    // MARK: - Orientation Change
-    
     override open func viewDidLayoutSubviews() {
         // Configure controller scroll view content size
-        controllerScrollView.contentSize = CGSize(width: self.view.frame.width * CGFloat(controllerArray.count), height: self.view.frame.height - configuration.menuHeight)
+        controllerScrollView.contentSize = CGSize(width: view.frame.width * CGFloat(controllerArray.count), height: view.frame.height - configuration.menuHeight)
         let oldCurrentOrientationIsPortrait: Bool = currentOrientationIsPortrait
         
         if UIDevice.current.orientation != UIDeviceOrientation.unknown {
             currentOrientationIsPortrait = UIDevice.current.orientation.isPortrait || UIDevice.current.orientation.isFlat
         }
         if (oldCurrentOrientationIsPortrait && UIDevice.current.orientation.isLandscape) || (!oldCurrentOrientationIsPortrait && (UIDevice.current.orientation.isPortrait || UIDevice.current.orientation.isFlat)) {
-            let xOffset: CGFloat = CGFloat(self.currentPageIndex) * controllerScrollView.frame.width
+            let xOffset: CGFloat = CGFloat(currentPageIndex) * controllerScrollView.frame.width
             controllerScrollView.setContentOffset(CGPoint(x: xOffset, y: controllerScrollView.contentOffset.y), animated: false)
-            let ratio: CGFloat = (menuScrollView.contentSize.width - self.view.frame.width) / (controllerScrollView.contentSize.width - self.view.frame.width)
+            let ratio: CGFloat = (menuScrollView.contentSize.width - view.frame.width) / (controllerScrollView.contentSize.width - view.frame.width)
             didLayoutSubviewsAfterRotation = true
             
             //Resize menu items if using as segmented control
             if configuration.useMenuLikeSegmentedControl {
-                menuScrollView.contentSize = CGSize(width: self.view.frame.width, height: configuration.menuHeight)
+                menuScrollView.contentSize = CGSize(width: view.frame.width, height: configuration.menuHeight)
                 
                 // Resize selectionIndicator bar
-                let selectionIndicatorX: CGFloat = CGFloat(currentPageIndex) * (self.view.frame.width / CGFloat(self.controllerArray.count))
-                let selectionIndicatorWidth: CGFloat = self.view.frame.width / CGFloat(self.controllerArray.count)
-                selectionIndicatorView.frame = CGRect(x: selectionIndicatorX, y: self.selectionIndicatorView.frame.origin.y, width: selectionIndicatorWidth, height: self.selectionIndicatorView.frame.height)
+                let selectionIndicatorX: CGFloat = CGFloat(currentPageIndex) * (view.frame.width / CGFloat(controllerArray.count))
+                let selectionIndicatorWidth: CGFloat = view.frame.width / CGFloat(controllerArray.count)
+                selectionIndicatorView.frame = CGRect(x: selectionIndicatorX, y: selectionIndicatorView.frame.origin.y, width: selectionIndicatorWidth, height: selectionIndicatorView.frame.height)
                 
                 // Resize menu items
                 var index: Int = 0
                 
                 for item: MenuItemView in menuItems as [MenuItemView] {
-                    item.frame = CGRect(x: self.view.frame.width / CGFloat(controllerArray.count) * CGFloat(index), y: 0.0, width: self.view.frame.width / CGFloat(controllerArray.count), height: configuration.menuHeight)
-                    item.titleLabel!.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width / CGFloat(controllerArray.count), height: configuration.menuHeight)
+                    item.frame = CGRect(x: view.frame.width / CGFloat(controllerArray.count) * CGFloat(index), y: 0.0, width: view.frame.width / CGFloat(controllerArray.count), height: configuration.menuHeight)
+                    item.titleLabel!.frame = CGRect(x: 0.0, y: 0.0, width: view.frame.width / CGFloat(controllerArray.count), height: configuration.menuHeight)
                     item.menuItemSeparator!.frame = CGRect(x: item.frame.width - (configuration.menuItemSeparatorWidth / 2), y: item.menuItemSeparator!.frame.origin.y, width: item.menuItemSeparator!.frame.width, height: item.menuItemSeparator!.frame.height)
                     index += 1
                 }
             } else if configuration.centerMenuItems {
-                startingMenuMargin = startingMenuMargin < 0.0 ? 0.0 : ((self.view.frame.width - ((CGFloat(controllerArray.count) * configuration.menuItemWidth) + (CGFloat(controllerArray.count - 1) * configuration.menuMargin))) / 2.0) -  configuration.menuMargin
-                let selectionIndicatorX: CGFloat = self.configuration.menuItemWidth * CGFloat(currentPageIndex) + self.configuration.menuMargin * CGFloat(currentPageIndex + 1) + self.startingMenuMargin
-                selectionIndicatorView.frame = CGRect(x: selectionIndicatorX, y: self.selectionIndicatorView.frame.origin.y, width: self.selectionIndicatorView.frame.width, height: self.selectionIndicatorView.frame.height)
+                startingMenuMargin = startingMenuMargin < 0.0 ? 0.0 : ((view.frame.width - ((CGFloat(controllerArray.count) * configuration.menuItemWidth) + (CGFloat(controllerArray.count - 1) * configuration.menuMargin))) / 2.0) -  configuration.menuMargin
+                let selectionIndicatorX: CGFloat = configuration.menuItemWidth * CGFloat(currentPageIndex) + configuration.menuMargin * CGFloat(currentPageIndex + 1) + startingMenuMargin
+                selectionIndicatorView.frame = CGRect(x: selectionIndicatorX, y: selectionIndicatorView.frame.origin.y, width: selectionIndicatorView.frame.width, height: selectionIndicatorView.frame.height)
                 
                 // Recalculate frame for menu items if centered
                 var index: Int = 0
@@ -257,9 +254,9 @@ extension TabLayout {
                 }
             }
             for view in controllerScrollView.subviews {
-                view.frame = CGRect(x: self.view.frame.width * CGFloat(self.currentPageIndex), y: configuration.menuHeight, width: controllerScrollView.frame.width, height: self.view.frame.height - configuration.menuHeight)
+                view.frame = CGRect(x: view.frame.width * CGFloat(currentPageIndex), y: configuration.menuHeight, width: controllerScrollView.frame.width, height: view.frame.height - configuration.menuHeight)
             }
-            if menuScrollView.contentSize.width > self.view.frame.width {
+            if menuScrollView.contentSize.width > view.frame.width {
                 var offset: CGPoint = menuScrollView.contentOffset
                 offset.x = controllerScrollView.contentOffset.x * ratio
                 
@@ -274,7 +271,7 @@ extension TabLayout {
         // http://stackoverflow.com/questions/15490140/auto-layout-error
         //
         // Given the SO answer and caveats presented there, we'll call layoutIfNeeded() instead.
-        self.view.layoutIfNeeded()
+        view.layoutIfNeeded()
     }
     
     
@@ -315,6 +312,7 @@ extension TabLayout {
             }
             UIView.animate(withDuration: duration, animations: { () -> Void in
                 let xOffset: CGFloat = CGFloat(index) * self.controllerScrollView.frame.width
+                
                 self.controllerScrollView.setContentOffset(CGPoint(x: xOffset, y: self.controllerScrollView.contentOffset.y), animated: false)
             })
         }
@@ -804,7 +802,6 @@ extension TabLayout: UIScrollViewDelegate {
 }
 
 @objc public protocol TabLayoutDelegate {
-    // MARK: - Delegate functions
     @objc optional func willMoveToPage(_ controller: UIViewController, index: Int)
     
     @objc optional func didMoveToPage(_ controller: UIViewController, index: Int)

@@ -37,7 +37,6 @@ class MenuItemView: UIView {
     
     func configure(for pageMenu: TabLayout, controller: UIViewController, index: CGFloat) {
         if pageMenu.configuration.useMenuLikeSegmentedControl {
-            //**************************拡張*************************************
             if pageMenu.menuItemMargin > 0 {
                 let marginSum = pageMenu.menuItemMargin * CGFloat(pageMenu.controllerArray.count + 1)
                 let menuItemWidth = (pageMenu.view.frame.width - marginSum) / CGFloat(pageMenu.controllerArray.count)
@@ -46,21 +45,15 @@ class MenuItemView: UIView {
             } else {
                 setUpMenuItemView(CGFloat(pageMenu.view.frame.width) / CGFloat(pageMenu.controllerArray.count), menuScrollViewHeight: pageMenu.configuration.menuHeight, indicatorHeight: pageMenu.configuration.selectionIndicatorHeight, separatorPercentageHeight: pageMenu.configuration.menuItemSeparatorPercentageHeight, separatorWidth: pageMenu.configuration.menuItemSeparatorWidth, separatorRoundEdges: pageMenu.configuration.menuItemSeparatorRoundEdges, menuItemSeparatorColor: pageMenu.configuration.menuItemSeparatorColor)
             }
-            //**************************拡張ここまで*************************************
         } else {
             setUpMenuItemView(pageMenu.configuration.menuItemWidth, menuScrollViewHeight: pageMenu.configuration.menuHeight, indicatorHeight: pageMenu.configuration.selectionIndicatorHeight, separatorPercentageHeight: pageMenu.configuration.menuItemSeparatorPercentageHeight, separatorWidth: pageMenu.configuration.menuItemSeparatorWidth, separatorRoundEdges: pageMenu.configuration.menuItemSeparatorRoundEdges, menuItemSeparatorColor: pageMenu.configuration.menuItemSeparatorColor)
         }
         
-        // Configure menu item label font if font is set by user
         titleLabel!.font = pageMenu.configuration.menuItemFont
         titleLabel!.textAlignment = NSTextAlignment.center
         titleLabel!.textColor = pageMenu.configuration.unselectedMenuItemLabelColor
-        
-        //**************************拡張*************************************
         titleLabel!.adjustsFontSizeToFitWidth = pageMenu.configuration.titleTextSizeBasedOnMenuItemWidth
-        //**************************拡張ここまで*************************************
         
-        // Set title depending on if controller has a title set
         if controller.title != nil {
             titleLabel!.text = controller.title!
         } else {
