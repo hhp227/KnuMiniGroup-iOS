@@ -33,6 +33,8 @@ class ArticleViewController: UIViewController {
     
     @IBAction func actionSend(_ sender: UIButton) {
         print("send")
+        print(textViewInput.frame.height)
+        print(viewToolbar.frame.height)
     }
     
     @objc func keyboardWillChangeFrame(_ notification: Notification) {

@@ -11,6 +11,8 @@
 		0A11347124FB9C000029C07C /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347024FB9C000029C07C /* DrawerController.swift */; };
 		0A11347324FBFA650029C07C /* EmbedDrawerControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347224FBFA650029C07C /* EmbedDrawerControllerSegue.swift */; };
 		0A11347524FBFB2F0029C07C /* EmbedMainControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347424FBFB2F0029C07C /* EmbedMainControllerSegue.swift */; };
+		0A15CB7E2616024900B3AD9C /* SemesterTimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A15CB7D2616024900B3AD9C /* SemesterTimetableViewController.swift */; };
+		0A15CB812616026300B3AD9C /* MockTimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A15CB802616026300B3AD9C /* MockTimetableViewController.swift */; };
 		0A1A3876257554A700278C08 /* TabLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A3875257554A700278C08 /* TabLayout.swift */; };
 		0A1A38792575550C00278C08 /* TabLayoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A38782575550C00278C08 /* TabLayoutConfiguration.swift */; };
 		0A1A387C2575555500278C08 /* MenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A387B2575555500278C08 /* MenuItemView.swift */; };
@@ -45,6 +47,8 @@
 		0A11347024FB9C000029C07C /* DrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerController.swift; sourceTree = "<group>"; };
 		0A11347224FBFA650029C07C /* EmbedDrawerControllerSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbedDrawerControllerSegue.swift; sourceTree = "<group>"; };
 		0A11347424FBFB2F0029C07C /* EmbedMainControllerSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbedMainControllerSegue.swift; sourceTree = "<group>"; };
+		0A15CB7D2616024900B3AD9C /* SemesterTimetableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemesterTimetableViewController.swift; sourceTree = "<group>"; };
+		0A15CB802616026300B3AD9C /* MockTimetableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTimetableViewController.swift; sourceTree = "<group>"; };
 		0A1A3875257554A700278C08 /* TabLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabLayout.swift; sourceTree = "<group>"; };
 		0A1A38782575550C00278C08 /* TabLayoutConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabLayoutConfiguration.swift; sourceTree = "<group>"; };
 		0A1A387B2575555500278C08 /* MenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemView.swift; sourceTree = "<group>"; };
@@ -123,6 +127,8 @@
 				0A236E8825F6638300C30737 /* ArticleViewController.swift */,
 				0ACEE73C2604E1C500A4D4C8 /* WriteViewController.swift */,
 				0A28F36D2610BBBC00A89069 /* TimetableViewController.swift */,
+				0A15CB7D2616024900B3AD9C /* SemesterTimetableViewController.swift */,
+				0A15CB802616026300B3AD9C /* MockTimetableViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -253,6 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A15CB812616026300B3AD9C /* MockTimetableViewController.swift in Sources */,
 				0ADEF76825E25A010000F12D /* TabViewController.swift in Sources */,
 				0A1A3876257554A700278C08 /* TabLayout.swift in Sources */,
 				0A28F36E2610BBBC00A89069 /* TimetableViewController.swift in Sources */,
@@ -272,6 +279,7 @@
 				0A2F097A260CB95700BEF1C8 /* TextViewExtension.swift in Sources */,
 				0A11347524FBFB2F0029C07C /* EmbedMainControllerSegue.swift in Sources */,
 				0A218635257924F000ACD350 /* Tab3ViewController.swift in Sources */,
+				0A15CB7E2616024900B3AD9C /* SemesterTimetableViewController.swift in Sources */,
 				0A03AEA42519083F00677BDF /* CreateViewController.swift in Sources */,
 				0ACEE73D2604E1C500A4D4C8 /* WriteViewController.swift in Sources */,
 				0AAD5B08251A57A400B77FDA /* MainCollectionReusableView.swift in Sources */,

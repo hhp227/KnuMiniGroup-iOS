@@ -49,23 +49,23 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 20.0
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "This is Section Header"
-    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "inputText", for: indexPath)
-        cell.textLabel?.text = data[indexPath.section][indexPath.row]
-        cell.backgroundColor = .systemBlue
+        var cell: UITableViewCell
+        
+        switch indexPath.row {
+        case 0:
+            cell = tableView.dequeueReusableCell(withIdentifier: "inputText", for: indexPath)
+            //print(cell.viewWithTag(0))
+        default:
+            cell = tableView.dequeueReusableCell(withIdentifier: "image", for: indexPath)
+            cell.textLabel?.text = data[indexPath.section][indexPath.row]
+            cell.backgroundColor = .systemBlue
+        }
         return cell
     }
     
@@ -77,6 +77,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
         textView.constraints.forEach { (constraint) in
             if constraint.firstAttribute == .height {
                 constraint.constant = estimateSize.height
+                tableView.tableHeaderView?.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: estimateSize.height)
             }
         }
     }
