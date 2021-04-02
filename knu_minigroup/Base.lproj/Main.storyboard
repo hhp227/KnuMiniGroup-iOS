@@ -233,55 +233,61 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UQq-B1-exj">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UQq-B1-exj">
                                 <rect key="frame" x="0.0" y="88" width="414" height="736"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="inputText" rowHeight="106" id="xgs-KE-DSM">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="inputText" rowHeight="106" id="xgs-KE-DSM" customClass="WriteInputTextTableViewCell" customModule="knu_minigroup" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="106"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xgs-KE-DSM" id="7Tc-D1-Svb">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="106"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="rBc-GM-wf3">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="106"/>
-                                                    <subviews>
-                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Lorem ipsum " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="GgA-9d-DyH">
-                                                            <rect key="frame" x="0.0" y="0.0" width="414" height="36.5"/>
-                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="36.5" id="Aqn-tG-3Mw"/>
-                                                            </constraints>
-                                                            <color key="textColor" systemColor="labelColor"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                        </textView>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b1U-3M-YYl">
-                                                            <rect key="frame" x="0.0" y="52.5" width="414" height="1"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="1" id="PdV-QR-Pfi"/>
-                                                            </constraints>
-                                                        </view>
-                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Lorem ipsum " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="m3m-E6-LZ2">
-                                                            <rect key="frame" x="0.0" y="69.5" width="414" height="36.5"/>
-                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                            <color key="textColor" systemColor="labelColor"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                        </textView>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </stackView>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="제목을 입력하세요." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="C7a-gq-LeU">
+                                                    <rect key="frame" x="8" y="8" width="398" height="36.5"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="36.5" id="b64-AW-nrl"/>
+                                                        <constraint firstAttribute="height" constant="36.5" id="mpv-Jr-nYH"/>
+                                                    </constraints>
+                                                    <color key="textColor" systemColor="labelColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
+                                                </textView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NWF-Ys-Wbn">
+                                                    <rect key="frame" x="0.0" y="52.5" width="414" height="1"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="vLH-xd-M6W"/>
+                                                    </constraints>
+                                                </view>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="내용을 입력하세요." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NW0-q0-VEo">
+                                                    <rect key="frame" x="8" y="61.5" width="398" height="36.5"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <color key="textColor" systemColor="labelColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="rBc-GM-wf3" firstAttribute="leading" secondItem="7Tc-D1-Svb" secondAttribute="leading" id="55G-00-ig6"/>
-                                                <constraint firstItem="rBc-GM-wf3" firstAttribute="top" secondItem="7Tc-D1-Svb" secondAttribute="top" id="BbC-Lc-gtB"/>
-                                                <constraint firstAttribute="bottom" secondItem="rBc-GM-wf3" secondAttribute="bottom" id="ned-Xx-jjd"/>
-                                                <constraint firstAttribute="trailing" secondItem="rBc-GM-wf3" secondAttribute="trailing" id="sVK-I5-yGu"/>
+                                                <constraint firstAttribute="trailing" secondItem="NW0-q0-VEo" secondAttribute="trailing" constant="8" id="Bdd-2F-p1h"/>
+                                                <constraint firstAttribute="trailing" secondItem="NWF-Ys-Wbn" secondAttribute="trailing" id="Egy-Pa-35a"/>
+                                                <constraint firstItem="C7a-gq-LeU" firstAttribute="top" secondItem="7Tc-D1-Svb" secondAttribute="top" constant="8" id="T5S-Cd-TBp"/>
+                                                <constraint firstItem="NWF-Ys-Wbn" firstAttribute="leading" secondItem="7Tc-D1-Svb" secondAttribute="leading" id="UYb-ZA-Exa"/>
+                                                <constraint firstItem="NW0-q0-VEo" firstAttribute="leading" secondItem="7Tc-D1-Svb" secondAttribute="leading" constant="8" id="VG9-lk-0zB"/>
+                                                <constraint firstItem="NWF-Ys-Wbn" firstAttribute="top" secondItem="C7a-gq-LeU" secondAttribute="bottom" constant="8" id="bzw-cv-f5w"/>
+                                                <constraint firstItem="C7a-gq-LeU" firstAttribute="leading" secondItem="7Tc-D1-Svb" secondAttribute="leading" constant="8" id="nWn-ra-hk4"/>
+                                                <constraint firstItem="NW0-q0-VEo" firstAttribute="top" secondItem="NWF-Ys-Wbn" secondAttribute="bottom" constant="8" id="qtb-9E-YJ2"/>
+                                                <constraint firstAttribute="bottom" secondItem="NW0-q0-VEo" secondAttribute="bottom" constant="8" id="vcH-Do-auu"/>
+                                                <constraint firstAttribute="trailing" secondItem="C7a-gq-LeU" secondAttribute="trailing" constant="8" id="x96-m2-r0u"/>
+                                                <constraint firstItem="NWF-Ys-Wbn" firstAttribute="top" secondItem="C7a-gq-LeU" secondAttribute="bottom" constant="8" id="zHZ-51-c3C"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="inputContentTextView" destination="NW0-q0-VEo" id="DK5-Al-vFH"/>
+                                            <outlet property="inputTitleTextView" destination="C7a-gq-LeU" id="zAY-VB-2cH"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="image" rowHeight="250" id="3eu-cn-mYG">
                                         <rect key="frame" x="0.0" y="134" width="414" height="250"/>

@@ -9,6 +9,8 @@
 import UIKit
 
 class ArticleViewController: UIViewController {
+    
+    // 명칭UIname식으로 변수선언할것
     @IBOutlet weak var viewToolbar: UIView!
     
     @IBOutlet weak var textViewInput: TextViewExtension!

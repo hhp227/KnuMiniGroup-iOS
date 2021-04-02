@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
+class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     
     let data = [["Apple", "OSX", "iOS"], ["One", "Two", "Three", "Four"]]
@@ -17,20 +17,6 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.tableHeaderView = {
-            let header = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 150))
-            let textView = UITextView(frame: header.bounds)
-            header.backgroundColor = .systemOrange
-            header.addSubview(textView)
-            textView.translatesAutoresizingMaskIntoConstraints = false
-            textView.leadingAnchor.constraint(equalTo: header.leadingAnchor).isActive = true
-            textView.trailingAnchor.constraint(equalTo: header.trailingAnchor).isActive = true
-            textView.topAnchor.constraint(equalTo: header.topAnchor).isActive = true
-            textView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-            textView.delegate = self
-            textView.isScrollEnabled = false
-            return header
-        }()
     }
     
     @IBAction func actionSend(_ sender: UIBarButtonItem) {
@@ -46,6 +32,10 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Pass the selected object to the new view controller.
     }
     */
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -55,21 +45,32 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell
-        
-        switch indexPath.row {
-        case 0:
-            cell = tableView.dequeueReusableCell(withIdentifier: "inputText", for: indexPath)
-            //print(cell.viewWithTag(0))
-        default:
-            cell = tableView.dequeueReusableCell(withIdentifier: "image", for: indexPath)
+        if indexPath.row == 0, let inputTextCell = tableView.dequeueReusableCell(withIdentifier: "inputText", for: indexPath) as? WriteInputTextTableViewCell {
+            inputTextCell.heightDelegateFunc = { (cell, textView) -> Void in
+                let size = textView.bounds.size
+                let newSize = tableView.sizeThatFits(CGSize(width: size.width, height: CGFloat.greatestFiniteMagnitude))
+                
+                if size.height != newSize.height {
+                    UIView.setAnimationsEnabled(false)
+                    tableView.beginUpdates()
+                    tableView.endUpdates()
+                    UIView.setAnimationsEnabled(true)
+                    if let thisIndexPath = tableView.indexPath(for: cell) {
+                        tableView.scrollToRow(at: thisIndexPath, at: .bottom, animated: false)
+                    }
+                }
+            }
+            return inputTextCell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "image", for: indexPath)
             cell.textLabel?.text = data[indexPath.section][indexPath.row]
             cell.backgroundColor = .systemBlue
+            return cell
         }
-        return cell
     }
     
-    func textViewDidChange(_ textView: UITextView) {
+    // 일반 textView 길이 조절하는것
+    /*func textViewDidChange(_ textView: UITextView) {
         print(textView.text!)
         let size = CGSize(width: view.frame.width, height: .infinity)
         let estimateSize = textView.sizeThatFits(size)
@@ -77,8 +78,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
         textView.constraints.forEach { (constraint) in
             if constraint.firstAttribute == .height {
                 constraint.constant = estimateSize.height
-                tableView.tableHeaderView?.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: estimateSize.height)
             }
         }
-    }
+    }*/
 }

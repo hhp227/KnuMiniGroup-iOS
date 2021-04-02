@@ -9,6 +9,8 @@
 import UIKit
 
 class CreateViewController: UIViewController {
+    
+    // 명칭UIname식으로 변수선언할것
     @IBOutlet weak var textFieldGroupTitle: UITextField!
     
     @IBOutlet weak var textViewGroupDescription: UITextView!
