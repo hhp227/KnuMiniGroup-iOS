@@ -17,6 +17,7 @@ class WriteInputTextTableViewCell: UITableViewCell, UITextViewDelegate {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        inputTitleTextView.textContainer.maximumNumberOfLines = 1
         inputContentTextView.delegate = self
     }
 

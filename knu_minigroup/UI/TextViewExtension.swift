@@ -70,8 +70,8 @@ class TextViewExtension: UITextView {
             let width = rect.size.width - xValue - textContainerInset.right
             let height = rect.size.height - yValue - textContainerInset.bottom
             let placeHolderRect = CGRect(x: xValue, y: yValue, width: width, height: height)
-            guard let gc = UIGraphicsGetCurrentContext() else { return }
             
+            guard let gc = UIGraphicsGetCurrentContext() else { return }
             gc.saveGState()
             defer { gc.restoreGState() }
             placeHolder?.draw(in: placeHolderRect, withAttributes: getPlaceHolderAttribues())
@@ -96,6 +96,7 @@ class TextViewExtension: UITextView {
     
     private func commonInit() {
         contentMode = .redraw
+        
         NotificationCenter.default.addObserver(self, selector: #selector(textDidChange), name: UITextView.textDidChangeNotification, object: self)
         NotificationCenter.default.addObserver(self, selector: #selector(textDidEndEditing), name: UITextView.textDidEndEditingNotification, object: self)
     }

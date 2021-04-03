@@ -11,12 +11,24 @@ import UIKit
 class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var toolBarStackView: UIStackView!
+    
+    @IBOutlet weak var stackViewBottomConstraint: NSLayoutConstraint!
+    
     let data = [["Apple", "OSX", "iOS"], ["One", "Two", "Three", "Four"]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: view.window)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: view.window)
     }
     
     @IBAction func actionSend(_ sender: UIBarButtonItem) {
@@ -32,6 +44,67 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @objc func handleKeyboardNotification(_ notification: NSNotification) {
+        if let userInfo = notification.userInfo {
+            let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            let isKeyboardShowing = notification.name == UIResponder.keyboardWillShowNotification
+            
+            UIView.animate(withDuration: 0, delay: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
+                self.stackViewBottomConstraint.constant = isKeyboardShowing ? -keyboardFrame!.height : 0
+                
+                self.view.layoutIfNeeded()
+            }, completion: { (completed) in
+                /*if isKeyboardShowing {
+                    let indexPath = NSIndexPath(forItem: self.messages!.count - 1, inSection: 0)
+                     
+                    self.collectionView?.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: true)*/
+            })
+        }
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            toolBarStackView.frame.origin.y -= keyboardHeight
+            
+            excludeBottomPadding { $0 + $1 }
+        }
+        print("show")
+        print({ () -> Bool in
+            guard let keyboardWindowClass = NSClassFromString("UIRemoteKeyboardWindow") else {
+                return false
+            }
+                return UIApplication.shared.windows.contains(where: { $0.isKind(of: keyboardWindowClass) })
+            }())
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            toolBarStackView.frame.origin.y += keyboardHeight
+            
+            excludeBottomPadding { $0 - $1 }
+        }
+        print("hide")
+        print({ () -> Bool in
+            guard let keyboardWindowClass = NSClassFromString("UIRemoteKeyboardWindow") else {
+                return false
+            }
+                return UIApplication.shared.windows.contains(where: { $0.isKind(of: keyboardWindowClass) })
+            }())
+    }
+    
+    private func excludeBottomPadding(function: (CGFloat, CGFloat) -> CGFloat) {
+        if #available(iOS 11.0, *) {
+            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+            let bottomPadding = window?.safeAreaInsets.bottom
+            toolBarStackView.frame.origin.y = function(toolBarStackView.frame.origin.y, bottomPadding!)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
@@ -68,17 +141,4 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
             return cell
         }
     }
-    
-    // 일반 textView 길이 조절하는것
-    /*func textViewDidChange(_ textView: UITextView) {
-        print(textView.text!)
-        let size = CGSize(width: view.frame.width, height: .infinity)
-        let estimateSize = textView.sizeThatFits(size)
-        
-        textView.constraints.forEach { (constraint) in
-            if constraint.firstAttribute == .height {
-                constraint.constant = estimateSize.height
-            }
-        }
-    }*/
 }

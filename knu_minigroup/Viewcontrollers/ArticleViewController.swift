@@ -21,14 +21,9 @@ class ArticleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)*/
-        
         textViewInput.delegate = self
-        viewToolbar.translatesAutoresizingMaskIntoConstraints = false
         textViewInput.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(viewToolbar)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler)))
     }
@@ -64,44 +59,8 @@ class ArticleViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        /*NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: view.window)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: view.window)*/
         NotificationCenter.default.removeObserver(self)
     }
-    
-    /*@objc private func keyboardWillShow(_ notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            viewToolbar.frame.origin.y -= keyboardHeight
-            
-            excludeBottomPadding { $0 + $1 }
-        }
-        print("show")
-        print({ () -> Bool in
-            guard let keyboardWindowClass = NSClassFromString("UIRemoteKeyboardWindow") else {
-                return false
-            }
-                return UIApplication.shared.windows.contains(where: { $0.isKind(of: keyboardWindowClass) })
-            }())
-    }
-    
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            viewToolbar.frame.origin.y += keyboardHeight
-            
-            excludeBottomPadding { $0 - $1 }
-        }
-        print("hide")
-        print({ () -> Bool in
-            guard let keyboardWindowClass = NSClassFromString("UIRemoteKeyboardWindow") else {
-                return false
-            }
-                return UIApplication.shared.windows.contains(where: { $0.isKind(of: keyboardWindowClass) })
-            }())
-    }*/
     
     private func excludeBottomPadding(function: (CGFloat, CGFloat) -> CGFloat) {
         if #available(iOS 11.0, *) {
