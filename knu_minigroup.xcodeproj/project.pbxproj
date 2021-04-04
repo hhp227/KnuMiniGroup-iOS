@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0A03AEA42519083F00677BDF /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A03AEA32519083F00677BDF /* CreateViewController.swift */; };
+		0A0D928426197C9D00F1CBDE /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0D928326197C9D00F1CBDE /* Toast.swift */; };
+		0A0D92872619890300F1CBDE /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0D92862619890300F1CBDE /* ImageTableViewCell.swift */; };
 		0A11347124FB9C000029C07C /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347024FB9C000029C07C /* DrawerController.swift */; };
 		0A11347324FBFA650029C07C /* EmbedDrawerControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347224FBFA650029C07C /* EmbedDrawerControllerSegue.swift */; };
 		0A11347524FBFB2F0029C07C /* EmbedMainControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347424FBFB2F0029C07C /* EmbedMainControllerSegue.swift */; };
@@ -45,6 +47,8 @@
 
 /* Begin PBXFileReference section */
 		0A03AEA32519083F00677BDF /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CreateViewController.swift; path = knu_minigroup/Viewcontrollers/CreateViewController.swift; sourceTree = SOURCE_ROOT; };
+		0A0D928326197C9D00F1CBDE /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		0A0D92862619890300F1CBDE /* ImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
 		0A11347024FB9C000029C07C /* DrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerController.swift; sourceTree = "<group>"; };
 		0A11347224FBFA650029C07C /* EmbedDrawerControllerSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbedDrawerControllerSegue.swift; sourceTree = "<group>"; };
 		0A11347424FBFB2F0029C07C /* EmbedMainControllerSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbedMainControllerSegue.swift; sourceTree = "<group>"; };
@@ -107,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				0A2F0979260CB95700BEF1C8 /* TextViewExtension.swift */,
+				0A0D928326197C9D00F1CBDE /* Toast.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -175,6 +180,7 @@
 				0AAD5B05251A533F00B77FDA /* MainCollectionViewCell.swift */,
 				0AAD5B07251A57A400B77FDA /* MainCollectionReusableView.swift */,
 				0A27190F26175426009D919B /* WriteInputTextTableViewCell.swift */,
+				0A0D92862619890300F1CBDE /* ImageTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -265,6 +271,7 @@
 				0A15CB812616026300B3AD9C /* MockTimetableViewController.swift in Sources */,
 				0ADEF76825E25A010000F12D /* TabViewController.swift in Sources */,
 				0A1A3876257554A700278C08 /* TabLayout.swift in Sources */,
+				0A0D92872619890300F1CBDE /* ImageTableViewCell.swift in Sources */,
 				0A28F36E2610BBBC00A89069 /* TimetableViewController.swift in Sources */,
 				0A11347324FBFA650029C07C /* EmbedDrawerControllerSegue.swift in Sources */,
 				0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */,
@@ -279,6 +286,7 @@
 				0A236E8925F6638300C30737 /* ArticleViewController.swift in Sources */,
 				0AF3F4BB2517940F0005D5E3 /* FindViewController.swift in Sources */,
 				0AA26BFE24F22B9600FA4D5A /* AppDelegate.swift in Sources */,
+				0A0D928426197C9D00F1CBDE /* Toast.swift in Sources */,
 				0A2F097A260CB95700BEF1C8 /* TextViewExtension.swift in Sources */,
 				0A11347524FBFB2F0029C07C /* EmbedMainControllerSegue.swift in Sources */,
 				0A218635257924F000ACD350 /* Tab3ViewController.swift in Sources */,
