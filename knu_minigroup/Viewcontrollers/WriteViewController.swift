@@ -16,7 +16,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     @IBOutlet weak var stackViewBottomConstraint: NSLayoutConstraint!
     
-    var data: Array<Any> = [""]
+    var contents: Array<Any> = [""]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -182,9 +182,14 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
         present(alert, animated: true, completion: nil)
     }
     
-    /*func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }*/
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let imageContent = contents[indexPath.row] as? UIImage {
+            let imageCrop = imageContent.size.width / imageContent.size.height
+            return tableView.frame.width / imageCrop
+        } else {
+            return UITableView.automaticDimension
+        }
+    }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return indexPath.row != 0 ? indexPath : nil
@@ -195,7 +200,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return contents.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -218,10 +223,9 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "image", for: indexPath) as? ImageTableViewCell
             
-            if data[indexPath.row] is UIImage {
-                cell?.contentImageView.image = (data[indexPath.row] as! UIImage)
+            if let imageContent = contents[indexPath.row] as? UIImage {
+                cell?.contentImageView.image = imageContent
             }
-            cell!.backgroundColor = .systemBlue
             return cell!
         }
     }
@@ -234,7 +238,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
             
             // TODO if flagImageSave {} 작성해줘야함 아마 카메라로 찍었을때 찍은 사진이 포토갤러리에 저장되게 하는 내용을 작성할 예정
-            data.append(editedImage!)
+            contents.append(editedImage!)
             tableView.reloadData() // 임시코드
             //tableView.reloadRows(at: [IndexPath.init(row: data.count - 1, section: 0)], with: UITableView.RowAnimation.automatic)
         }
