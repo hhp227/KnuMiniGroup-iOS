@@ -196,6 +196,12 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView.cellForRow(at: indexPath) is ImageTableViewCell {
+            showAlert(title: "작업선택", [UIAlertAction(title: "삭제", style: UIAlertAction.Style.default, handler: { _ in
+                self.contents.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+            })])
+        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
@@ -239,8 +245,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
             
             // TODO if flagImageSave {} 작성해줘야함 아마 카메라로 찍었을때 찍은 사진이 포토갤러리에 저장되게 하는 내용을 작성할 예정
             contents.append(editedImage!)
-            tableView.reloadData() // 임시코드
-            //tableView.reloadRows(at: [IndexPath.init(row: data.count - 1, section: 0)], with: UITableView.RowAnimation.automatic)
+            tableView.insertRows(at: [IndexPath.init(row: contents.count - 1, section: 0)], with: UITableView.RowAnimation.automatic)
         }
         dismiss(animated: true, completion: nil)
     }
