@@ -64,7 +64,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 
                 self.present(imagePicker, animated: true, completion: nil)
             } else {
-                self.showAlert(title: "카메라 접근 불가", [UIAlertAction(title: "확인", style: UIAlertAction.Style.default, handler: nil)])
+                self.showAlert(title: "카메라 접근 불가", style: UIAlertController.Style.alert, UIAlertAction(title: "확인", style: UIAlertAction.Style.default, handler: nil))
             }
         }
         let cameraAction = UIAlertAction(title: "카메라", style: UIAlertAction.Style.default) { _ in
@@ -76,20 +76,16 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 
                 self.present(imagePicker, animated: true, completion: nil)
             } else {
-                self.showAlert(title: "카메라 접근 불가", [UIAlertAction(title: "확인", style: UIAlertAction.Style.default, handler: nil)])
+                self.showAlert(title: "카메라 접근 불가", style: UIAlertController.Style.alert, UIAlertAction(title: "확인", style: UIAlertAction.Style.default, handler: nil))
             }
         }
-        let actions = [galleryAction, cameraAction]
+        let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler: nil)
         
-        showAlert(title: "이미지 선택", actions)
+        showAlert(title: "이미지 선택", style: UIAlertController.Style.actionSheet, galleryAction, cameraAction, cancelAction)
     }
     
     @IBAction func actionVideo(_ sender: UIButton) {
-        let alert = UIAlertController(title: "동영상 선택", message:  nil, preferredStyle: UIAlertController.Style.alert)
-        let youtubeAction = UIAlertAction(title: "유튜브", style: UIAlertAction.Style.default, handler: nil)
-        
-        alert.addAction(youtubeAction)
-        present(alert, animated: true, completion: nil)
+        showAlert(title: "동영상 선택", style: UIAlertController.Style.actionSheet, UIAlertAction(title: "유튜브", style: UIAlertAction.Style.default, handler: nil), UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler: nil))
     }
     
     /*
@@ -175,8 +171,8 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    private func showAlert(title: String?, message: String? = nil, _ actions: [UIAlertAction]) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+    private func showAlert(title: String?, message: String? = nil, style: UIAlertController.Style, _ actions: UIAlertAction...) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: style)
         
         actions.forEach(alert.addAction)
         present(alert, animated: true, completion: nil)
@@ -197,10 +193,10 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView.cellForRow(at: indexPath) is ImageTableViewCell {
-            showAlert(title: "작업선택", [UIAlertAction(title: "삭제", style: UIAlertAction.Style.default, handler: { _ in
+            showAlert(title: "작업선택", style: UIAlertController.Style.actionSheet, UIAlertAction(title: "삭제", style: UIAlertAction.Style.default, handler: { _ in
                 self.contents.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
-            })])
+            }), UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler: nil))
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
