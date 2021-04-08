@@ -35,16 +35,16 @@ class Tab1ViewController: TabViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath)
-        cell.textLabel?.text = test[(indexPath as NSIndexPath).row]
-        return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath) as? ArticleTableViewCell
+        cell?.textLabel?.text = test[(indexPath as NSIndexPath).row]
+        return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath) as? ArticleTableViewCell
 
         if segueDelegateFunc != nil {
-            segueDelegateFunc!("articleDetail", cell)
+            segueDelegateFunc!("articleDetail", cell!)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }

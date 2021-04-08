@@ -24,7 +24,6 @@ class CreateViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         textFieldGroupTitle.delegate = self
-        textViewGroupDescription.placeholder = "그룹 설명을 입력하세요."
     }
 
     @IBAction func actionSend(_ sender: UIBarButtonItem) {
@@ -55,7 +54,7 @@ extension CreateViewController: UITextFieldDelegate {
     }
 }
 
-extension UITextView: UITextViewDelegate {
+/*extension UITextView: UITextViewDelegate {
     override open var bounds: CGRect {
         didSet {
             resizePlaceholder()
@@ -106,3 +105,4 @@ extension UITextView: UITextViewDelegate {
         }
     }
 }
+*/

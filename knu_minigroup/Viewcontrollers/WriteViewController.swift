@@ -41,7 +41,6 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBAction func actionSend(_ sender: UIBarButtonItem) {
         if let textInputCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? WriteInputTextTableViewCell {
             guard !textInputCell.inputTitleTextView.text.isEmpty else {
-                Toast.makeText(view: view, message: "제목을 입력하세요.", duration: Toast.LENGTH_LONG).show()
                 print("제목을 입력하세요.")
                 return
             }

@@ -231,7 +231,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="106"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="제목을 입력하세요." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="C7a-gq-LeU">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="C7a-gq-LeU">
                                                     <rect key="frame" x="8" y="8" width="398" height="36.5"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <constraints>
@@ -241,6 +241,13 @@
                                                     <color key="textColor" systemColor="labelColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="제목을 입력하세요."/>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
+                                                            <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="제목을 입력하세요."/>
+                                                    </userDefinedRuntimeAttributes>
                                                 </textView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NWF-Ys-Wbn">
                                                     <rect key="frame" x="0.0" y="52.5" width="414" height="1"/>
@@ -249,12 +256,15 @@
                                                         <constraint firstAttribute="height" constant="1" id="vLH-xd-M6W"/>
                                                     </constraints>
                                                 </view>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="내용을 입력하세요." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NW0-q0-VEo">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NW0-q0-VEo">
                                                     <rect key="frame" x="8" y="61.5" width="398" height="36.5"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <color key="textColor" systemColor="labelColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="내용을 입력하세요."/>
+                                                    </userDefinedRuntimeAttributes>
                                                 </textView>
                                             </subviews>
                                             <constraints>
@@ -363,12 +373,24 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ArticleCell" id="t8i-R1-diU">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ArticleCell" rowHeight="357" id="t8i-R1-diU" customClass="ArticleTableViewCell" customModule="knu_minigroup" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="357"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="t8i-R1-diU" id="ML9-su-AFs">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="357"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4J6-qX-X4i">
+                                                    <rect key="frame" x="20" y="11" width="374" height="335"/>
+                                                    <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="4J6-qX-X4i" firstAttribute="leading" secondItem="ML9-su-AFs" secondAttribute="leadingMargin" id="6X9-6i-NVZ"/>
+                                                <constraint firstItem="4J6-qX-X4i" firstAttribute="bottom" secondItem="ML9-su-AFs" secondAttribute="bottomMargin" id="Hbs-pd-TbR"/>
+                                                <constraint firstItem="4J6-qX-X4i" firstAttribute="top" secondItem="ML9-su-AFs" secondAttribute="topMargin" id="dUp-hw-gJk"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="4J6-qX-X4i" secondAttribute="trailing" id="eW8-nV-lis"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -389,7 +411,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3yD-dN-oG5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1200" y="2696"/>
+            <point key="canvasLocation" x="-1200" y="2695.9821428571427"/>
         </scene>
         <!--Article View Controller-->
         <scene sceneID="alP-ID-dbR">
@@ -975,6 +997,9 @@
         </systemColor>
         <systemColor name="systemGray4Color">
             <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
