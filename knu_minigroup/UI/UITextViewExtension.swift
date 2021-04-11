@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TextViewExtension: UITextView {
+class UITextViewExtension: UITextView {
     @IBInspectable public var isAnimate: Bool = true
 
     @IBInspectable public var maxLength: Int = 0
@@ -47,18 +47,18 @@ class TextViewExtension: UITextView {
         
         if isAnimate {
             UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveLinear, animations: { [weak self] in
-                guard let self = self, let delegate = self.delegate as? TextViewExtensionDelegate else { return }
-                delegate.growingTextView?(growingTextView: self, willChangeHeight: height)
+                guard let self = self, let delegate = self.delegate as? UITextViewExtensionDelegate else { return }
+                delegate.increaseHeight?(textView: self, willChangeHeight: height)
                 self.scrollToBottom()
             }) { [weak self] _ in
-                guard let self = self, let delegate = self.delegate as? TextViewExtensionDelegate else { return }
-                delegate.growingTextView?(growingTextView: self, didChangeHeight: height)
+                guard let self = self, let delegate = self.delegate as? UITextViewExtensionDelegate else { return }
+                delegate.increaseHeight?(textView: self, didChangeHeight: height)
             }
         } else {
-            guard let delegate = delegate as? TextViewExtensionDelegate else { return }
-            delegate.growingTextView?(growingTextView: self, willChangeHeight: height)
+            guard let delegate = delegate as? UITextViewExtensionDelegate else { return }
+            delegate.increaseHeight?(textView: self, willChangeHeight: height)
             self.scrollToBottom()
-            delegate.growingTextView?(growingTextView: self, didChangeHeight: height)
+            delegate.increaseHeight?(textView: self, didChangeHeight: height)
         }
     }
     
@@ -83,7 +83,7 @@ class TextViewExtension: UITextView {
     }
     
     @objc private func textDidChange(notification: Notification) {
-        if let sender = notification.object as? TextViewExtension, sender == self {
+        if let sender = notification.object as? UITextViewExtension, sender == self {
             if maxLength > 0 && text.count > maxLength {
                 let endIndex = text.index(text.startIndex, offsetBy: maxLength)
                 text = String(text[..<endIndex])
@@ -142,26 +142,26 @@ class TextViewExtension: UITextView {
     }
 }
 
-@objc public protocol TextViewExtensionDelegate: UITextViewDelegate {
-    @objc optional func growingTextView(growingTextView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool
+@objc public protocol UITextViewExtensionDelegate: UITextViewDelegate {
+    @objc optional func increaseHeight(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool
     
-    @objc optional func growingTextViewShouldReturn(growingTextView: UITextView)
+    @objc optional func increaseHeightShouldReturn(textView: UITextView)
     
-    @objc optional func growingTextView(growingTextView: UITextView, willChangeHeight height: CGFloat)
+    @objc optional func increaseHeight(textView: UITextView, willChangeHeight height: CGFloat)
     
-    @objc optional func growingTextView(growingTextView: UITextView, didChangeHeight height: CGFloat)
+    @objc optional func increaseHeight(textView: UITextView, didChangeHeight height: CGFloat)
 }
 
-extension TextViewExtension: TextViewExtensionDelegate {
+extension UITextViewExtension: UITextViewExtensionDelegate {
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard textView.hasText || text != "" else { return false }
-        if let delegate = delegate as? TextViewExtensionDelegate {
-            guard let value = delegate.growingTextView?(growingTextView: self, shouldChangeTextInRange: range, replacementText: text) else { return false }
+        if let delegate = delegate as? UITextViewExtensionDelegate {
+            guard let value = delegate.increaseHeight?(textView: self, shouldChangeTextInRange: range, replacementText: text) else { return false }
             return value
         }
         if text == "\n" {
-            if let delegate = delegate as? TextViewExtensionDelegate {
-                delegate.growingTextViewShouldReturn?(growingTextView: self)
+            if let delegate = delegate as? UITextViewExtensionDelegate {
+                delegate.increaseHeightShouldReturn?(textView: self)
                 return true
             } else {
                 textView.resignFirstResponder()
