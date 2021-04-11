@@ -9,29 +9,25 @@
 import UIKit
 
 class ArticleViewController: UIViewController {
+    @IBOutlet weak var toolbarView: UIView!
+
+    @IBOutlet weak var inputTextView: UITextViewExtension!
     
-    // 명칭UIname식으로 변수선언할것
-    @IBOutlet weak var viewToolbar: UIView!
-    
-    @IBOutlet weak var textViewInput: TextViewExtension!
-    
-    @IBOutlet weak var buttonSend: UIButton!
+    @IBOutlet weak var sendButton: UIButton!
     
     @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        textViewInput.delegate = self
-        textViewInput.translatesAutoresizingMaskIntoConstraints = false
+        inputTextView.delegate = self
+        inputTextView.translatesAutoresizingMaskIntoConstraints = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler)))
     }
     
     @IBAction func actionSend(_ sender: UIButton) {
-        print("send")
-        print(textViewInput.frame.height)
-        print(viewToolbar.frame.height)
+        print("actionSend")
     }
     
     @objc func keyboardWillChangeFrame(_ notification: Notification) {
@@ -66,7 +62,7 @@ class ArticleViewController: UIViewController {
         if #available(iOS 11.0, *) {
             let window = UIApplication.shared.windows.first { $0.isKeyWindow }
             let bottomPadding = window?.safeAreaInsets.bottom
-            viewToolbar.frame.origin.y = function(viewToolbar.frame.origin.y, bottomPadding!)
+            toolbarView.frame.origin.y = function(toolbarView.frame.origin.y, bottomPadding!)
         }
     }
     /*
@@ -79,8 +75,8 @@ class ArticleViewController: UIViewController {
     }
     */
 }
-extension ArticleViewController: TextViewExtensionDelegate {
-    private func growingTextView(growingTextView: TextViewExtension, willChangeHeight height: CGFloat) {
+extension ArticleViewController: UITextViewExtensionDelegate {
+    private func increaseHeight(textView: UITextViewExtension, willChangeHeight height: CGFloat) {
         self.view.layoutIfNeeded()
     }
 }

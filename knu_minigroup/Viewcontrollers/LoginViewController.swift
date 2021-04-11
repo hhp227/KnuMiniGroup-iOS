@@ -9,16 +9,16 @@
 import UIKit
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
-    @IBOutlet var textFieldId: UITextField!
+    @IBOutlet weak var idTextField: UITextField!
     
-    @IBOutlet var textFieldPassword: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
     
     let defaultValues = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        textFieldId.delegate = self
-        textFieldPassword.delegate = self
+        idTextField.delegate = self
+        passwordTextField.delegate = self
         
         if defaultValues.string(forKey: "userId") != nil {
             let drawerController = storyboard?.instantiateViewController(withIdentifier: "DrawerController") as! DrawerController
@@ -28,8 +28,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func loginClick(_ sender: UIButton) {
-        guard let id = textFieldId.text else { return }
-        guard let password = textFieldPassword.text else { return }
+        guard let id = idTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
         
         if !id.isEmpty && !password.isEmpty {
             let drawerController = storyboard?.instantiateViewController(withIdentifier: "DrawerController") as! DrawerController

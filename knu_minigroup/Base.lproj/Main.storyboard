@@ -120,8 +120,8 @@
                     <navigationItem key="navigationItem" id="Sfw-9I-8jL"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="textFieldId" destination="Ru4-hF-6Bj" id="EOR-Kd-hZM"/>
-                        <outlet property="textFieldPassword" destination="Uhf-6w-iYB" id="yyA-kC-nPM"/>
+                        <outlet property="idTextField" destination="Ru4-hF-6Bj" id="xWz-Ns-OUr"/>
+                        <outlet property="passwordTextField" destination="Uhf-6w-iYB" id="MfU-yE-0Ge"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -428,10 +428,10 @@
                                         <rect key="frame" x="365" y="11" width="36" height="30"/>
                                         <state key="normal" title="Send"/>
                                         <connections>
-                                            <action selector="actionSend:" destination="VP5-Ac-BOW" eventType="touchUpInside" id="aXD-Rr-h8i"/>
+                                            <action selector="actionSend:" destination="VP5-Ac-BOW" eventType="touchUpInside" id="LrB-sp-tdX"/>
                                         </connections>
                                     </button>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ISv-Uf-d1w" customClass="TextViewExtension" customModule="knu_minigroup" customModuleProvider="target">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ISv-Uf-d1w" customClass="UITextViewExtension" customModule="knu_minigroup" customModuleProvider="target">
                                         <rect key="frame" x="8" y="8" width="344" height="36"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <color key="textColor" systemColor="labelColor"/>
@@ -482,10 +482,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="sdU-7Y-vsr"/>
                     <connections>
-                        <outlet property="buttonSend" destination="aQZ-WO-cOb" id="YNk-gl-JTC"/>
-                        <outlet property="textViewInput" destination="ISv-Uf-d1w" id="La6-Ol-Fbd"/>
+                        <outlet property="inputTextView" destination="ISv-Uf-d1w" id="Bg7-RY-olf"/>
+                        <outlet property="sendButton" destination="aQZ-WO-cOb" id="RuC-5X-rtB"/>
                         <outlet property="toolbarBottomConstraint" destination="REP-S9-77i" id="Mt0-hR-8ad"/>
-                        <outlet property="viewToolbar" destination="QI2-7X-rab" id="WPt-XN-4FU"/>
+                        <outlet property="toolbarView" destination="QI2-7X-rab" id="Z7O-kz-qrK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eiO-E2-ev3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -27,7 +27,7 @@
 		0A27191026175426009D919B /* WriteInputTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A27190F26175426009D919B /* WriteInputTextTableViewCell.swift */; };
 		0A28F36E2610BBBC00A89069 /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28F36D2610BBBC00A89069 /* TimetableViewController.swift */; };
 		0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */; };
-		0A2F097A260CB95700BEF1C8 /* TextViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2F0979260CB95700BEF1C8 /* TextViewExtension.swift */; };
+		0A2F097A260CB95700BEF1C8 /* UITextViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2F0979260CB95700BEF1C8 /* UITextViewExtension.swift */; };
 		0A5D0F69250E317B008376EC /* UnivNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */; };
 		0A5D0F6B250E5F47008376EC /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0F6A250E5F47008376EC /* DrawerViewController.swift */; };
 		0AA26BFE24F22B9600FA4D5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA26BFD24F22B9600FA4D5A /* AppDelegate.swift */; };
@@ -67,7 +67,7 @@
 		0A27190F26175426009D919B /* WriteInputTextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteInputTextTableViewCell.swift; sourceTree = "<group>"; };
 		0A28F36D2610BBBC00A89069 /* TimetableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimetableViewController.swift; sourceTree = "<group>"; };
 		0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		0A2F0979260CB95700BEF1C8 /* TextViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewExtension.swift; sourceTree = "<group>"; };
+		0A2F0979260CB95700BEF1C8 /* UITextViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewExtension.swift; sourceTree = "<group>"; };
 		0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnivNoticeViewController.swift; sourceTree = "<group>"; };
 		0A5D0F6A250E5F47008376EC /* DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
 		0AA26BFA24F22B9600FA4D5A /* knu_minigroup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = knu_minigroup.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,7 +112,7 @@
 		0A2F0978260CB91E00BEF1C8 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				0A2F0979260CB95700BEF1C8 /* TextViewExtension.swift */,
+				0A2F0979260CB95700BEF1C8 /* UITextViewExtension.swift */,
 				0AFA0415261E013F00651160 /* Extension.swift */,
 			);
 			path = UI;
@@ -291,7 +291,7 @@
 				0A236E8925F6638300C30737 /* ArticleViewController.swift in Sources */,
 				0AF3F4BB2517940F0005D5E3 /* FindViewController.swift in Sources */,
 				0AA26BFE24F22B9600FA4D5A /* AppDelegate.swift in Sources */,
-				0A2F097A260CB95700BEF1C8 /* TextViewExtension.swift in Sources */,
+				0A2F097A260CB95700BEF1C8 /* UITextViewExtension.swift in Sources */,
 				0A11347524FBFB2F0029C07C /* EmbedMainControllerSegue.swift in Sources */,
 				0A218635257924F000ACD350 /* Tab3ViewController.swift in Sources */,
 				0A15CB7E2616024900B3AD9C /* SemesterTimetableViewController.swift in Sources */,
