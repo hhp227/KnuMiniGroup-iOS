@@ -9,5 +9,6 @@
 import UIKit
 
 class MainCollectionViewCell: UICollectionViewCell {
-    
+    override func awakeFromNib() {
+    }
 }

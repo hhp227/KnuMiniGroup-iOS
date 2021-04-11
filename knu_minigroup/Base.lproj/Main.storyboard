@@ -373,24 +373,12 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ArticleCell" rowHeight="357" id="t8i-R1-diU" customClass="ArticleTableViewCell" customModule="knu_minigroup" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="357"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="articleCell" rowHeight="300" id="uzh-Oe-HgZ" customClass="ArticleTableViewCell" customModule="knu_minigroup" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="300"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="t8i-R1-diU" id="ML9-su-AFs">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="357"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uzh-Oe-HgZ" id="8M5-Wb-wa1">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4J6-qX-X4i">
-                                                    <rect key="frame" x="20" y="11" width="374" height="335"/>
-                                                    <color key="backgroundColor" systemColor="systemGray6Color"/>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="4J6-qX-X4i" firstAttribute="leading" secondItem="ML9-su-AFs" secondAttribute="leadingMargin" id="6X9-6i-NVZ"/>
-                                                <constraint firstItem="4J6-qX-X4i" firstAttribute="bottom" secondItem="ML9-su-AFs" secondAttribute="bottomMargin" id="Hbs-pd-TbR"/>
-                                                <constraint firstItem="4J6-qX-X4i" firstAttribute="top" secondItem="ML9-su-AFs" secondAttribute="topMargin" id="dUp-hw-gJk"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="4J6-qX-X4i" secondAttribute="trailing" id="eW8-nV-lis"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -997,9 +985,6 @@
         </systemColor>
         <systemColor name="systemGray4Color">
             <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemGray6Color">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

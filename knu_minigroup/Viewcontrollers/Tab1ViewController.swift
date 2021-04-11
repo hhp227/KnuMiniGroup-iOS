@@ -9,15 +9,22 @@
 import UIKit
 
 class Tab1ViewController: TabViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    // TODO Storyboard로 바꿀것
     @IBOutlet weak var tableView: UITableView!
     
-    let test = ["아티클1", "아티클2", "아티클3"]
+    var data = [CellData]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = UITableView.automaticDimension
+        data = [CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal")]
         // Do any additional setup after loading the view.
+        tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: "articleCell")
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 200
     }
 
     /*
@@ -30,22 +37,32 @@ class Tab1ViewController: TabViewController, UITableViewDelegate, UITableViewDat
     }
     */
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return test.count
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "articleCell", for: indexPath) as? ArticleTableViewCell else {
+            fatalError()
+        }
+        cell.mainImage = data[indexPath.row].image
+        cell.message = data[indexPath.row].message
+        
+        cell.layoutSubviews()
+        return cell
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath) as? ArticleTableViewCell
-        cell?.textLabel?.text = test[(indexPath as NSIndexPath).row]
-        return cell!
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath) as? ArticleTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "articleCell", for: indexPath) as? ArticleTableViewCell
 
         if segueDelegateFunc != nil {
             segueDelegateFunc!("articleDetail", cell!)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
+}
+
+struct CellData {
+    let image: UIImage?
+    let message: String
 }
