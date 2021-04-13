@@ -19,12 +19,8 @@ class Tab1ViewController: TabViewController, UITableViewDelegate, UITableViewDat
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = UITableView.automaticDimension
         data = [CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal")]
         // Do any additional setup after loading the view.
-        tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: "articleCell")
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 200
     }
 
     /*
@@ -43,16 +39,6 @@ class Tab1ViewController: TabViewController, UITableViewDelegate, UITableViewDat
         }
         cell.mainImage = data[indexPath.row].image
         cell.message = data[indexPath.row].message
-        cell.contentView.layer.cornerRadius = 10.0
-        cell.contentView.layer.borderWidth = 1.0
-        cell.contentView.layer.borderColor = UIColor.clear.cgColor
-        cell.contentView.layer.masksToBounds = false
-        cell.layer.shadowColor = UIColor.gray.cgColor
-        cell.layer.shadowOffset = CGSize(width: 0, height: 1.0)
-        cell.layer.shadowRadius = 4.0
-        cell.layer.shadowOpacity = 1.0
-        cell.layer.masksToBounds = false
-        cell.layer.shadowPath = UIBezierPath(roundedRect: cell.bounds, cornerRadius: cell.contentView.layer.cornerRadius).cgPath
         
         cell.layoutSubviews()
         return cell

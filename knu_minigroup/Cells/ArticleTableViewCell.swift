@@ -29,20 +29,6 @@ class ArticleTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubview(mainImageView)
-        addSubview(messageView)
-        mainImageView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        mainImageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        mainImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        mainImageView.bottomAnchor.constraint(equalTo: self.messageView.topAnchor).isActive = true
-        
-        messageView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        messageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        messageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         if let message = message {
@@ -53,13 +39,19 @@ class ArticleTableViewCell: UITableViewCell {
         }
     }
     
-    required init?(coder: NSCoder) {
-        fatalError()
-    }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        addSubview(mainImageView)
+        addSubview(messageView)
+        mainImageView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        mainImageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        mainImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        mainImageView.bottomAnchor.constraint(equalTo: self.messageView.topAnchor).isActive = true
+        
+        messageView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        messageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        messageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
