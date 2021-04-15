@@ -8,12 +8,15 @@
 
 import UIKit
 
-class FindViewController: UIViewController {
-
+class FindViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet weak var tableView: UITableView!
+    
+    var data = [GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal"), GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal")]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
 
@@ -26,4 +29,19 @@ class FindViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as? GroupTableViewCell else {
+            fatalError()
+        }
+        cell.mainImage = data[indexPath.row].image
+        cell.messsage = data[indexPath.row].message
+        
+        cell.layoutSubviews()
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data.count
+    }
 }

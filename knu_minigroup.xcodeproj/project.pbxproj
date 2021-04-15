@@ -118,6 +118,8 @@
 		0A2F0978260CB91E00BEF1C8 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				0A11346F24FB9BC80029C07C /* DrawerController */,
+				0AC523DB25752E7100D2501E /* HeaderedTabScrollViewController */,
 				0A2F0979260CB95700BEF1C8 /* UITextViewExtension.swift */,
 				0AFA0415261E013F00651160 /* Extension.swift */,
 			);
@@ -178,9 +180,7 @@
 			children = (
 				0A3169D92628883100737A51 /* Dto */,
 				0A2F0978260CB91E00BEF1C8 /* UI */,
-				0AC523DB25752E7100D2501E /* HeaderedTabScrollViewController */,
 				0AAD5B04251A52E200B77FDA /* Cells */,
-				0A11346F24FB9BC80029C07C /* DrawerController */,
 				0A3D625C24FB7785001DB686 /* ViewControllers */,
 				0AA26BFD24F22B9600FA4D5A /* AppDelegate.swift */,
 				0AA26BFF24F22B9600FA4D5A /* SceneDelegate.swift */,
