@@ -130,7 +130,6 @@ open class TabLayout: UIViewController {
             controller.view.addSubview(self.view)
         }
         
-        
         //Build UI
         setUpUserInterface()
         if menuScrollView.subviews.count == 0 {

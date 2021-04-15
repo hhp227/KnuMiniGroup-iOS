@@ -8,19 +8,24 @@
 
 import UIKit
 
-class Tab1ViewController: TabViewController, UITableViewDelegate, UITableViewDataSource {
+class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     // TODO Storyboard로 바꿀것
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
-    var data = [CellData]()
+    var data = [ArticleItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-        data = [CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), CellData.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal")]
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        data = [ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal")]
+        
         // Do any additional setup after loading the view.
+        collectionView.layoutSubviews()
+        /*if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.estimatedItemSize = CGSize(width: collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right), height: 100)
+        }*/
     }
 
     /*
@@ -33,8 +38,8 @@ class Tab1ViewController: TabViewController, UITableViewDelegate, UITableViewDat
     }
     */
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "articleCell", for: indexPath) as? ArticleTableViewCell else {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "articleCell", for: indexPath) as? ArticleCollectionViewCell else {
             fatalError()
         }
         cell.mainImage = data[indexPath.row].image
@@ -44,21 +49,20 @@ class Tab1ViewController: TabViewController, UITableViewDelegate, UITableViewDat
         return cell
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return data.count
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "articleCell", for: indexPath) as? ArticleTableViewCell
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "articleCell", for: indexPath) as? ArticleCollectionViewCell
 
         if segueDelegateFunc != nil {
             segueDelegateFunc!("articleDetail", cell!)
         }
-        tableView.deselectRow(at: indexPath, animated: true)
     }
-}
-
-struct CellData {
-    let image: UIImage?
-    let message: String
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize() }
+        return CGSize(width: collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right), height: flowLayout.itemSize.height)
+    }
 }

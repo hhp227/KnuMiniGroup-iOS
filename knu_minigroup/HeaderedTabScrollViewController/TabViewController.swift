@@ -24,6 +24,6 @@ open class TabViewController: UIViewController, TabScrollViewDelegate {
     }
 }
 
-protocol TabScrollViewDelegate : UIScrollViewDelegate {
+protocol TabScrollViewDelegate: UIScrollViewDelegate {
     var scrollDelegateFunc: ((UIScrollView) -> Void)? { get set }
 }

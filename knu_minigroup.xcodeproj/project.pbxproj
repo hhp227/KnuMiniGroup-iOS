@@ -17,7 +17,7 @@
 		0A1A3876257554A700278C08 /* TabLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A3875257554A700278C08 /* TabLayout.swift */; };
 		0A1A38792575550C00278C08 /* TabLayoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A38782575550C00278C08 /* TabLayoutConfiguration.swift */; };
 		0A1A387C2575555500278C08 /* MenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A387B2575555500278C08 /* MenuItemView.swift */; };
-		0A1CFD35261F506E0069FB70 /* ArticleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1CFD34261F506E0069FB70 /* ArticleTableViewCell.swift */; };
+		0A1CFD35261F506E0069FB70 /* ArticleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1CFD34261F506E0069FB70 /* ArticleCollectionViewCell.swift */; };
 		0A211A5C2533745F00937FEF /* TabHostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A211A5B2533745F00937FEF /* TabHostViewController.swift */; };
 		0A21862F257924B700ACD350 /* Tab1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A21862E257924B700ACD350 /* Tab1ViewController.swift */; };
 		0A218632257924D100ACD350 /* Tab2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A218631257924D100ACD350 /* Tab2ViewController.swift */; };
@@ -28,6 +28,9 @@
 		0A28F36E2610BBBC00A89069 /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28F36D2610BBBC00A89069 /* TimetableViewController.swift */; };
 		0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */; };
 		0A2F097A260CB95700BEF1C8 /* UITextViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2F0979260CB95700BEF1C8 /* UITextViewExtension.swift */; };
+		0A3169D72628805E00737A51 /* GroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3169D62628805E00737A51 /* GroupTableViewCell.swift */; };
+		0A3169DB2628885E00737A51 /* GroupItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3169DA2628885E00737A51 /* GroupItem.swift */; };
+		0A3169DE26288B6200737A51 /* ArticleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3169DD26288B6200737A51 /* ArticleItem.swift */; };
 		0A5D0F69250E317B008376EC /* UnivNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */; };
 		0A5D0F6B250E5F47008376EC /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0F6A250E5F47008376EC /* DrawerViewController.swift */; };
 		0AA26BFE24F22B9600FA4D5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA26BFD24F22B9600FA4D5A /* AppDelegate.swift */; };
@@ -57,7 +60,7 @@
 		0A1A3875257554A700278C08 /* TabLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabLayout.swift; sourceTree = "<group>"; };
 		0A1A38782575550C00278C08 /* TabLayoutConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabLayoutConfiguration.swift; sourceTree = "<group>"; };
 		0A1A387B2575555500278C08 /* MenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemView.swift; sourceTree = "<group>"; };
-		0A1CFD34261F506E0069FB70 /* ArticleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTableViewCell.swift; sourceTree = "<group>"; };
+		0A1CFD34261F506E0069FB70 /* ArticleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCollectionViewCell.swift; sourceTree = "<group>"; };
 		0A211A5B2533745F00937FEF /* TabHostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TabHostViewController.swift; path = knu_minigroup/Viewcontrollers/TabHostViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A21862E257924B700ACD350 /* Tab1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tab1ViewController.swift; path = knu_minigroup/Viewcontrollers/Tab1ViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A218631257924D100ACD350 /* Tab2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tab2ViewController.swift; path = knu_minigroup/Viewcontrollers/Tab2ViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -68,6 +71,9 @@
 		0A28F36D2610BBBC00A89069 /* TimetableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimetableViewController.swift; sourceTree = "<group>"; };
 		0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0A2F0979260CB95700BEF1C8 /* UITextViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewExtension.swift; sourceTree = "<group>"; };
+		0A3169D62628805E00737A51 /* GroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTableViewCell.swift; sourceTree = "<group>"; };
+		0A3169DA2628885E00737A51 /* GroupItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupItem.swift; sourceTree = "<group>"; };
+		0A3169DD26288B6200737A51 /* ArticleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleItem.swift; sourceTree = "<group>"; };
 		0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnivNoticeViewController.swift; sourceTree = "<group>"; };
 		0A5D0F6A250E5F47008376EC /* DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
 		0AA26BFA24F22B9600FA4D5A /* knu_minigroup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = knu_minigroup.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,6 +124,15 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		0A3169D92628883100737A51 /* Dto */ = {
+			isa = PBXGroup;
+			children = (
+				0A3169DA2628885E00737A51 /* GroupItem.swift */,
+				0A3169DD26288B6200737A51 /* ArticleItem.swift */,
+			);
+			path = Dto;
+			sourceTree = "<group>";
+		};
 		0A3D625C24FB7785001DB686 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +176,7 @@
 		0AA26BFC24F22B9600FA4D5A /* knu_minigroup */ = {
 			isa = PBXGroup;
 			children = (
+				0A3169D92628883100737A51 /* Dto */,
 				0A2F0978260CB91E00BEF1C8 /* UI */,
 				0AC523DB25752E7100D2501E /* HeaderedTabScrollViewController */,
 				0AAD5B04251A52E200B77FDA /* Cells */,
@@ -183,7 +199,8 @@
 				0AAD5B07251A57A400B77FDA /* MainCollectionReusableView.swift */,
 				0A27190F26175426009D919B /* WriteInputTextTableViewCell.swift */,
 				0A0D92862619890300F1CBDE /* ImageTableViewCell.swift */,
-				0A1CFD34261F506E0069FB70 /* ArticleTableViewCell.swift */,
+				0A1CFD34261F506E0069FB70 /* ArticleCollectionViewCell.swift */,
+				0A3169D62628805E00737A51 /* GroupTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -281,10 +298,12 @@
 				0A11347124FB9C000029C07C /* DrawerController.swift in Sources */,
 				0AF5B9F02577E4CD00AC9890 /* PlaceholderViewController.swift in Sources */,
 				0A211A5C2533745F00937FEF /* TabHostViewController.swift in Sources */,
-				0A1CFD35261F506E0069FB70 /* ArticleTableViewCell.swift in Sources */,
+				0A1CFD35261F506E0069FB70 /* ArticleCollectionViewCell.swift in Sources */,
 				0A1A38792575550C00278C08 /* TabLayoutConfiguration.swift in Sources */,
+				0A3169DE26288B6200737A51 /* ArticleItem.swift in Sources */,
 				0A21862F257924B700ACD350 /* Tab1ViewController.swift in Sources */,
 				0AA26C0224F22B9600FA4D5A /* LoginViewController.swift in Sources */,
+				0A3169D72628805E00737A51 /* GroupTableViewCell.swift in Sources */,
 				0A5D0F69250E317B008376EC /* UnivNoticeViewController.swift in Sources */,
 				0AAD5B06251A533F00B77FDA /* MainCollectionViewCell.swift in Sources */,
 				0AFA0416261E013F00651160 /* Extension.swift in Sources */,
@@ -304,6 +323,7 @@
 				0AA26C0024F22B9600FA4D5A /* SceneDelegate.swift in Sources */,
 				0A1A387C2575555500278C08 /* MenuItemView.swift in Sources */,
 				0A5D0F6B250E5F47008376EC /* DrawerViewController.swift in Sources */,
+				0A3169DB2628885E00737A51 /* GroupItem.swift in Sources */,
 				0A218632257924D100ACD350 /* Tab2ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
