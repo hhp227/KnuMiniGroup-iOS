@@ -46,6 +46,7 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
         cell.message = data[indexPath.row].message
         
         cell.layoutSubviews()
+        cell.cardView()
         return cell
     }
     
