@@ -19,10 +19,11 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
-        data = [ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal")]
+        /*data = [ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal")]*/
         
         // Do any additional setup after loading the view.
         collectionView.layoutSubviews()
+        fetchArticleList()
         /*if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.estimatedItemSize = CGSize(width: collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right), height: 100)
         }*/
@@ -37,6 +38,10 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func fetchArticleList() {
+        data = [ArticleItem.init(auth: false, timestamp: 0, id: "0", uid: "0", name: "hhp227", title: "Hello World", content: "Hello World this is an article", date: "2021.04.20", replyCount: "3", images: nil, youtube: nil, image: nil, message: "Hello world"), ArticleItem.init(auth: false, timestamp: 0, id: "0", uid: "0", name: "test", title: "Second Item", content: "Have a nice day", date: "2021.04.20", replyCount: "2", images: [#imageLiteral(resourceName: "knu_minigroup")], youtube: nil, image: nil, message: "SecondItem")]
+    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "articleCell", for: indexPath) as? ArticleCollectionViewCell else {

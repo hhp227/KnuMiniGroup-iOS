@@ -10,6 +10,16 @@ import Foundation
 import UIKit
 
 struct ArticleItem {
+    let auth: Bool
+    
+    let timestamp: Int
+    
+    let id, uid, name, title, content, date, replyCount: String
+    
+    let images: [UIImage]?
+    
+    let youtube: String?
+    
     let image: UIImage?
     
     let message: String
