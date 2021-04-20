@@ -515,6 +515,8 @@
                                         <connections>
                                             <outlet property="articleImageView" destination="iMK-GV-lpP" id="fVr-vN-U1t"/>
                                             <outlet property="articleTextView" destination="Nxr-C0-kq4" id="uGg-yt-w16"/>
+                                            <outlet property="dateLabel" destination="xTX-0p-yhz" id="Eog-1F-10x"/>
+                                            <outlet property="titleLabel" destination="Ece-1o-sTY" id="lXU-XF-3mU"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

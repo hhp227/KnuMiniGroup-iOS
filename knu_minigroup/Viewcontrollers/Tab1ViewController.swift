@@ -19,11 +19,10 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
-        /*data = [ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), ArticleItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal")]*/
         
         // Do any additional setup after loading the view.
-        collectionView.layoutSubviews()
         fetchArticleList()
+        collectionView.layoutSubviews()
         /*if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.estimatedItemSize = CGSize(width: collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right), height: 100)
         }*/
@@ -49,6 +48,7 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
         }
         cell.mainImage = data[indexPath.row].image
         cell.message = data[indexPath.row].message
+        cell.articleItem = data[indexPath.row]
         
         cell.layoutSubviews()
         cell.cardView()

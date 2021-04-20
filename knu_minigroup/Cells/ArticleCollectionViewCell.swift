@@ -13,6 +13,12 @@ class ArticleCollectionViewCell: UICollectionViewCell {
     
     var mainImage: UIImage?
     
+    var articleItem: ArticleItem?
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    @IBOutlet weak var dateLabel: UILabel!
+    
     @IBOutlet weak var articleImageView: UIImageView!
     
     @IBOutlet weak var articleTextView: UITextView!
@@ -24,6 +30,10 @@ class ArticleCollectionViewCell: UICollectionViewCell {
         }
         /*if let image = mainImage {
             articleImageView.image = image
+        }*/
+        /*if let item = articleItem {
+            titleLabel.text = item.title
+            dateLabel.text = item.date
         }*/
     }
     
