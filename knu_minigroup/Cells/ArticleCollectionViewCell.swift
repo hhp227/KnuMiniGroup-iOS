@@ -31,10 +31,10 @@ class ArticleCollectionViewCell: UICollectionViewCell {
         /*if let image = mainImage {
             articleImageView.image = image
         }*/
-        /*if let item = articleItem {
+        if let item = articleItem {
             titleLabel.text = item.title
             dateLabel.text = item.date
-        }*/
+        }
     }
     
     override func awakeFromNib() {
