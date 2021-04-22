@@ -52,3 +52,13 @@ extension Tab3ViewController: UICollectionViewDataSource {
         return 10
     }
 }
+
+extension Tab3ViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize() }
+        let cellCount = floor(CGFloat(4))
+        let margin = CGFloat((flowLayout.sectionInset.left + flowLayout.sectionInset.right))
+        let width = (view.frame.size.width - margin * (cellCount - 1) - margin) / cellCount
+        return CGSize(width: width, height: width)
+    }
+}

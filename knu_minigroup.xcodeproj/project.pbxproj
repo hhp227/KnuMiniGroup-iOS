@@ -31,6 +31,7 @@
 		0A3169D72628805E00737A51 /* GroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3169D62628805E00737A51 /* GroupTableViewCell.swift */; };
 		0A3169DB2628885E00737A51 /* GroupItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3169DA2628885E00737A51 /* GroupItem.swift */; };
 		0A3169DE26288B6200737A51 /* ArticleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3169DD26288B6200737A51 /* ArticleItem.swift */; };
+		0A414F152631D9460023B3D8 /* MemberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A414F142631D9460023B3D8 /* MemberCollectionViewCell.swift */; };
 		0A5D0F69250E317B008376EC /* UnivNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */; };
 		0A5D0F6B250E5F47008376EC /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0F6A250E5F47008376EC /* DrawerViewController.swift */; };
 		0AA26BFE24F22B9600FA4D5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA26BFD24F22B9600FA4D5A /* AppDelegate.swift */; };
@@ -74,6 +75,7 @@
 		0A3169D62628805E00737A51 /* GroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTableViewCell.swift; sourceTree = "<group>"; };
 		0A3169DA2628885E00737A51 /* GroupItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupItem.swift; sourceTree = "<group>"; };
 		0A3169DD26288B6200737A51 /* ArticleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleItem.swift; sourceTree = "<group>"; };
+		0A414F142631D9460023B3D8 /* MemberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCollectionViewCell.swift; sourceTree = "<group>"; };
 		0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnivNoticeViewController.swift; sourceTree = "<group>"; };
 		0A5D0F6A250E5F47008376EC /* DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
 		0AA26BFA24F22B9600FA4D5A /* knu_minigroup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = knu_minigroup.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,6 +203,7 @@
 				0A0D92862619890300F1CBDE /* ImageTableViewCell.swift */,
 				0A1CFD34261F506E0069FB70 /* ArticleCollectionViewCell.swift */,
 				0A3169D62628805E00737A51 /* GroupTableViewCell.swift */,
+				0A414F142631D9460023B3D8 /* MemberCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				0A211A5C2533745F00937FEF /* TabHostViewController.swift in Sources */,
 				0A1CFD35261F506E0069FB70 /* ArticleCollectionViewCell.swift in Sources */,
 				0A1A38792575550C00278C08 /* TabLayoutConfiguration.swift in Sources */,
+				0A414F152631D9460023B3D8 /* MemberCollectionViewCell.swift in Sources */,
 				0A3169DE26288B6200737A51 /* ArticleItem.swift in Sources */,
 				0A21862F257924B700ACD350 /* Tab1ViewController.swift in Sources */,
 				0AA26C0224F22B9600FA4D5A /* LoginViewController.swift in Sources */,
