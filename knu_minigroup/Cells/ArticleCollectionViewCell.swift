@@ -23,18 +23,27 @@ class ArticleCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var articleTextView: UITextView!
     
+    @IBOutlet weak var likeButton: UIButton!
+    
+    @IBOutlet weak var replyButton: UIButton!
+    
     override func layoutSubviews() {
         super.layoutSubviews()
-        if let message = message {
-            articleTextView.text = message
-        }
-        /*if let image = mainImage {
-            articleImageView.image = image
-        }*/
         if let item = articleItem {
             titleLabel.text = item.title
             dateLabel.text = item.date
+            articleTextView.text = item.content
+            articleTextView.isScrollEnabled = false
+            articleTextView.translatesAutoresizingMaskIntoConstraints = true
+            
+            if !item.images.isEmpty {
+                articleImageView.image = item.images[0]
+            } else {
+                articleImageView.isHidden = true
+            }
         }
+        articleTextView.sizeToFit()
+     
     }
     
     override func awakeFromNib() {
@@ -42,4 +51,7 @@ class ArticleCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
 
+    @IBAction func actionLike(_ sender: UIButton) {
+        print("test")
+    }
 }

@@ -411,55 +411,49 @@
                                             <rect key="frame" x="0.0" y="0.0" width="394" height="430"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lee-AB-cyj">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BbP-ip-B2E">
                                                     <rect key="frame" x="0.0" y="0.0" width="394" height="380"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iMK-GV-lpP">
-                                                            <rect key="frame" x="0.0" y="210" width="394" height="50"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </imageView>
-                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BbP-ip-B2E">
-                                                            <rect key="frame" x="0.0" y="8" width="394" height="194"/>
+                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V30-WX-rB5">
+                                                            <rect key="frame" x="0.0" y="16" width="394" height="60"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <subviews>
-                                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V30-WX-rB5">
-                                                                    <rect key="frame" x="8" y="16" width="378" height="50"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xTX-0p-yhz">
+                                                                    <rect key="frame" x="83" y="26" width="303" height="16"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ece-1o-sTY">
-                                                                            <rect key="frame" x="75" y="0.0" width="303" height="18"/>
-                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                                            <nil key="textColor"/>
-                                                                            <nil key="highlightedColor"/>
-                                                                        </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xTX-0p-yhz">
-                                                                            <rect key="frame" x="75" y="21" width="303" height="16"/>
-                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                                            <nil key="textColor"/>
-                                                                            <nil key="highlightedColor"/>
-                                                                        </label>
-                                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qZY-zi-1mW">
-                                                                            <rect key="frame" x="15" y="0.0" width="50" height="50"/>
-                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                            <color key="backgroundColor" systemColor="linkColor"/>
-                                                                        </imageView>
-                                                                    </subviews>
-                                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                                </view>
-                                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Nxr-C0-kq4">
-                                                                    <rect key="frame" x="0.0" y="72" width="394" height="50"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                                                    <color key="textColor" systemColor="labelColor"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                                </textView>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ece-1o-sTY">
+                                                                    <rect key="frame" x="83" y="4" width="303" height="18"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qZY-zi-1mW">
+                                                                    <rect key="frame" x="15" y="0.0" width="60" height="60"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <color key="backgroundColor" systemColor="linkColor"/>
+                                                                </imageView>
                                                             </subviews>
                                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         </view>
+                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Nxr-C0-kq4">
+                                                            <rect key="frame" x="8" y="84" width="378" height="59"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                            <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                            <color key="textColor" systemColor="labelColor"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                        </textView>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iMK-GV-lpP">
+                                                            <rect key="frame" x="0.0" y="151" width="394" height="210"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <color key="backgroundColor" systemColor="systemGray3Color"/>
+                                                        </imageView>
                                                     </subviews>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GC5-gd-S3L">
@@ -477,6 +471,9 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="196" height="50"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <state key="normal" title="Button"/>
+                                                            <connections>
+                                                                <action selector="actionLike:" destination="U5Y-dn-BkB" eventType="touchUpInside" id="Vjf-Jn-kRE"/>
+                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ykc-SQ-1Hc">
                                                             <rect key="frame" x="198" y="0.0" width="196" height="50"/>
@@ -489,7 +486,6 @@
                                                             <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </view>
                                                     </subviews>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="KmW-mb-dyX" secondAttribute="trailing" id="IfS-CJ-d4d"/>
                                                         <constraint firstItem="KmW-mb-dyX" firstAttribute="leading" secondItem="GC5-gd-S3L" secondAttribute="leading" id="Wlu-tr-s3v"/>
@@ -497,18 +493,15 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="GC5-gd-S3L" firstAttribute="leading" secondItem="naP-M8-SZ3" secondAttribute="leading" id="1Q1-Vu-SUr"/>
-                                                <constraint firstItem="lee-AB-cyj" firstAttribute="top" secondItem="naP-M8-SZ3" secondAttribute="top" id="32r-KG-Qlf"/>
+                                                <constraint firstAttribute="trailing" secondItem="BbP-ip-B2E" secondAttribute="trailing" id="Ggz-2Z-hnd"/>
                                                 <constraint firstAttribute="trailing" secondItem="GC5-gd-S3L" secondAttribute="trailing" id="HEJ-11-MBJ"/>
-                                                <constraint firstAttribute="trailing" secondItem="lee-AB-cyj" secondAttribute="trailing" id="QfT-04-qyw"/>
+                                                <constraint firstItem="BbP-ip-B2E" firstAttribute="top" secondItem="naP-M8-SZ3" secondAttribute="top" id="OC4-aU-tmq"/>
                                                 <constraint firstItem="GC5-gd-S3L" firstAttribute="top" secondItem="naP-M8-SZ3" secondAttribute="top" constant="380" id="U6b-H0-8TO"/>
-                                                <constraint firstItem="GC5-gd-S3L" firstAttribute="top" secondItem="lee-AB-cyj" secondAttribute="bottom" id="cF2-ed-yWG"/>
-                                                <constraint firstItem="GC5-gd-S3L" firstAttribute="trailing" secondItem="lee-AB-cyj" secondAttribute="trailing" id="efH-n7-xav"/>
-                                                <constraint firstItem="GC5-gd-S3L" firstAttribute="leading" secondItem="lee-AB-cyj" secondAttribute="leading" id="fa2-r5-fIy"/>
-                                                <constraint firstItem="lee-AB-cyj" firstAttribute="leading" secondItem="naP-M8-SZ3" secondAttribute="leading" id="hCi-vh-qSP"/>
-                                                <constraint firstItem="GC5-gd-S3L" firstAttribute="top" secondItem="lee-AB-cyj" secondAttribute="bottom" id="tIj-BQ-lcN"/>
+                                                <constraint firstItem="BbP-ip-B2E" firstAttribute="leading" secondItem="naP-M8-SZ3" secondAttribute="leading" id="Yv1-42-e2T"/>
+                                                <constraint firstItem="GC5-gd-S3L" firstAttribute="top" secondItem="BbP-ip-B2E" secondAttribute="bottom" id="lZc-m4-dMy"/>
                                                 <constraint firstAttribute="bottom" secondItem="GC5-gd-S3L" secondAttribute="bottom" id="uQ3-XR-yqR"/>
                                             </constraints>
                                         </collectionViewCellContentView>
@@ -517,6 +510,8 @@
                                             <outlet property="articleImageView" destination="iMK-GV-lpP" id="fVr-vN-U1t"/>
                                             <outlet property="articleTextView" destination="Nxr-C0-kq4" id="uGg-yt-w16"/>
                                             <outlet property="dateLabel" destination="xTX-0p-yhz" id="Eog-1F-10x"/>
+                                            <outlet property="likeButton" destination="gAB-g5-9G6" id="zXS-Ce-2dM"/>
+                                            <outlet property="replyButton" destination="ykc-SQ-1Hc" id="8sW-US-Ph8"/>
                                             <outlet property="titleLabel" destination="Ece-1o-sTY" id="lXU-XF-3mU"/>
                                         </connections>
                                     </collectionViewCell>
@@ -1122,11 +1117,11 @@
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
+        <systemColor name="systemGray3Color">
+            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemGray4Color">
             <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

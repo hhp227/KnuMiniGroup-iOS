@@ -44,9 +44,7 @@ class DrawerViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let drawerController = parent as? DrawerController else {
-            return
-        }
+        guard let drawerController = parent as? DrawerController else { return }
         
         switch indexPath.row {
         case 0:

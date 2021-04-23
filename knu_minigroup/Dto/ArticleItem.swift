@@ -16,11 +16,7 @@ struct ArticleItem {
     
     let id, uid, name, title, content, date, replyCount: String
     
-    let images: [UIImage]?
+    let images: [UIImage]
     
     let youtube: String?
-    
-    let image: UIImage?
-    
-    let message: String
 }
