@@ -20,7 +20,7 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        // Do any additional setup after loading the view.
+        addRefreshControl()
         fetchArticleList()
         collectionView.layoutSubviews()
         /*if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -37,6 +37,22 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @objc func refreshControlDidChangeValue(refreshControl: UIRefreshControl) {
+        collectionView.reloadData()
+        refreshControl.endRefreshing()
+    }
+    
+    func addRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        
+        refreshControl.addTarget(self, action: #selector(refreshControlDidChangeValue), for: .valueChanged)
+        if #available(iOS 10.0, *) {
+            collectionView.refreshControl = refreshControl
+        } else {
+            collectionView.addSubview(refreshControl)
+        }
+    }
     
     func fetchArticleList() {
         data = [ArticleItem.init(auth: false, timestamp: 0, id: "0", uid: "0", name: "hhp227", title: "Hello World", content: "Hello World this is an article", date: "2021.04.20", replyCount: "3", images: [], youtube: nil), ArticleItem.init(auth: false, timestamp: 0, id: "0", uid: "0", name: "test", title: "Second Item", content: "Have a nice day", date: "2021.04.20", replyCount: "2", images: [#imageLiteral(resourceName: "knu_minigroup")], youtube: nil), ArticleItem.init(auth: false, timestamp: 0, id: "0", uid: "0", name: "hhp227", title: "Hello World", content: "Hello world Hello world Hello world Hello world Hello world Hello world Hello world Hello world Hello world \n Hello world \n Hello world \n Hello world \n Hello world", date: "2021.04.20", replyCount: "6", images: [], youtube: nil)]
