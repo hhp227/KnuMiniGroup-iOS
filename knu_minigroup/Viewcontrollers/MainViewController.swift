@@ -31,6 +31,7 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         
         collectionView.reloadData()
         setupCollectionView()
+        addRefreshControl()
     }
     
     override func viewDidLayoutSubviews() {
@@ -47,10 +48,26 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         }
     }
     
+    @objc func refreshControlDidChangeValue(refreshControl: UIRefreshControl) {
+        collectionView.reloadData()
+        refreshControl.endRefreshing()
+    }
+    
     func setupCollectionView() {
         let flow = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         flow.minimumInteritemSpacing = CGFloat(cellMarginSize)
         flow.minimumLineSpacing = CGFloat(cellMarginSize)
+    }
+    
+    func addRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        
+        refreshControl.addTarget(self, action: #selector(refreshControlDidChangeValue), for: .valueChanged)
+        if #available(iOS 10.0, *) {
+            collectionView.refreshControl = refreshControl
+        } else {
+            collectionView.addSubview(refreshControl)
+        }
     }
     
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
