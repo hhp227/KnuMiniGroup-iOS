@@ -17,9 +17,14 @@ class FindViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
+        addRefreshControl()
     }
     
-
+    @objc func refreshControlDidChangeValue(refreshControl: UIRefreshControl) {
+        tableView.reloadData()
+        refreshControl.endRefreshing()
+    }
     /*
     // MARK: - Navigation
 
@@ -29,6 +34,17 @@ class FindViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func addRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        
+        refreshControl.addTarget(self, action: #selector(refreshControlDidChangeValue), for: .valueChanged)
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as? GroupTableViewCell else {
