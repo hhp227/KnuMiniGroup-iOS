@@ -23,7 +23,7 @@ class ArticleCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var articleTextView: UITextView!
     
-    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
     
     @IBOutlet weak var replyButton: UIButton!
     
@@ -51,7 +51,7 @@ class ArticleCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
 
-    @IBAction func actionLike(_ sender: UIButton) {
-        print("test")
+    @IBAction func actionShare(_ sender: UIButton) {
+        print("Share")
     }
 }
