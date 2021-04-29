@@ -11,6 +11,8 @@ import UIKit
 class DrawerViewController: UITableViewController {
     @IBOutlet var drawerTableView: UITableView!
     
+    let userDefault = UserDefaults.standard
+    
     var menus = ["메인화면", "공지사항", "시간표", "로그아웃"]
     
     var menuIcons = ["", "", "", ""]
@@ -118,7 +120,7 @@ class DrawerViewController: UITableViewController {
         let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 100))
         let label = UILabel()
         label.frame = CGRect.init(x: 5, y: 5, width: headerView.frame.width - 10, height: headerView.frame.height - 10)
-        label.text = "테스트"
+        label.text = userDefault.string(forKey: "userId")
         
         headerView.addSubview(label)
         return headerView
