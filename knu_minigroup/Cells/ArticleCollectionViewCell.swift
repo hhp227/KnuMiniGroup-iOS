@@ -48,7 +48,7 @@ class ArticleCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        cardView()
     }
 
     @IBAction func actionShare(_ sender: UIButton) {

@@ -63,9 +63,6 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
             fatalError()
         }
         cell.articleItem = data[indexPath.row]
-        
-        cell.layoutSubviews()
-        cell.cardView()
         return cell
     }
     

@@ -9,6 +9,12 @@
 import UIKit
 
 class MainCollectionViewCell: UICollectionViewCell {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        cardView()
+    }
+    
     override func awakeFromNib() {
+        
     }
 }

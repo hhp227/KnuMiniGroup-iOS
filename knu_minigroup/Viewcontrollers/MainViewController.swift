@@ -96,10 +96,7 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        
-        cell.cardView()
-        return cell
+        return collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

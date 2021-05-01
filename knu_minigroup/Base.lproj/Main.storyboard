@@ -271,7 +271,9 @@
                                                         <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
                                                             <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="제목을 입력하세요."/>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="textContainer.maximumNumberOfLines">
+                                                            <integer key="value" value="1"/>
+                                                        </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </textView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NWF-Ys-Wbn">
