@@ -21,7 +21,7 @@ class ArticleCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var articleImageView: UIImageView!
     
-    @IBOutlet weak var articleTextView: UITextView!
+    @IBOutlet weak var contentLabel: UILabel!
     
     @IBOutlet weak var shareButton: UIButton!
     
@@ -32,9 +32,8 @@ class ArticleCollectionViewCell: UICollectionViewCell {
         if let item = articleItem {
             titleLabel.text = item.title
             dateLabel.text = item.date
-            articleTextView.text = item.content
-            articleTextView.isScrollEnabled = false
-            articleTextView.translatesAutoresizingMaskIntoConstraints = true
+            contentLabel.text = item.content
+            contentLabel.translatesAutoresizingMaskIntoConstraints = true
             
             if !item.images.isEmpty {
                 articleImageView.image = item.images[0]
@@ -42,7 +41,7 @@ class ArticleCollectionViewCell: UICollectionViewCell {
                 articleImageView.isHidden = true
             }
         }
-        articleTextView.sizeToFit()
+        contentLabel.sizeToFit()
      
     }
     
