@@ -35,7 +35,6 @@ class ArticleCollectionViewCell: UICollectionViewCell {
             titleLabel.text = item.title
             dateLabel.text = item.date
             contentLabel.text = item.content
-            contentLabel.translatesAutoresizingMaskIntoConstraints = true
             
             if !item.images.isEmpty {
                 articleImageView.image = item.images[0]
