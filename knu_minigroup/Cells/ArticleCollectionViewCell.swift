@@ -23,6 +23,8 @@ class ArticleCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var contentLabel: UILabel!
     
+    @IBOutlet weak var moreLabel: UILabel!
+    
     @IBOutlet weak var shareButton: UIButton!
     
     @IBOutlet weak var replyButton: UIButton!
