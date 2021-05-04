@@ -36,6 +36,11 @@ class ArticleCollectionViewCell: UICollectionViewCell {
             dateLabel.text = item.date
             contentLabel.text = item.content
             
+            if !item.content.isEmpty && contentLabel.getLineCount() > contentLabel.numberOfLines {
+                moreLabel.isHidden = false
+            } else {
+                moreLabel.isHidden = true
+            }
             if !item.images.isEmpty {
                 articleImageView.image = item.images[0]
             } else {
