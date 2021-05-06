@@ -48,6 +48,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 print("내용을 입력하세요.")
                 return
             }
+            navigationController?.popViewController(animated: true)
         }
     }
     
