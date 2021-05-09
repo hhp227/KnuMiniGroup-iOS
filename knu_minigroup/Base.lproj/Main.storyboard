@@ -372,7 +372,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cUJ-LC-AT2">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="S0t-Wg-ySU">
+                        <barButtonItem key="rightBarButtonItem" title="전송" id="S0t-Wg-ySU">
                             <connections>
                                 <action selector="actionSend:" destination="Xh4-vy-YDk" id="uRs-8G-F6e"/>
                             </connections>
