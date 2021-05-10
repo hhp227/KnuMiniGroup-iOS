@@ -480,11 +480,9 @@
                                                                 <constraint firstAttribute="height" constant="1" id="kJz-wa-zdK"/>
                                                             </constraints>
                                                         </view>
-                                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gAB-g5-9G6" userLabel="Share Button">
+                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gAB-g5-9G6" userLabel="Share Button">
                                                             <rect key="frame" x="0.0" y="0.0" width="196" height="41"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="196" id="kZy-ZA-WiH"/>
-                                                            </constraints>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <state key="normal" title="공유하기"/>
                                                             <connections>
                                                                 <action selector="actionShare:" destination="U5Y-dn-BkB" eventType="touchUpInside" id="PdH-Vo-89F"/>
