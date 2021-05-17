@@ -154,7 +154,7 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
             let cell = sender as! ArticleCollectionViewCell
             
             //TODO
-            print(cell)
+            print(cell.message)
         }
     }
 
