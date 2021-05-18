@@ -160,20 +160,20 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
 
     // HeaderedTabScrollViewController
     public func setNavBarRightItems(items: [UIBarButtonItem]) {
-        self.navigationItem.rightBarButtonItems = items
-        self.navigationItem.rightBarButtonItem?.tintColor = .white
+        navigationItem.rightBarButtonItems = items
+        navigationItem.rightBarButtonItem?.tintColor = .white
     }
     
     public func setNavbarTitleTransparency(alpha: CGFloat) {
-        if let navCtrl = self.navigationController {
+        if let navCtrl = navigationController {
             let navBar = navCtrl.navigationBar
             navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white.withAlphaComponent(alpha)]
         }
     }
     
     public func setNavBarLeftItems(items: [UIBarButtonItem]) {
-        self.navigationItem.leftBarButtonItems = items
-        self.navigationItem.leftBarButtonItem?.tintColor = .white
+        navigationItem.leftBarButtonItems = items
+        navigationItem.leftBarButtonItem?.tintColor = .white
     }
     
     public func pleaseScroll(_ scrollView: UIScrollView) {
@@ -223,7 +223,7 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     }
     
     func navBarOffset() -> CGFloat {
-        return (self.navigationController?.navigationBar.bounds.height ?? 0) + (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0)
+        return (navigationController?.navigationBar.bounds.height ?? 0) + (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0)
     }
     
     /*open func updateNavBarAccordingToScrollPosition(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
