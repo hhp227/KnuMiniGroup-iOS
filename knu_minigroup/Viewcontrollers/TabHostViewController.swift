@@ -23,6 +23,8 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     
     var tabTopConstraint: NSLayoutConstraint?
     
+    var controllers: [TabViewController] = []
+    
     private var lastTabScrollViewOffset: CGPoint = .zero
 
     public var headerHeight: CGFloat = 240 {
@@ -62,7 +64,7 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
             .menuItemFont(UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)),
             .menuItemWidthBasedOnTitleTextWidth(false)
         ]
-        let controllers: [TabViewController] = {
+        controllers = {
             let array = [
                 storyboard?.instantiateViewController(withIdentifier: "Tab1ViewController") as! TabViewController,
                 storyboard?.instantiateViewController(withIdentifier: "Tab2ViewController") as! TabViewController,
@@ -74,7 +76,6 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
                 array[i].scrollDelegateFunc = pleaseScroll
                 array[i].segueDelegateFunc = {
                     self.performSegue(withIdentifier: $0, sender: $1)
-                    print("Test \(i)")
                 }
                 array[i].title = tabsTexts[i]
             }
@@ -149,14 +150,14 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         //self.navBarTransparancy = alpha
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "articleDetail" {
             let cell = sender as! ArticleCollectionViewCell
             
             //TODO
-            print(cell.message)
+            print("cell: \(cell)")
         }
-    }
+    }*/
 
     // HeaderedTabScrollViewController
     public func setNavBarRightItems(items: [UIBarButtonItem]) {
