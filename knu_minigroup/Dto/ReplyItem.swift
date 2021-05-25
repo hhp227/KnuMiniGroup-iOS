@@ -9,5 +9,9 @@
 import UIKit
 
 struct ReplyItem {
+    let auth: Bool
     
+    let timestamp: Int
+    
+    let id, uid, name, date, reply: String
 }

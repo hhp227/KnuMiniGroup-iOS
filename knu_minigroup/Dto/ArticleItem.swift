@@ -6,7 +6,6 @@
 //  Copyright © 2021 홍희표. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 struct ArticleItem {
