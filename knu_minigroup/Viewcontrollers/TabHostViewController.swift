@@ -150,14 +150,15 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         //self.navBarTransparancy = alpha
     }
     
-    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "articleDetail" {
             let cell = sender as! ArticleCollectionViewCell
             
+            
             //TODO
-            print("cell: \(cell)")
+            print("cell: \(cell), destination: \(segue.destination)")
         }
-    }*/
+    }
 
     // HeaderedTabScrollViewController
     public func setNavBarRightItems(items: [UIBarButtonItem]) {
