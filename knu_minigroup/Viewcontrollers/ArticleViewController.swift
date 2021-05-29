@@ -17,10 +17,13 @@ class ArticleViewController: UIViewController {
     
     @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
     
+    var articleItem: ArticleItem? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         inputTextView.delegate = self
         inputTextView.translatesAutoresizingMaskIntoConstraints = false
+        print(articleItem)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler)))

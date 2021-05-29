@@ -23,8 +23,6 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     
     var tabTopConstraint: NSLayoutConstraint?
     
-    var controllers: [TabViewController] = []
-    
     private var lastTabScrollViewOffset: CGPoint = .zero
 
     public var headerHeight: CGFloat = 240 {
@@ -64,7 +62,7 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
             .menuItemFont(UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)),
             .menuItemWidthBasedOnTitleTextWidth(false)
         ]
-        controllers = {
+        let controllers: [TabViewController] = {
             let array = [
                 storyboard?.instantiateViewController(withIdentifier: "Tab1ViewController") as! TabViewController,
                 storyboard?.instantiateViewController(withIdentifier: "Tab2ViewController") as! TabViewController,
@@ -154,9 +152,12 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         if segue.identifier == "articleDetail" {
             let cell = sender as! ArticleCollectionViewCell
             
-            
+            if let tab1ViewController = pageMenuController?.controllerArray[0] as? Tab1ViewController {
+                print(tab1ViewController.data)
+            }
             //TODO
             print("cell: \(cell), destination: \(segue.destination)")
+            print("articleItem: \(cell.articleItem)")
         }
     }
 
