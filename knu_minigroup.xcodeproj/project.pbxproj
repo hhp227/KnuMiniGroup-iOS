@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A03AEA42519083F00677BDF /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A03AEA32519083F00677BDF /* CreateViewController.swift */; };
+		0A0D74662663C034000DAB30 /* PictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0D74652663C034000DAB30 /* PictureViewController.swift */; };
 		0A0D92872619890300F1CBDE /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0D92862619890300F1CBDE /* ImageTableViewCell.swift */; };
 		0A11347124FB9C000029C07C /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347024FB9C000029C07C /* DrawerController.swift */; };
 		0A11347324FBFA650029C07C /* EmbedDrawerControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11347224FBFA650029C07C /* EmbedDrawerControllerSegue.swift */; };
@@ -53,6 +54,7 @@
 
 /* Begin PBXFileReference section */
 		0A03AEA32519083F00677BDF /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CreateViewController.swift; path = knu_minigroup/Viewcontrollers/CreateViewController.swift; sourceTree = SOURCE_ROOT; };
+		0A0D74652663C034000DAB30 /* PictureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PictureViewController.swift; path = knu_minigroup/Viewcontrollers/PictureViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A0D92862619890300F1CBDE /* ImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
 		0A11347024FB9C000029C07C /* DrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerController.swift; sourceTree = "<group>"; };
 		0A11347224FBFA650029C07C /* EmbedDrawerControllerSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbedDrawerControllerSegue.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				0A28F36D2610BBBC00A89069 /* TimetableViewController.swift */,
 				0A15CB7D2616024900B3AD9C /* SemesterTimetableViewController.swift */,
 				0A15CB802616026300B3AD9C /* MockTimetableViewController.swift */,
+				0A0D74652663C034000DAB30 /* PictureViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */,
 				0A11347124FB9C000029C07C /* DrawerController.swift in Sources */,
 				0AF5B9F02577E4CD00AC9890 /* PlaceholderViewController.swift in Sources */,
+				0A0D74662663C034000DAB30 /* PictureViewController.swift in Sources */,
 				0AD204D1265D481F00D24E66 /* ReplyItem.swift in Sources */,
 				0A211A5C2533745F00937FEF /* TabHostViewController.swift in Sources */,
 				0A1CFD35261F506E0069FB70 /* ArticleCollectionViewCell.swift in Sources */,
