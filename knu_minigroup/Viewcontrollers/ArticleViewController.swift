@@ -17,6 +17,8 @@ class ArticleViewController: UIViewController {
     
     @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
     
+    var data = [Any]()
+    
     var articleItem: ArticleItem? = nil
     
     override func viewDidLoad() {

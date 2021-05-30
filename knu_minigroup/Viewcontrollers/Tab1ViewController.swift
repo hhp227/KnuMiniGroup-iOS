@@ -71,10 +71,10 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "articleCell", for: indexPath) as? ArticleCollectionViewCell
-
-        if segueDelegateFunc != nil {
-            segueDelegateFunc!("articleDetail", cell!)
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "articleCell", for: indexPath) as? ArticleCollectionViewCell {
+            if segueDelegateFunc != nil {
+                segueDelegateFunc!("articleDetail", cell)
+            }
         }
     }
     

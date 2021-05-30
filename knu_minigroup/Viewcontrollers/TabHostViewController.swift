@@ -150,18 +150,13 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "articleDetail" {
-            let cell = sender as! ArticleCollectionViewCell
-            
             if let tab1ViewController = pageMenuController?.controllerArray[0] as? Tab1ViewController {
-                print(tab1ViewController.data)
+                let indexRow = tab1ViewController.collectionView.indexPathsForSelectedItems?.first?.row
+                (segue.destination as? ArticleViewController)?.articleItem = tab1ViewController.data[indexRow!]
             }
-            //TODO
-            print("cell: \(cell), destination: \(segue.destination)")
-            print("articleItem: \(cell.articleItem)")
         }
     }
 
-    // HeaderedTabScrollViewController
     public func setNavBarRightItems(items: [UIBarButtonItem]) {
         navigationItem.rightBarButtonItems = items
         navigationItem.rightBarButtonItem?.tintColor = .white
