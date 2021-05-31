@@ -17,6 +17,8 @@ class ArticleViewController: UIViewController {
     
     @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var tableView: UITableView!
+    
     var data = [Any]()
     
     var articleItem: ArticleItem? = nil
@@ -29,6 +31,14 @@ class ArticleViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler)))
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
     }
     
     @IBAction func actionSend(_ sender: UIButton) {
@@ -55,14 +65,6 @@ class ArticleViewController: UIViewController {
         view.endEditing(true)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     private func excludeBottomPadding(function: (CGFloat, CGFloat) -> CGFloat) {
         if #available(iOS 11.0, *) {
             let window = UIApplication.shared.windows.first { $0.isKeyWindow }
@@ -70,6 +72,7 @@ class ArticleViewController: UIViewController {
             toolbarView.frame.origin.y = function(toolbarView.frame.origin.y, bottomPadding!)
         }
     }
+
     /*
     // MARK: - Navigation
 
@@ -80,8 +83,26 @@ class ArticleViewController: UIViewController {
     }
     */
 }
+
 extension ArticleViewController: UITextViewExtensionDelegate {
     private func increaseHeight(textView: UITextViewExtension, willChangeHeight height: CGFloat) {
         self.view.layoutIfNeeded()
+    }
+}
+
+extension ArticleViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // TODO
+    }
+}
+
+extension ArticleViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // TODO
+        return UITableViewCell()
     }
 }

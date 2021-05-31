@@ -25,6 +25,7 @@
 		0A218635257924F000ACD350 /* Tab3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A218634257924F000ACD350 /* Tab3ViewController.swift */; };
 		0A2186382579251A00ACD350 /* Tab4ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2186372579251A00ACD350 /* Tab4ViewController.swift */; };
 		0A236E8925F6638300C30737 /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A236E8825F6638300C30737 /* ArticleViewController.swift */; };
+		0A25BED026651F6000F4AF06 /* ArticleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25BECF26651F6000F4AF06 /* ArticleTableViewCell.swift */; };
 		0A27191026175426009D919B /* WriteInputTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A27190F26175426009D919B /* WriteInputTextTableViewCell.swift */; };
 		0A28F36E2610BBBC00A89069 /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28F36D2610BBBC00A89069 /* TimetableViewController.swift */; };
 		0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */; };
@@ -71,6 +72,7 @@
 		0A218634257924F000ACD350 /* Tab3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tab3ViewController.swift; path = knu_minigroup/Viewcontrollers/Tab3ViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A2186372579251A00ACD350 /* Tab4ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tab4ViewController.swift; path = knu_minigroup/Viewcontrollers/Tab4ViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A236E8825F6638300C30737 /* ArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ArticleViewController.swift; path = knu_minigroup/Viewcontrollers/ArticleViewController.swift; sourceTree = SOURCE_ROOT; };
+		0A25BECF26651F6000F4AF06 /* ArticleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTableViewCell.swift; sourceTree = "<group>"; };
 		0A27190F26175426009D919B /* WriteInputTextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteInputTextTableViewCell.swift; sourceTree = "<group>"; };
 		0A28F36D2610BBBC00A89069 /* TimetableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimetableViewController.swift; sourceTree = "<group>"; };
 		0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				0A1CFD34261F506E0069FB70 /* ArticleCollectionViewCell.swift */,
 				0A3169D62628805E00737A51 /* GroupTableViewCell.swift */,
 				0A414F142631D9460023B3D8 /* MemberCollectionViewCell.swift */,
+				0A25BECF26651F6000F4AF06 /* ArticleTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				0A3169DE26288B6200737A51 /* ArticleItem.swift in Sources */,
 				0A21862F257924B700ACD350 /* Tab1ViewController.swift in Sources */,
 				0AA26C0224F22B9600FA4D5A /* LoginViewController.swift in Sources */,
+				0A25BED026651F6000F4AF06 /* ArticleTableViewCell.swift in Sources */,
 				0A3169D72628805E00737A51 /* GroupTableViewCell.swift in Sources */,
 				0A5D0F69250E317B008376EC /* UnivNoticeViewController.swift in Sources */,
 				0AAD5B06251A533F00B77FDA /* MainCollectionViewCell.swift in Sources */,
