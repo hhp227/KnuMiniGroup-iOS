@@ -19,9 +19,7 @@ class ArticleViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var data = [Any]()
-    
-    var articleItem: ArticleItem? = nil
+    private var data = [Any]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +27,7 @@ class ArticleViewController: UIViewController {
         tableView.dataSource = self
         inputTextView.delegate = self
         inputTextView.translatesAutoresizingMaskIntoConstraints = false
-        print(articleItem)
+        print(data)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler)))
@@ -73,6 +71,15 @@ class ArticleViewController: UIViewController {
             let bottomPadding = window?.safeAreaInsets.bottom
             toolbarView.frame.origin.y = function(toolbarView.frame.origin.y, bottomPadding!)
         }
+    }
+    
+    private func fetchDataTask(_ id: String) {
+        // TODO 통신해서 aricleItem받아오기
+        //data.append(articleItem)
+    }
+    
+    func receiveItem(_ articleItem: ArticleItem) {
+        fetchDataTask(articleItem.id)
     }
 
     /*

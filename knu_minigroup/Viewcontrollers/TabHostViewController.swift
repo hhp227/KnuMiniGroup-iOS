@@ -152,7 +152,8 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         if segue.identifier == "articleDetail" {
             if let tab1ViewController = pageMenuController?.controllerArray[0] as? Tab1ViewController {
                 let indexRow = tab1ViewController.collectionView.indexPathsForSelectedItems?.first?.row
-                (segue.destination as? ArticleViewController)?.articleItem = tab1ViewController.data[indexRow!]
+                
+                (segue.destination as? ArticleViewController)?.receiveItem(tab1ViewController.data[indexRow!])
             }
         }
     }
