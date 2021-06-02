@@ -25,6 +25,8 @@ class ArticleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
+        tableView.dataSource = self
         inputTextView.delegate = self
         inputTextView.translatesAutoresizingMaskIntoConstraints = false
         print(articleItem)
