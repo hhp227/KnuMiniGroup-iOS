@@ -9,7 +9,14 @@
 import UIKit
 
 class ReplyTableViewCell: UITableViewCell {
-
+    @IBOutlet weak var profileImage: UIImageView!
+    
+    @IBOutlet weak var name: UILabel!
+    
+    @IBOutlet weak var reply: UILabel!
+    
+    @IBOutlet weak var timestamp: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

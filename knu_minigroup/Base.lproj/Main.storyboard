@@ -720,6 +720,12 @@
                                                 </view>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="name" destination="glE-dE-Vsa" id="mw0-GQ-JKD"/>
+                                            <outlet property="profileImage" destination="aXX-gW-eoz" id="9jg-KD-G0B"/>
+                                            <outlet property="reply" destination="Pi2-lZ-ys8" id="cTD-eH-twV"/>
+                                            <outlet property="timestamp" destination="78k-94-gnz" id="Gsz-vs-DwH"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
