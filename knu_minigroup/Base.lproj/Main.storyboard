@@ -227,6 +227,22 @@
             </objects>
             <point key="canvasLocation" x="337.68115942028987" y="1345.9821428571429"/>
         </scene>
+        <!--Chat View Controller-->
+        <scene sceneID="7tH-fO-FLd">
+            <objects>
+                <viewController id="1NS-8g-1fy" customClass="ChatViewController" customModule="knu_minigroup" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aiT-ue-bkq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Jgn-0C-521"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="UgL-OV-3r6"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vNn-fk-Bjc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-433" y="2034"/>
+        </scene>
         <!--Tab Host View Controller-->
         <scene sceneID="1MR-BD-2hw">
             <objects>
@@ -267,7 +283,13 @@
                             <constraint firstItem="2t8-52-Hox" firstAttribute="trailing" secondItem="Ucf-WP-gmM" secondAttribute="trailing" constant="20" id="WGH-AO-1x8"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="XFC-fD-QKf"/>
+                    <navigationItem key="navigationItem" id="XFC-fD-QKf">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="T4c-Gr-YWo">
+                            <connections>
+                                <segue destination="1NS-8g-1fy" kind="show" id="9gL-Xx-iAW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="fab" destination="Ucf-WP-gmM" id="Q2Z-ox-RJh"/>
                         <outlet property="headerContainer" destination="JlL-r0-HBF" id="NNy-rz-oWW"/>

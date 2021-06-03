@@ -20,6 +20,7 @@
 		0A1A38792575550C00278C08 /* TabLayoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A38782575550C00278C08 /* TabLayoutConfiguration.swift */; };
 		0A1A387C2575555500278C08 /* MenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1A387B2575555500278C08 /* MenuItemView.swift */; };
 		0A1CFD35261F506E0069FB70 /* ArticleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1CFD34261F506E0069FB70 /* ArticleCollectionViewCell.swift */; };
+		0A1D3824266928AD00835EB9 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1D3823266928AD00835EB9 /* ChatViewController.swift */; };
 		0A211A5C2533745F00937FEF /* TabHostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A211A5B2533745F00937FEF /* TabHostViewController.swift */; };
 		0A21862F257924B700ACD350 /* Tab1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A21862E257924B700ACD350 /* Tab1ViewController.swift */; };
 		0A218632257924D100ACD350 /* Tab2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A218631257924D100ACD350 /* Tab2ViewController.swift */; };
@@ -68,6 +69,7 @@
 		0A1A38782575550C00278C08 /* TabLayoutConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabLayoutConfiguration.swift; sourceTree = "<group>"; };
 		0A1A387B2575555500278C08 /* MenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemView.swift; sourceTree = "<group>"; };
 		0A1CFD34261F506E0069FB70 /* ArticleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCollectionViewCell.swift; sourceTree = "<group>"; };
+		0A1D3823266928AD00835EB9 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatViewController.swift; path = knu_minigroup/Viewcontrollers/ChatViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A211A5B2533745F00937FEF /* TabHostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TabHostViewController.swift; path = knu_minigroup/Viewcontrollers/TabHostViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A21862E257924B700ACD350 /* Tab1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tab1ViewController.swift; path = knu_minigroup/Viewcontrollers/Tab1ViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A218631257924D100ACD350 /* Tab2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tab2ViewController.swift; path = knu_minigroup/Viewcontrollers/Tab2ViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -167,6 +169,7 @@
 				0A15CB7D2616024900B3AD9C /* SemesterTimetableViewController.swift */,
 				0A15CB802616026300B3AD9C /* MockTimetableViewController.swift */,
 				0A0D74652663C034000DAB30 /* PictureViewController.swift */,
+				0A1D3823266928AD00835EB9 /* ChatViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				0AF3F4BD2517A7270005D5E3 /* RequestViewController.swift in Sources */,
 				0AA26C0024F22B9600FA4D5A /* SceneDelegate.swift in Sources */,
 				0A1A387C2575555500278C08 /* MenuItemView.swift in Sources */,
+				0A1D3824266928AD00835EB9 /* ChatViewController.swift in Sources */,
 				0A5D0F6B250E5F47008376EC /* DrawerViewController.swift in Sources */,
 				0A3169DB2628885E00737A51 /* GroupItem.swift in Sources */,
 				0A218632257924D100ACD350 /* Tab2ViewController.swift in Sources */,
