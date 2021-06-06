@@ -555,7 +555,7 @@
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ykc-SQ-1Hc">
                                                             <rect key="frame" x="197" y="0.0" width="197" height="41"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal" title="Button"/>
+                                                            <state key="normal" title="댓글"/>
                                                         </button>
                                                         <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lo1-dv-9Dd">
                                                             <rect key="frame" x="196" y="0.0" width="1" height="41"/>
