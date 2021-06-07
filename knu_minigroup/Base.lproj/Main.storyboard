@@ -699,8 +699,19 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="bkk-qs-i3h">
+                                                    <rect key="frame" x="20" y="110" width="374" height="54"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </stackView>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="contentLabel" destination="zkj-H2-Agu" id="Nr1-rQ-H0h"/>
+                                            <outlet property="createdAtLabel" destination="QGv-K0-Qqo" id="DLs-QW-K9m"/>
+                                            <outlet property="nameLabel" destination="Wfx-kL-M3m" id="nH1-Kw-tuz"/>
+                                            <outlet property="profileImageView" destination="Dyv-X3-52E" id="MVk-u8-H4K"/>
+                                            <outlet property="stackView" destination="bkk-qs-i3h" id="mJz-H2-R5z"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="replyCell" rowHeight="110" id="lTb-ZH-IUw" customClass="ReplyTableViewCell" customModule="knu_minigroup" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="203" width="414" height="110"/>

@@ -9,7 +9,16 @@
 import UIKit
 
 class ArticleTableViewCell: UITableViewCell {
-
+    @IBOutlet weak var profileImageView: UIImageView!
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    
+    @IBOutlet weak var createdAtLabel: UILabel!
+    
+    @IBOutlet weak var contentLabel: UILabel!
+    
+    @IBOutlet weak var stackView: UIStackView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
