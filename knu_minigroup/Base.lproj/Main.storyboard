@@ -234,6 +234,71 @@
                     <view key="view" contentMode="scaleToFill" id="aiT-ue-bkq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="L83-aT-VZE">
+                                <rect key="frame" x="0.0" y="88" width="414" height="714"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vaM-Ts-iPn">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="WzA-Wb-xaE">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="O3u-wo-22j">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gE5-aO-DhR">
+                                <rect key="frame" x="0.0" y="810" width="414" height="52"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q3h-AH-zEn">
+                                        <rect key="frame" x="365" y="11" width="36" height="30"/>
+                                        <state key="normal" title="Send"/>
+                                        <connections>
+                                            <action selector="actionSend:" destination="VP5-Ac-BOW" eventType="touchUpInside" id="kSu-sN-0G6"/>
+                                        </connections>
+                                    </button>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3Nz-WS-TEa" customClass="UITextViewExtension" customModule="knu_minigroup" customModuleProvider="target">
+                                        <rect key="frame" x="8" y="8" width="344" height="36"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
+                                                <integer key="value" value="200"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="maxHeight">
+                                                <real key="value" value="100"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="메시지를 입력하세요."/>
+                                        </userDefinedRuntimeAttributes>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="q3h-AH-zEn" secondAttribute="bottom" constant="11" id="4HH-3e-1xK"/>
+                                    <constraint firstItem="q3h-AH-zEn" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gE5-aO-DhR" secondAttribute="top" constant="11" id="Bop-DH-S02"/>
+                                    <constraint firstItem="3Nz-WS-TEa" firstAttribute="leading" secondItem="gE5-aO-DhR" secondAttribute="leading" constant="8" id="Des-E4-itl"/>
+                                    <constraint firstItem="q3h-AH-zEn" firstAttribute="leading" secondItem="3Nz-WS-TEa" secondAttribute="trailing" constant="13" id="EHm-Lr-2bd"/>
+                                    <constraint firstAttribute="bottom" secondItem="3Nz-WS-TEa" secondAttribute="bottom" constant="8" id="YnF-KG-y3f"/>
+                                    <constraint firstItem="3Nz-WS-TEa" firstAttribute="top" secondItem="gE5-aO-DhR" secondAttribute="top" constant="8" id="b6R-R1-EYx"/>
+                                    <constraint firstAttribute="trailing" secondItem="q3h-AH-zEn" secondAttribute="trailing" constant="13" id="fko-fX-FGK"/>
+                                    <constraint firstItem="q3h-AH-zEn" firstAttribute="leading" secondItem="3Nz-WS-TEa" secondAttribute="trailing" constant="13" id="vyA-PW-WNA"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Jgn-0C-521"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -241,7 +306,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vNn-fk-Bjc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-433" y="2034"/>
+            <point key="canvasLocation" x="-433.33333333333337" y="2033.7053571428571"/>
         </scene>
         <!--Tab Host View Controller-->
         <scene sceneID="1MR-BD-2hw">
