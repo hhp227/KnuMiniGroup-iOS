@@ -311,6 +311,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="UgL-OV-3r6"/>
+                    <connections>
+                        <outlet property="toolbarBottomConstraint" destination="zHZ-1M-UsB" id="z8a-Ng-eH8"/>
+                        <outlet property="toolbarView" destination="gE5-aO-DhR" id="aTj-u0-vhZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vNn-fk-Bjc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

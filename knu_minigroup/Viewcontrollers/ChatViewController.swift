@@ -9,7 +9,10 @@
 import UIKit
 
 class ChatViewController: UIViewController {
-
+    @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var toolbarView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
