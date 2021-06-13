@@ -15,8 +15,9 @@ class ChatViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler)))
     }
     
 
@@ -30,4 +31,23 @@ class ChatViewController: UIViewController {
     }
     */
 
+    @objc func keyboardWillChangeFrame(_ notification: Notification) {
+        if let endFrame = ((notification as NSNotification).userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            toolbarBottomConstraint?.constant = {
+                var keyboardHeight = view.bounds.height - endFrame.origin.y
+                
+                if #available(iOS 11.0, *) {
+                    if keyboardHeight > 0 {
+                        keyboardHeight -= view.safeAreaInsets.bottom
+                    }
+                }
+                return -(keyboardHeight)
+            }()
+        }
+        view.layoutIfNeeded()
+    }
+
+    @objc func tapGestureHandler() {
+        view.endEditing(true)
+    }
 }
