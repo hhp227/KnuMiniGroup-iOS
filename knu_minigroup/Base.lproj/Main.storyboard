@@ -262,6 +262,7 @@
                                         <rect key="frame" x="365" y="11" width="36" height="30"/>
                                         <state key="normal" title="Send"/>
                                         <connections>
+                                            <action selector="actionSend:" destination="1NS-8g-1fy" eventType="touchUpInside" id="MOt-sb-KrT"/>
                                             <action selector="actionSend:" destination="VP5-Ac-BOW" eventType="touchUpInside" id="kSu-sN-0G6"/>
                                         </connections>
                                     </button>

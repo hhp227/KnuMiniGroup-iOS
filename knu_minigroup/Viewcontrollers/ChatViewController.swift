@@ -50,4 +50,8 @@ class ChatViewController: UIViewController {
     @objc func tapGestureHandler() {
         view.endEditing(true)
     }
+    
+    @IBAction func actionSend(_ sender: UIButton) {
+        print("전송")
+    }
 }
