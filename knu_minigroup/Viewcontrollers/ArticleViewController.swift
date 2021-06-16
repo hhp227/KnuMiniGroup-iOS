@@ -76,6 +76,7 @@ class ArticleViewController: UIViewController {
     private func fetchDataTask(_ id: String) {
         // TODO 통신해서 aricleItem받아오기
         //data.append(articleItem)
+        print(id)
     }
     
     func receiveItem(_ articleItem: ArticleItem) {
