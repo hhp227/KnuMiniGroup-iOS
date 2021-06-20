@@ -9,12 +9,6 @@
 import UIKit
 
 class ArticleCollectionViewCell: UICollectionViewCell {
-    var message: String?
-    
-    var mainImage: UIImage?
-    
-    var articleItem: ArticleItem?
-    
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var dateLabel: UILabel!
@@ -28,6 +22,12 @@ class ArticleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var shareButton: UIButton!
     
     @IBOutlet weak var replyButton: UIButton!
+    
+    var message: String?
+    
+    var mainImage: UIImage?
+    
+    var articleItem: ArticleItem?
     
     override func layoutSubviews() {
         super.layoutSubviews()

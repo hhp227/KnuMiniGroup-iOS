@@ -80,7 +80,8 @@ class ArticleViewController: UIViewController {
     }
     
     func receiveItem(_ articleItem: ArticleItem) {
-        fetchDataTask(articleItem.id)
+        //fetchDataTask(articleItem.id)
+        data.append(articleItem)
     }
 
     /*
@@ -112,7 +113,10 @@ extension ArticleViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // TODO
+        if let detailCell = tableView.dequeueReusableCell(withIdentifier: "articleDetailCell", for: indexPath) as? ArticleTableViewCell {
+            detailCell.articleItem = data[indexPath.row] as? ArticleItem
+            return detailCell
+        }
         return UITableViewCell()
     }
 }

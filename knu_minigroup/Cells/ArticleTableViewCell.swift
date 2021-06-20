@@ -19,6 +19,8 @@ class ArticleTableViewCell: UITableViewCell {
     
     @IBOutlet weak var stackView: UIStackView!
     
+    var articleItem: ArticleItem?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
