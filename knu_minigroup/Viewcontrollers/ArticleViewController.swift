@@ -13,6 +13,8 @@ class ArticleViewController: UIViewController {
 
     @IBOutlet weak var inputTextView: UITextViewExtension!
     
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     @IBOutlet weak var sendButton: UIButton!
     
     @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
@@ -21,6 +23,8 @@ class ArticleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView.delegate = self
+        collectionView.dataSource = self
         inputTextView.delegate = self
         inputTextView.translatesAutoresizingMaskIntoConstraints = false
         print(data)
@@ -94,5 +98,29 @@ class ArticleViewController: UIViewController {
 extension ArticleViewController: UITextViewExtensionDelegate {
     private func increaseHeight(textView: UITextViewExtension, willChangeHeight height: CGFloat) {
         self.view.layoutIfNeeded()
+    }
+}
+
+extension ArticleViewController: UICollectionViewDelegate {
+}
+
+extension ArticleViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "articleDetailCell", for: indexPath) as? ArticleDetailCollectionViewCell else {
+            fatalError()
+        }
+        cell.articleItem = data[indexPath.row] as? ArticleItem
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return data.count
+    }
+}
+
+extension ArticleViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize() }
+        return CGSize(width: collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right), height: flowLayout.itemSize.height)
     }
 }
