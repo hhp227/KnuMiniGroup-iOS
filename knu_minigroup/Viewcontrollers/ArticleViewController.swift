@@ -17,14 +17,10 @@ class ArticleViewController: UIViewController {
     
     @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var tableView: UITableView!
-    
     private var data = [Any]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
         inputTextView.delegate = self
         inputTextView.translatesAutoresizingMaskIntoConstraints = false
         print(data)
@@ -98,25 +94,5 @@ class ArticleViewController: UIViewController {
 extension ArticleViewController: UITextViewExtensionDelegate {
     private func increaseHeight(textView: UITextViewExtension, willChangeHeight height: CGFloat) {
         self.view.layoutIfNeeded()
-    }
-}
-
-extension ArticleViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO
-    }
-}
-
-extension ArticleViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let detailCell = tableView.dequeueReusableCell(withIdentifier: "articleDetailCell", for: indexPath) as? ArticleTableViewCell {
-            detailCell.articleItem = data[indexPath.row] as? ArticleItem
-            return detailCell
-        }
-        return UITableViewCell()
     }
 }
