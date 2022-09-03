@@ -30,6 +30,13 @@
 		0A25BED026651F6000F4AF06 /* ArticleDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25BECF26651F6000F4AF06 /* ArticleDetailCollectionViewCell.swift */; };
 		0A27191026175426009D919B /* WriteInputTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A27190F26175426009D919B /* WriteInputTextTableViewCell.swift */; };
 		0A28F36E2610BBBC00A89069 /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28F36D2610BBBC00A89069 /* TimetableViewController.swift */; };
+		0A2BEC7F28C346ED002610A8 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2BEC7E28C346ED002610A8 /* RadioButton.swift */; };
+		0A2BEC8128C34727002610A8 /* RadioButtonCircleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2BEC8028C34727002610A8 /* RadioButtonCircleStyle.swift */; };
+		0A2BEC8328C3473E002610A8 /* RadioButtonColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2BEC8228C3473E002610A8 /* RadioButtonColor.swift */; };
+		0A2BEC8528C34754002610A8 /* RadioButtonContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2BEC8428C34754002610A8 /* RadioButtonContainer.swift */; };
+		0A2BEC8728C3476C002610A8 /* RadioButtonContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2BEC8628C3476C002610A8 /* RadioButtonContainerView.swift */; };
+		0A2BEC8928C34781002610A8 /* RadioCheckboxBaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2BEC8828C34781002610A8 /* RadioCheckboxBaseButton.swift */; };
+		0A2BEC8B28C34796002610A8 /* RadioCheckboxBaseContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2BEC8A28C34796002610A8 /* RadioCheckboxBaseContainer.swift */; };
 		0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */; };
 		0A2F097A260CB95700BEF1C8 /* UITextViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2F0979260CB95700BEF1C8 /* UITextViewExtension.swift */; };
 		0A3169D72628805E00737A51 /* GroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3169D62628805E00737A51 /* GroupTableViewCell.swift */; };
@@ -79,6 +86,13 @@
 		0A25BECF26651F6000F4AF06 /* ArticleDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		0A27190F26175426009D919B /* WriteInputTextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteInputTextTableViewCell.swift; sourceTree = "<group>"; };
 		0A28F36D2610BBBC00A89069 /* TimetableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimetableViewController.swift; sourceTree = "<group>"; };
+		0A2BEC7E28C346ED002610A8 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
+		0A2BEC8028C34727002610A8 /* RadioButtonCircleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonCircleStyle.swift; sourceTree = "<group>"; };
+		0A2BEC8228C3473E002610A8 /* RadioButtonColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonColor.swift; sourceTree = "<group>"; };
+		0A2BEC8428C34754002610A8 /* RadioButtonContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonContainer.swift; sourceTree = "<group>"; };
+		0A2BEC8628C3476C002610A8 /* RadioButtonContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonContainerView.swift; sourceTree = "<group>"; };
+		0A2BEC8828C34781002610A8 /* RadioCheckboxBaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioCheckboxBaseButton.swift; sourceTree = "<group>"; };
+		0A2BEC8A28C34796002610A8 /* RadioCheckboxBaseContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioCheckboxBaseContainer.swift; sourceTree = "<group>"; };
 		0A2EEF1C24FAAD2900DEEE04 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0A2F0979260CB95700BEF1C8 /* UITextViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewExtension.swift; sourceTree = "<group>"; };
 		0A3169D62628805E00737A51 /* GroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTableViewCell.swift; sourceTree = "<group>"; };
@@ -127,9 +141,24 @@
 			path = DrawerController;
 			sourceTree = "<group>";
 		};
+		0A2BEC7D28C3409D002610A8 /* RadioButton */ = {
+			isa = PBXGroup;
+			children = (
+				0A2BEC7E28C346ED002610A8 /* RadioButton.swift */,
+				0A2BEC8028C34727002610A8 /* RadioButtonCircleStyle.swift */,
+				0A2BEC8228C3473E002610A8 /* RadioButtonColor.swift */,
+				0A2BEC8428C34754002610A8 /* RadioButtonContainer.swift */,
+				0A2BEC8628C3476C002610A8 /* RadioButtonContainerView.swift */,
+				0A2BEC8828C34781002610A8 /* RadioCheckboxBaseButton.swift */,
+				0A2BEC8A28C34796002610A8 /* RadioCheckboxBaseContainer.swift */,
+			);
+			path = RadioButton;
+			sourceTree = "<group>";
+		};
 		0A2F0978260CB91E00BEF1C8 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				0A2BEC7D28C3409D002610A8 /* RadioButton */,
 				0A11346F24FB9BC80029C07C /* DrawerController */,
 				0AC523DB25752E7100D2501E /* HeaderedTabScrollViewController */,
 				0A2F0979260CB95700BEF1C8 /* UITextViewExtension.swift */,
@@ -308,15 +337,20 @@
 			files = (
 				0A15CB812616026300B3AD9C /* MockTimetableViewController.swift in Sources */,
 				0ADEF76825E25A010000F12D /* TabViewController.swift in Sources */,
+				0A2BEC8928C34781002610A8 /* RadioCheckboxBaseButton.swift in Sources */,
+				0A2BEC8728C3476C002610A8 /* RadioButtonContainerView.swift in Sources */,
 				0A159D4926653F3D00452ACA /* ReplyCollectionViewCell.swift in Sources */,
 				0A1A3876257554A700278C08 /* TabLayout.swift in Sources */,
 				0A0D92872619890300F1CBDE /* ImageTableViewCell.swift in Sources */,
 				0A28F36E2610BBBC00A89069 /* TimetableViewController.swift in Sources */,
+				0A2BEC8B28C34796002610A8 /* RadioCheckboxBaseContainer.swift in Sources */,
 				0A11347324FBFA650029C07C /* EmbedDrawerControllerSegue.swift in Sources */,
+				0A2BEC8128C34727002610A8 /* RadioButtonCircleStyle.swift in Sources */,
 				0A2EEF1D24FAAD2900DEEE04 /* MainViewController.swift in Sources */,
 				0A11347124FB9C000029C07C /* DrawerController.swift in Sources */,
 				0AF5B9F02577E4CD00AC9890 /* PlaceholderViewController.swift in Sources */,
 				0A0D74662663C034000DAB30 /* PictureViewController.swift in Sources */,
+				0A2BEC7F28C346ED002610A8 /* RadioButton.swift in Sources */,
 				0AD204D1265D481F00D24E66 /* ReplyItem.swift in Sources */,
 				0A211A5C2533745F00937FEF /* TabHostViewController.swift in Sources */,
 				0A1CFD35261F506E0069FB70 /* ArticleCollectionViewCell.swift in Sources */,
@@ -337,8 +371,10 @@
 				0A11347524FBFB2F0029C07C /* EmbedMainControllerSegue.swift in Sources */,
 				0A218635257924F000ACD350 /* Tab3ViewController.swift in Sources */,
 				0A15CB7E2616024900B3AD9C /* SemesterTimetableViewController.swift in Sources */,
+				0A2BEC8528C34754002610A8 /* RadioButtonContainer.swift in Sources */,
 				0A03AEA42519083F00677BDF /* CreateViewController.swift in Sources */,
 				0ACEE73D2604E1C500A4D4C8 /* WriteViewController.swift in Sources */,
+				0A2BEC8328C3473E002610A8 /* RadioButtonColor.swift in Sources */,
 				0AAD5B08251A57A400B77FDA /* MainCollectionReusableView.swift in Sources */,
 				0A2186382579251A00ACD350 /* Tab4ViewController.swift in Sources */,
 				0A27191026175426009D919B /* WriteInputTextTableViewCell.swift in Sources */,

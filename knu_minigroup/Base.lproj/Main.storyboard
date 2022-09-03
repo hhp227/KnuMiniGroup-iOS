@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1aD-8T-iBY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1aD-8T-iBY">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
@@ -141,7 +142,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="groupCell" id="C5R-4D-4GT" customClass="GroupTableViewCell" customModule="knu_minigroup" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="C5R-4D-4GT" id="8UC-V5-BbN">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -182,7 +183,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="100" id="y95-Yc-XVq">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="100"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="y95-Yc-XVq" id="cA7-4A-QzD">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
@@ -392,7 +393,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="inputText" rowHeight="106" id="xgs-KE-DSM" customClass="WriteInputTextTableViewCell" customModule="knu_minigroup" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="106"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="106"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xgs-KE-DSM" id="7Tc-D1-Svb">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="106"/>
@@ -456,7 +457,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="image" rowHeight="150" id="3eu-cn-mYG" customClass="ImageTableViewCell" customModule="knu_minigroup" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="134" width="414" height="150"/>
+                                        <rect key="frame" x="0.0" y="150.5" width="414" height="150"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3eu-cn-mYG" id="zBo-2q-Nmv">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
@@ -881,7 +882,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="8Yh-n5-KHK">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8Yh-n5-KHK" id="9Et-bW-5Kd">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -889,7 +890,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="xZN-nI-2mh">
-                                        <rect key="frame" x="0.0" y="71.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="88" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xZN-nI-2mh" id="lgB-vv-xbl">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -1118,7 +1119,7 @@
                                     <tabBarItem systemItem="search" id="Ypk-3d-p9d">
                                         <color key="badgeColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tabBarItem>
-                                    <tabBarItem systemItem="contacts" id="HqX-Z4-DHo">
+                                    <tabBarItem selectedImage="per" id="HqX-Z4-DHo">
                                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                                     </tabBarItem>
                                     <tabBarItem title="" systemItem="favorites" id="SMD-iA-GPY"/>
@@ -1182,7 +1183,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="메인화면" id="0pr-3D-Yuz">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="hamburger-menu-icon" id="oIj-Ye-B9M">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="line.3.horizontal" catalog="system" id="oIj-Ye-B9M">
                             <connections>
                                 <action selector="barButtonItemClick:" destination="vf1-aL-8AM" id="Qzl-qY-1i7"/>
                             </connections>
@@ -1236,7 +1237,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="item" id="A5S-xx-Smr">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="A5S-xx-Smr" id="pod-Pe-Xc2">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -1398,6 +1399,8 @@
         <image name="circle.fill" catalog="system" width="128" height="121"/>
         <image name="hamburger-menu-icon" width="25" height="25"/>
         <image name="knu_minigroup.png" width="434" height="213"/>
+        <image name="line.3.horizontal" catalog="system" width="128" height="64"/>
+        <image name="per" width="128" height="128"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
