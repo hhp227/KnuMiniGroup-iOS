@@ -1116,14 +1116,11 @@
                                     <constraint firstAttribute="height" constant="63" id="gsd-By-6tP"/>
                                 </constraints>
                                 <items>
-                                    <tabBarItem systemItem="search" id="Ypk-3d-p9d">
-                                        <color key="badgeColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </tabBarItem>
-                                    <tabBarItem selectedImage="per" id="HqX-Z4-DHo">
-                                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
-                                    </tabBarItem>
-                                    <tabBarItem title="" systemItem="favorites" id="SMD-iA-GPY"/>
+                                    <tabBarItem title="그룹찾기" image="magnifyingglass" catalog="system" id="Ypk-3d-p9d"/>
+                                    <tabBarItem title="가입신청중 그룹" image="person.2.fill" catalog="system" id="HqX-Z4-DHo"/>
+                                    <tabBarItem title="그룹 만들기" image="plus" catalog="system" id="SMD-iA-GPY"/>
                                 </items>
+                                <tabBarAppearance key="standardAppearance"/>
                             </tabBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lCN-am-hza">
                                 <rect key="frame" x="0.0" y="151" width="414" height="711"/>
@@ -1394,13 +1391,22 @@
             <point key="canvasLocation" x="1888" y="-96"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="GFZ-j3-TX4">
+            <size key="intrinsicContentSize" width="82" height="18"/>
+        </designable>
+        <designable name="jcg-dP-A9A">
+            <size key="intrinsicContentSize" width="82" height="18"/>
+        </designable>
+    </designables>
     <resources>
         <image name="add_photo" width="1400" height="1040"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>
         <image name="hamburger-menu-icon" width="25" height="25"/>
         <image name="knu_minigroup.png" width="434" height="213"/>
         <image name="line.3.horizontal" catalog="system" width="128" height="64"/>
-        <image name="per" width="128" height="128"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="person.2.fill" catalog="system" width="128" height="80"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
