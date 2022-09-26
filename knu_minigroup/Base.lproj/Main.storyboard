@@ -322,7 +322,7 @@
             </objects>
             <point key="canvasLocation" x="-433.33333333333337" y="2033.7053571428571"/>
         </scene>
-        <!--Tab Host View Controller-->
+        <!--경북대 소모임-->
         <scene sceneID="1MR-BD-2hw">
             <objects>
                 <viewController storyboardIdentifier="TabHostViewController" id="Fem-6I-ClF" customClass="TabHostViewController" customModule="knu_minigroup" customModuleProvider="target" sceneMemberID="viewController">
@@ -362,7 +362,7 @@
                             <constraint firstItem="2t8-52-Hox" firstAttribute="trailing" secondItem="Ucf-WP-gmM" secondAttribute="trailing" constant="20" id="WGH-AO-1x8"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="XFC-fD-QKf">
+                    <navigationItem key="navigationItem" title="경북대 소모임" id="XFC-fD-QKf">
                         <barButtonItem key="rightBarButtonItem" title="Item" id="T4c-Gr-YWo">
                             <connections>
                                 <segue destination="1NS-8g-1fy" kind="show" id="9gL-Xx-iAW"/>
@@ -1306,9 +1306,6 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="f6B-pb-HGS">
@@ -1332,9 +1329,6 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -1377,9 +1371,6 @@
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

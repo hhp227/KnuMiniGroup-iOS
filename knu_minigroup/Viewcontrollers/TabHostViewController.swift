@@ -79,7 +79,6 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
             }
             return array
         }()
-        title = "Knu MiniGroup"
         headerBackgroundColor = #colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 1)
         //self.navBarTransparancy = 0
         headerTopConstraint = headerContainer.topAnchor.constraint(equalTo: view.topAnchor)
