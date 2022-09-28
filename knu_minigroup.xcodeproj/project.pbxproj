@@ -43,6 +43,7 @@
 		0A3169DB2628885E00737A51 /* GroupItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3169DA2628885E00737A51 /* GroupItem.swift */; };
 		0A3169DE26288B6200737A51 /* ArticleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3169DD26288B6200737A51 /* ArticleItem.swift */; };
 		0A414F152631D9460023B3D8 /* MemberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A414F142631D9460023B3D8 /* MemberCollectionViewCell.swift */; };
+		0A5714B928E34666004FABC1 /* WriteItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5714B828E34666004FABC1 /* WriteItem.swift */; };
 		0A5D0F69250E317B008376EC /* UnivNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */; };
 		0A5D0F6B250E5F47008376EC /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D0F6A250E5F47008376EC /* DrawerViewController.swift */; };
 		0AA26BFE24F22B9600FA4D5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA26BFD24F22B9600FA4D5A /* AppDelegate.swift */; };
@@ -99,6 +100,7 @@
 		0A3169DA2628885E00737A51 /* GroupItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupItem.swift; sourceTree = "<group>"; };
 		0A3169DD26288B6200737A51 /* ArticleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleItem.swift; sourceTree = "<group>"; };
 		0A414F142631D9460023B3D8 /* MemberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCollectionViewCell.swift; sourceTree = "<group>"; };
+		0A5714B828E34666004FABC1 /* WriteItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteItem.swift; sourceTree = "<group>"; };
 		0A5D0F68250E317B008376EC /* UnivNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnivNoticeViewController.swift; sourceTree = "<group>"; };
 		0A5D0F6A250E5F47008376EC /* DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
 		0AA26BFA24F22B9600FA4D5A /* knu_minigroup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = knu_minigroup.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,6 +175,7 @@
 				0A3169DA2628885E00737A51 /* GroupItem.swift */,
 				0A3169DD26288B6200737A51 /* ArticleItem.swift */,
 				0AD204D0265D481F00D24E66 /* ReplyItem.swift */,
+				0A5714B828E34666004FABC1 /* WriteItem.swift */,
 			);
 			path = Dto;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				0AF3F4BD2517A7270005D5E3 /* RequestViewController.swift in Sources */,
 				0AA26C0024F22B9600FA4D5A /* SceneDelegate.swift in Sources */,
 				0A1A387C2575555500278C08 /* MenuItemView.swift in Sources */,
+				0A5714B928E34666004FABC1 /* WriteItem.swift in Sources */,
 				0A1D3824266928AD00835EB9 /* ChatViewController.swift in Sources */,
 				0A5D0F6B250E5F47008376EC /* DrawerViewController.swift in Sources */,
 				0A3169DB2628885E00737A51 /* GroupItem.swift in Sources */,
