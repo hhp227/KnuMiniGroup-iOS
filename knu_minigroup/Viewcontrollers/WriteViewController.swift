@@ -16,7 +16,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     @IBOutlet weak var stackViewBottomConstraint: NSLayoutConstraint!
     
-    var contents: Array<Any> = [""]
+    var contents: Array<WriteItem> = [WriteItem.TextItem("", "")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +48,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 print("내용을 입력하세요.")
                 return
             }
+            print("전송 \(textInputCell.inputTitleTextView.text) \(textInputCell.inputContentTextView.text)")
             navigationController?.popViewController(animated: true)
         }
     }
@@ -178,7 +179,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if let imageContent = contents[indexPath.row] as? UIImage {
+        if case let .ImageItem(imageContent) = contents[indexPath.row] {
             let imageCrop = imageContent.size.width / imageContent.size.height
             return tableView.frame.width / imageCrop
         } else {
@@ -205,7 +206,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0, let inputTextCell = tableView.dequeueReusableCell(withIdentifier: "inputText", for: indexPath) as? WriteInputTextTableViewCell {
+        if case let .TextItem(title, content) = contents[indexPath.row], let inputTextCell = tableView.dequeueReusableCell(withIdentifier: "inputText", for: indexPath) as? WriteInputTextTableViewCell {
             inputTextCell.heightDelegateFunc = { (cell, textView) -> Void in
                 let size = textView.bounds.size
                 let newSize = tableView.sizeThatFits(CGSize(width: size.width, height: CGFloat.greatestFiniteMagnitude))
@@ -224,7 +225,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "image", for: indexPath) as? ImageTableViewCell
             
-            if let imageContent = contents[indexPath.row] as? UIImage {
+            if case let .ImageItem(imageContent) = contents[indexPath.row] {
                 cell?.contentImageView.image = imageContent
             }
             return cell!
@@ -239,7 +240,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
             
             // TODO if flagImageSave {} 작성해줘야함 아마 카메라로 찍었을때 찍은 사진이 포토갤러리에 저장되게 하는 내용을 작성할 예정
-            contents.append(editedImage!)
+            contents.append(WriteItem.ImageItem(editedImage!))
             tableView.insertRows(at: [IndexPath.init(row: contents.count - 1, section: 0)], with: UITableView.RowAnimation.automatic)
         }
         dismiss(animated: true, completion: nil)
@@ -248,5 +249,4 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
-    //
 }
