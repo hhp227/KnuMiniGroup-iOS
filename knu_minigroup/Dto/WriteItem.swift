@@ -10,6 +10,6 @@ import Foundation
 import UIKit
 
 enum WriteItem {
-    case TextItem(String)
+    case TextItem(String, String)
     case ImageItem(UIImage)
 }
