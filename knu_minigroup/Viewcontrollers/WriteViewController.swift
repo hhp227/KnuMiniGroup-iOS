@@ -248,4 +248,5 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
+    //
 }
