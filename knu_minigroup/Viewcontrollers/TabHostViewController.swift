@@ -16,7 +16,15 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     @IBOutlet weak var fab: UIButton!
     
     let tabsTexts = ["소식", "일정", "맴버", "설정"]
-    
+
+    var groupId = ""
+
+    var groupKey = ""
+
+    var groupName = ""
+
+    var isAdmin = false
+
     var headerHeightConstraint: NSLayoutConstraint?
     
     var headerTopConstraint: NSLayoutConstraint?
@@ -70,6 +78,18 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
                 storyboard?.instantiateViewController(withIdentifier: "Tab4ViewController") as! TabViewController
             ]
             
+            if let tab1 = array[0] as? Tab1ViewController {
+                tab1.groupId = groupId
+                tab1.groupKey = groupKey
+            }
+            if let tab3 = array[2] as? Tab3ViewController {
+                tab3.groupKey = groupKey
+            }
+            if let tab4 = array[3] as? Tab4ViewController {
+                tab4.isAdmin = isAdmin
+                tab4.groupId = groupId
+                tab4.groupKey = groupKey
+            }
             for i in array.indices {
                 array[i].scrollDelegateFunc = pleaseScroll
                 array[i].segueDelegateFunc = {
@@ -79,6 +99,7 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
             }
             return array
         }()
+        title = groupName
         headerBackgroundColor = #colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 1)
         //self.navBarTransparancy = 0
         headerTopConstraint = headerContainer.topAnchor.constraint(equalTo: view.topAnchor)
@@ -149,11 +170,18 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "articleDetail" {
-            if let tab1ViewController = pageMenuController?.controllerArray[0] as? Tab1ViewController {
-                let indexRow = tab1ViewController.collectionView.indexPathsForSelectedItems?.first?.row
-                
-                (segue.destination as? ArticleViewController)?.receiveItem(tab1ViewController.data[indexRow!])
+            if let tab1ViewController = pageMenuController?.controllerArray[0] as? Tab1ViewController,
+               let indexPath = sender as? IndexPath {
+                let entry = tab1ViewController.articleEntries[indexPath.row]
+
+                (segue.destination as? ArticleViewController)?.receiveItem(groupId: groupId, groupKey: groupKey, articleKey: entry.key, articleItem: entry.value)
             }
+        } else if let writeViewController = segue.destination as? WriteViewController {
+            writeViewController.groupId = groupId
+            writeViewController.groupKey = groupKey
+        } else if let chatViewController = segue.destination as? ChatViewController {
+            chatViewController.receiver = groupKey
+            chatViewController.isGroupChat = true
         }
     }
 

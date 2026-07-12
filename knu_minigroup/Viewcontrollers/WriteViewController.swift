@@ -8,23 +8,56 @@
 
 import UIKit
 import MobileCoreServices
+import Combine
 
 class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     @IBOutlet weak var tableView: UITableView!
-    
+
     @IBOutlet weak var toolBarStackView: UIStackView!
-    
+
     @IBOutlet weak var stackViewBottomConstraint: NSLayoutConstraint!
-    
+
     var contents: Array<WriteItem> = [WriteItem.TextItem("", "")]
-    
+
+    var groupId = ""
+
+    var groupKey = ""
+
+    // 수정 모드일 경우에만 값이 있음
+    var articleKey: String?
+
+    private var viewModel: CreateArticleViewModel!
+
+    private var cancellables = Set<AnyCancellable>()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel = CreateArticleViewModel(groupId: groupId, groupKey: groupKey, articleKey: articleKey)
         tableView.delegate = self
         tableView.dataSource = self
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        observeViewModel()
+    }
+
+    private func observeViewModel() {
+        viewModel.$isDone
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isDone in
+                if isDone {
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            }
+            .store(in: &cancellables)
+        viewModel.$message
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] message in
+                if let message = message {
+                    self?.view.makeToast(message: message)
+                }
+            }
+            .store(in: &cancellables)
     }
     
     /*override func viewDidAppear(_ animated: Bool) {
@@ -41,15 +74,21 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBAction func actionSend(_ sender: UIBarButtonItem) {
         if let textInputCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? WriteInputTextTableViewCell {
             guard !textInputCell.inputTitleTextView.text.isEmpty else {
-                print("제목을 입력하세요.")
+                view.makeToast(message: "제목을 입력하세요.")
                 return
             }
             guard !textInputCell.inputContentTextView.text.isEmpty else {
-                print("내용을 입력하세요.")
+                view.makeToast(message: "내용을 입력하세요.")
                 return
             }
-            print("전송: \(textInputCell.inputTitleTextView.text) \(textInputCell.inputContentTextView.text)")
-            navigationController?.popViewController(animated: true)
+            // LMS 서버 폐쇄로 이미지 업로드는 지원되지 않음 (Android도 이미지 첨부시 업로드 실패)
+            let hasImage = contents.contains { if case .ImageItem = $0 { return true } else { return false } }
+
+            guard !hasImage else {
+                view.makeToast(message: "이미지 업로드는 현재 지원되지 않습니다.")
+                return
+            }
+            viewModel.actionSend(title: textInputCell.inputTitleTextView.text, content: textInputCell.inputContentTextView.text)
         }
     }
     

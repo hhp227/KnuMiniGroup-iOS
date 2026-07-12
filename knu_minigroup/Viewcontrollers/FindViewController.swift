@@ -5,59 +5,85 @@
 //  Created by 홍희표 on 2020/09/20.
 //  Copyright © 2020 홍희표. All rights reserved.
 //
+//  소모임 찾기 (Android의 FindGroupActivity 대응)
+//
 
 import UIKit
+import Combine
 
 class FindViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
-    
-    var data = [GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal, How to make a portal"), GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal"), GroupItem.init(image: #imageLiteral(resourceName: "knu_minigroup"), message: "How to make a portal")]
-    
+
+    private let viewModel = FindGroupViewModel()
+
+    private var cancellables = Set<AnyCancellable>()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 200
+
         addRefreshControl()
+        observeViewModel()
+        viewModel.fetchNextPage()
     }
-    
+
     @objc func refreshControlDidChangeValue(refreshControl: UIRefreshControl) {
-        tableView.reloadData()
+        viewModel.refresh()
         refreshControl.endRefreshing()
     }
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     func addRefreshControl() {
         let refreshControl = UIRefreshControl()
-        
+
         refreshControl.addTarget(self, action: #selector(refreshControlDidChangeValue), for: .valueChanged)
-        if #available(iOS 10.0, *) {
-            tableView.refreshControl = refreshControl
-        } else {
-            tableView.addSubview(refreshControl)
-        }
+        tableView.refreshControl = refreshControl
     }
-    
+
+    private func observeViewModel() {
+        viewModel.$groupItemList
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
+        viewModel.$message
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] message in
+                if let message = message {
+                    self?.view.makeToast(message: message)
+                }
+            }
+            .store(in: &cancellables)
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as? GroupTableViewCell else {
             fatalError()
         }
-        cell.mainImage = data[indexPath.row].image
-        cell.messsage = data[indexPath.row].message
-        
+        cell.bind(viewModel.groupItemList[indexPath.row].value)
         cell.layoutSubviews()
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return viewModel.groupItemList.count
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let entry = viewModel.groupItemList[indexPath.row]
+        let isJoinedOrRequested = entry.value.members?[PreferenceManager.shared.user?.uid ?? ""] != nil
+        let groupInfoViewController = GroupInfoViewController(groupItem: entry.value, key: entry.key, buttonType: isJoinedOrRequested ? GroupInfoViewModel.TYPE_CANCEL : GroupInfoViewModel.TYPE_REQUEST)
+
+        navigationController?.pushViewController(groupInfoViewController, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == viewModel.groupItemList.count - 1 && viewModel.hasRequestMore && !viewModel.isLoading {
+            viewModel.fetchNextPage()
+        }
     }
 }

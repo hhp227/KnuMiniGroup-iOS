@@ -5,31 +5,47 @@
 //  Created by 홍희표 on 2020/12/03.
 //  Copyright © 2020 홍희표. All rights reserved.
 //
+//  멤버 탭 (Android의 Tab3Fragment 대응)
+//
 
 import UIKit
+import Combine
 
 class Tab3ViewController: TabViewController, UICollectionViewDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
-    
+
+    var groupKey = ""
+
+    private(set) var viewModel: Tab3ViewModel!
+
+    private var cancellables = Set<AnyCancellable>()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel = Tab3ViewModel(groupKey: groupKey)
         collectionView.delegate = self
         collectionView.dataSource = self
-        // Do any additional setup after loading the view.
-    }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        observeViewModel()
+        viewModel.fetchUserList()
     }
-    */
-    
-    
+
+    private func observeViewModel() {
+        viewModel.$memberItemList
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.collectionView.reloadData()
+            }
+            .store(in: &cancellables)
+        viewModel.$message
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] message in
+                if let message = message {
+                    self?.view.makeToast(message: message)
+                }
+            }
+            .store(in: &cancellables)
+    }
 }
 
 extension Tab3ViewController: UICollectionViewDataSource {
@@ -45,11 +61,12 @@ extension Tab3ViewController: UICollectionViewDataSource {
         cell.layer.shadowOpacity = 1.0
         cell.layer.masksToBounds = false
         cell.layer.shadowPath = UIBezierPath(roundedRect: cell.bounds, cornerRadius: cell.contentView.layer.cornerRadius).cgPath
+        (cell as? MemberCollectionViewCell)?.bind(viewModel.memberItemList[indexPath.row].value)
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return viewModel.memberItemList.count
     }
 }
 

@@ -7,12 +7,17 @@
 //
 
 import UIKit
+import FirebaseCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        // GoogleService-Info.plist가 프로젝트에 추가되어 있어야 Firebase가 동작한다 (README_FIREBASE.md 참고)
+        if Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") != nil {
+            FirebaseApp.configure()
+        }
         sleep(1)
         return true
     }
