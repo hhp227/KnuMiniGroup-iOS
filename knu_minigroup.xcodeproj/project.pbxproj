@@ -72,7 +72,6 @@
 		2A86078F965EADD257F97944 /* RequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CC0603FFF76F51E4D45EA7 /* RequestViewModel.swift */; };
 		2C5D0DA078AEEA632AC1543C /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = AA10FB0000000000000000F3 /* FirebaseDatabase */; };
 		AA10FB0000000000000000F7 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA10FB0000000000000000F6 /* Toast.swift */; };
-		AA10FB0000000000000000F9 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA10FB0000000000000000F8 /* MenuBar.swift */; };
 		327F1AA6EF0A3D3A68F4B811 /* ReplyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC636C8901E50D67DB40DAE /* ReplyRepository.swift */; };
 		32DD6724B03AD110D062F410 /* Tab1ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663C23E809DD661625FE9AE1 /* Tab1ViewModel.swift */; };
 		3A135007080745B7AB4CAAF1 /* CreateGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708B2A88F9690621B9BBA5CD /* CreateGroupViewModel.swift */; };
@@ -213,7 +212,6 @@
 		96CB64548F946B0E598FBD7B /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		985E695DEF77385EC48787F3 /* UIViewToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewToast.swift; sourceTree = "<group>"; };
 		AA10FB0000000000000000F6 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
-		AA10FB0000000000000000F8 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		A608A09108A449B713709B0C /* UnivNoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnivNoticeViewModel.swift; sourceTree = "<group>"; };
 		A9328F362B71713672EB21DD /* TimetableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimetableItem.swift; sourceTree = "<group>"; };
 		AAC61A7C36C4CF6F5A007D06 /* SemesterTimeTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemesterTimeTableViewModel.swift; sourceTree = "<group>"; };
@@ -403,7 +401,6 @@
 				0A1A387B2575555500278C08 /* MenuItemView.swift */,
 				0AF5B9EF2577E4CD00AC9890 /* PlaceholderViewController.swift */,
 				0ADEF76725E25A010000F12D /* TabViewController.swift */,
-				AA10FB0000000000000000F8 /* MenuBar.swift */,
 			);
 			path = HeaderedTabScrollViewController;
 			sourceTree = "<group>";
@@ -565,7 +562,6 @@
 			files = (
 				F9F9DAE4EA3C1BCD80CA0AA6 /* EndPoint.swift in Sources */,
 				AA10FB0000000000000000F7 /* Toast.swift in Sources */,
-				AA10FB0000000000000000F9 /* MenuBar.swift in Sources */,
 				7D37E9C1690E3E275FD02D10 /* Resource.swift in Sources */,
 				57B2AA69D513402B78D77EF2 /* PreferenceManager.swift in Sources */,
 				51FD70AE45D0EDD05EBD5F74 /* DateUtil.swift in Sources */,
