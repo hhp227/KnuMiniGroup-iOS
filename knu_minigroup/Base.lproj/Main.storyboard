@@ -1160,9 +1160,6 @@
                                                 <constraint firstItem="ga3-rn-rRv" firstAttribute="top" secondItem="qGz-xd-j2G" secondAttribute="top" id="xQl-PN-xqc"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <connections>
-                                            <segue destination="Fem-6I-ClF" kind="show" id="FD9-0H-n2i"/>
-                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
