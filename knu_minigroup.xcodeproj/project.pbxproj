@@ -70,7 +70,7 @@
 		222145442E07A10311C985C2 /* TimetableLocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA821798C313BDC29F8CCE6A /* TimetableLocalDataSource.swift */; };
 		24B32277C83DE6E2DCE57778 /* CreateArticleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CE24750CB809B10D0DE754 /* CreateArticleViewModel.swift */; };
 		2A86078F965EADD257F97944 /* RequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CC0603FFF76F51E4D45EA7 /* RequestViewModel.swift */; };
-		2C5D0DA078AEEA632AC1543C /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		2C5D0DA078AEEA632AC1543C /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = AA10FB0000000000000000F3 /* FirebaseDatabase */; };
 		327F1AA6EF0A3D3A68F4B811 /* ReplyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC636C8901E50D67DB40DAE /* ReplyRepository.swift */; };
 		32DD6724B03AD110D062F410 /* Tab1ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663C23E809DD661625FE9AE1 /* Tab1ViewModel.swift */; };
 		3A135007080745B7AB4CAAF1 /* CreateGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708B2A88F9690621B9BBA5CD /* CreateGroupViewModel.swift */; };
@@ -84,7 +84,7 @@
 		73F8245D25731CF6DA8917DD /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369EFF21E0934D63E28F872D /* ImageLoader.swift */; };
 		745A721CB06DB0C745931860 /* StudentMealViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C73F14770B3A966B215D3D7 /* StudentMealViewModel.swift */; };
 		7D37E9C1690E3E275FD02D10 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F504FF6A06811814A45DD05E /* Resource.swift */; };
-		7E3632BA047B562EC3321438 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		7E3632BA047B562EC3321438 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AA10FB0000000000000000F2 /* FirebaseAuth */; };
 		7F10D7F595A56AA9DB688AEF /* ScheduleRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2F86854EC322F9FDC5875C /* ScheduleRemoteDataSource.swift */; };
 		7FB2101391CDF00C799D511F /* TimetableRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8D7EE61EAB6991821EEE06 /* TimetableRepository.swift */; };
 		83F4F1358C953B127FDBF15B /* BTLDormMealViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A36F27ADB20AC0C45B76502 /* BTLDormMealViewModel.swift */; };
@@ -235,8 +235,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E3632BA047B562EC3321438 /* (null) in Frameworks */,
-				2C5D0DA078AEEA632AC1543C /* (null) in Frameworks */,
+				7E3632BA047B562EC3321438 /* FirebaseAuth in Frameworks */,
+				2C5D0DA078AEEA632AC1543C /* FirebaseDatabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,6 +495,8 @@
 			);
 			name = knu_minigroup;
 			packageProductDependencies = (
+				AA10FB0000000000000000F2 /* FirebaseAuth */,
+				AA10FB0000000000000000F3 /* FirebaseDatabase */,
 			);
 			productName = knu_minigroup;
 			productReference = 0AA26BFA24F22B9600FA4D5A /* knu_minigroup.app */;
@@ -525,6 +527,7 @@
 			);
 			mainGroup = 0AA26BF124F22B9600FA4D5A;
 			packageReferences = (
+				AA10FB0000000000000000F1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 0AA26BFB24F22B9600FA4D5A /* Products */;
 			projectDirPath = "";
@@ -860,6 +863,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AA10FB0000000000000000F1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AA10FB0000000000000000F2 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA10FB0000000000000000F1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		AA10FB0000000000000000F3 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA10FB0000000000000000F1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0AA26BF224F22B9600FA4D5A /* Project object */;
 }
