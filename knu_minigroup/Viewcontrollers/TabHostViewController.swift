@@ -106,6 +106,9 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
                 array[i].segueDelegateFunc = {
                     self.performSegue(withIdentifier: $0, sender: $1)
                 }
+                array[i].pushDelegateFunc = { [weak self] in
+                    self?.navigationController?.pushViewController($0, animated: true)
+                }
                 array[i].title = tabsTexts[i]
             }
             return array
@@ -332,14 +335,11 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         
     }*/
     
+    // 헤더는 top=0에 고정하고 height를 tabMenuContainer의 top(currentY)에 맞춰 줄인다.
+    // 기존에는 top만 느린 속도(parallax)로 이동하고 height가 고정이어서, 더 빠르게 올라가는
+    // tabMenuContainer와의 사이에 부모 뷰의 red 배경(headerBackgroundColor)이 gap으로 드러났다.
     open func updateHeaderPositionAccordingToScrollPosition(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
-        if let constraint = headerTopConstraint {
-            let paralaxCoef: CGFloat = 0.3 // i.e. if the tabScrollView goas up by 1, the header goes up by this coefficient
-            let tabScrollViewTravelPercent = -(currentY - minY) / (minY - maxY)
-            let headerTravelPercent = tabScrollViewTravelPercent * paralaxCoef
-            let headerTargetY = headerTravelPercent * (minY - maxY)
-            constraint.constant = -headerTargetY
-        }
+        headerHeightConstraint?.constant = min(max(currentY, maxY), minY)
     }
     
     open func updateHeaderAlphaAccordingToScrollPosition(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {

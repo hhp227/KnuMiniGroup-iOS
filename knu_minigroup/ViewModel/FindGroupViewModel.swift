@@ -33,7 +33,7 @@ class FindGroupViewModel {
         guard hasRequestMore else {
             return
         }
-        groupRepository.getNotJoinedGroupList(offset: offset, limit: FindGroupViewModel.LIMIT) { [weak self] result in
+        groupRepository.getNotJoinedGroupList(uid: user?.uid, offset: offset, limit: FindGroupViewModel.LIMIT) { [weak self] result in
             guard let self = self else {
                 return
             }

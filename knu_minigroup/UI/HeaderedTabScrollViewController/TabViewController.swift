@@ -12,6 +12,8 @@ open class TabViewController: UIViewController, TabScrollViewDelegate {
     var scrollDelegateFunc: ((UIScrollView) -> Void)?
     
     var segueDelegateFunc: ((String, Any) -> Void)?
+
+    var pushDelegateFunc: ((UIViewController) -> Void)?
     
     open override func viewDidLoad() {
         super.viewDidLoad()

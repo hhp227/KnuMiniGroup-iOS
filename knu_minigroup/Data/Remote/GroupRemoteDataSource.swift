@@ -30,7 +30,8 @@ class GroupRemoteDataSource {
         fetchDataTaskFromFirebase(query: query, callback: callback)
     }
 
-    func getNotJoinedGroupList(limit: Int, callback: @escaping Callback<[(key: String, value: GroupItem)]>) {
+    // uid가 가입중이거나(true) 가입신청중인(false) 그룹은 목록에서 제외
+    func getNotJoinedGroupList(uid: String?, limit: Int, callback: @escaping Callback<[(key: String, value: GroupItem)]>) {
         let databaseReference = Database.database().reference(withPath: "Groups")
         var query: DatabaseQuery = databaseReference.queryOrderedByKey().queryLimited(toFirst: UInt(limit))
 
@@ -46,7 +47,7 @@ class GroupRemoteDataSource {
                 if groupItemList.count == Int(dataSnapshot.childrenCount) - 1 {
                     newLastKey = snapshot.key // 마지막 키 저장
                 }
-                if let value = GroupItem(dictionary: snapshot.value as? [String: Any]) {
+                if let value = GroupItem(dictionary: snapshot.value as? [String: Any]), uid == nil || value.members?[uid!] == nil {
                     groupItemList.append((snapshot.key, value))
                 }
             }
