@@ -49,10 +49,10 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     
     public var headerBackgroundColor: UIColor? {
         get {
-            return view.backgroundColor
+            return headerContainer.backgroundColor
         }
         set(value) {
-            view.backgroundColor = value
+            headerContainer.backgroundColor = value
         }
     }
     
@@ -65,7 +65,9 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         // Android fragment_tab_host_layout: 레드 TabLayout, 흰 라벨, 인디케이터 colorAccent
         let parameters: [TabLayoutOption] = [
             .scrollMenuBackgroundColor(.colorPrimary),
-            .viewBackgroundColor(.colorPrimary),
+            // 빨간색은 탭 바에만 사용한다. 페이지 크기가 갱신되는 레이아웃 경계에서
+            // 컨테이너 배경이 잠시 노출되더라도 빨간 띠로 보이지 않게 한다.
+            .viewBackgroundColor(.systemBackground),
             .bottomMenuHairlineColor(UIColor(red: 20.0 / 255.0, green: 20.0 / 255.0, blue: 20.0 / 255.0, alpha: 0.1)),
             .selectionIndicatorColor(.colorAccent),
             .menuMargin(0.0),
@@ -299,6 +301,7 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     
     public func pleaseScroll(_ scrollView: UIScrollView) {
         var delta = scrollView.contentOffset.y - lastTabScrollViewOffset.y
+        var didMoveHeader = false
         
         // Vertical bounds
         let maxY: CGFloat = navBarOffset()
@@ -315,6 +318,7 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
             }
             tabTopConstraint!.constant -= delta
             scrollView.contentOffset.y -= delta
+            didMoveHeader = true
         }
         
         //we expand the top view
@@ -325,7 +329,15 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
                 }
                 tabTopConstraint!.constant -= delta
                 scrollView.contentOffset.y -= delta
+                didMoveHeader = true
             }
+        }
+
+        // top 제약만 먼저 바뀌고 내부 페이지의 수동 프레임 갱신이 다음 프레임으로
+        // 밀리면, 접힘 방향에서 늘어난 컨테이너 하단이 배경색으로 노출된다.
+        // 같은 스크롤 이벤트 안에서 제약과 탭 페이지 크기를 함께 반영한다.
+        if didMoveHeader {
+            view.layoutIfNeeded()
         }
         
         lastTabScrollViewOffset = scrollView.contentOffset
