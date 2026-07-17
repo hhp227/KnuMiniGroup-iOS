@@ -34,7 +34,9 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         collectionView.delegate = self
         collectionView.dataSource = self
 
+        setupTabBar()
         setupCollectionView()
+        collectionView.register(MainCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "GroupCollectionViewHeader")
         addRefreshControl()
         observeViewModel()
         viewModel.fetchGroupList()
@@ -61,10 +63,28 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         refreshControl.endRefreshing()
     }
 
+    // Android fragment_group_main: 2열 그리드, 가로 간격 14, 세로 간격 10
     func setupCollectionView() {
         let flow = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        flow.minimumInteritemSpacing = CGFloat(cellMarginSize)
-        flow.minimumLineSpacing = CGFloat(cellMarginSize)
+        flow.minimumInteritemSpacing = 14
+        flow.minimumLineSpacing = 10
+        flow.sectionInset = UIEdgeInsets(top: 10, left: 14, bottom: 10, right: 14)
+    }
+
+    // Android BottomNavigationView 스타일: 흰 배경, 회색 아이템(선택 시 colorPrimary)
+    private func setupTabBar() {
+        let tabAppearance = UITabBarAppearance()
+
+        tabAppearance.configureWithOpaqueBackground()
+        tabAppearance.backgroundColor = .white
+        [tabAppearance.stackedLayoutAppearance, tabAppearance.inlineLayoutAppearance, tabAppearance.compactInlineLayoutAppearance].forEach {
+            $0.normal.iconColor = .gray
+            $0.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
+            $0.selected.iconColor = .colorPrimary
+            $0.selected.titleTextAttributes = [.foregroundColor: UIColor.colorPrimary]
+        }
+        tabBar.standardAppearance = tabAppearance
+        tabBar.scrollEdgeAppearance = tabAppearance
     }
 
     func addRefreshControl() {
@@ -134,10 +154,13 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         return header!
     }
 
+    // Android group_grid_item: 이미지 100 + 타이틀 영역 65 = 높이 165, 2열
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellCount = floor(CGFloat(view.frame.size.width / CGFloat(estimateWidth)))
-        let margin = CGFloat(cellMarginSize * 2)
-        let width = (view.frame.size.width - CGFloat(cellMarginSize) * (cellCount - 1) - margin) / cellCount
-        return CGSize(width: width, height: width)
+        let width = (collectionView.frame.width - 14 * 3) / 2
+        return CGSize(width: width, height: 165)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 35)
     }
 }

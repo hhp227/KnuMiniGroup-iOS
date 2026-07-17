@@ -33,14 +33,16 @@ class MainCollectionViewCell: UICollectionViewCell {
         }
         isConfigured = true
 
+        // Android group_grid_item: 이미지 폭×100 fitXY + 타이틀 15pt #4C4C4C 패딩 10
         contentView.subviews.forEach { $0.removeFromSuperview() }
         groupImageView.translatesAutoresizingMaskIntoConstraints = false
-        groupImageView.contentMode = .scaleAspectFill
+        groupImageView.contentMode = .scaleToFill
         groupImageView.clipsToBounds = true
-        groupImageView.backgroundColor = .systemGray5
+        groupImageView.backgroundColor = .profileBg
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.font = .systemFont(ofSize: 14)
-        nameLabel.textAlignment = .center
+        nameLabel.font = .systemFont(ofSize: 15)
+        nameLabel.textColor = .gridTitle
+        nameLabel.textAlignment = .left
         nameLabel.numberOfLines = 1
         contentView.addSubview(groupImageView)
         contentView.addSubview(nameLabel)
@@ -48,11 +50,10 @@ class MainCollectionViewCell: UICollectionViewCell {
             groupImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             groupImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             groupImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            nameLabel.topAnchor.constraint(equalTo: groupImageView.bottomAnchor, constant: 4),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
-            nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
-            nameLabel.heightAnchor.constraint(equalToConstant: 20)
+            groupImageView.heightAnchor.constraint(equalToConstant: 100),
+            nameLabel.topAnchor.constraint(equalTo: groupImageView.bottomAnchor, constant: 10),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
     }
 

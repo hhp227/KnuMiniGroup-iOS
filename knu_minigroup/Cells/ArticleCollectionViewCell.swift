@@ -11,6 +11,8 @@ import UIKit
 class ArticleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
 
+    @IBOutlet weak var avatarImageView: UIImageView!
+
     @IBOutlet weak var dateLabel: UILabel!
 
     @IBOutlet weak var articleImageView: UIImageView!
@@ -35,6 +37,7 @@ class ArticleCollectionViewCell: UICollectionViewCell {
             titleLabel.text = (item.title ?? "") + " - " + (item.name ?? "")
             dateLabel.text = item.date
             contentLabel.text = item.content
+            avatarImageView.loadImage(EndPoint.USER_IMAGE.replacingOccurrences(of: "{UID}", with: item.uid ?? ""), placeholder: UIImage(named: "user_image_view_circle"))
 
             if let content = item.content, !content.isEmpty, contentLabel.getLineCount() > contentLabel.numberOfLines {
                 moreLabel.isHidden = false
@@ -55,6 +58,7 @@ class ArticleCollectionViewCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        avatarImageView.clipsToBounds = true
         cardView()
     }
 

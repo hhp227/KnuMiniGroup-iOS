@@ -61,6 +61,7 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
             .sink { [weak self] articleItemList in
                 self?.data = articleItemList.map { $0.value }
 
+                self?.collectionView.backgroundView = articleItemList.isEmpty ? self?.makeEmptyStateView() : nil
                 self?.collectionView.reloadData()
             }
             .store(in: &cancellables)
@@ -72,6 +73,33 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
                 }
             }
             .store(in: &cancellables)
+    }
+
+    // Android fragment_tab1 빈 상태: 아이콘 + "등록된 글이 없습니다."
+    private func makeEmptyStateView() -> UIView {
+        let container = UIView()
+        let imageView = UIImageView(image: UIImage(systemName: "plus.square.on.square", withConfiguration: UIImage.SymbolConfiguration(pointSize: 60, weight: .regular)))
+        let label = UILabel()
+
+        imageView.tintColor = .colorAccent
+        label.text = "등록된 글이 없습니다.\n게시글을 작성하세요."
+        label.font = .systemFont(ofSize: 15)
+        label.textColor = .gray
+        label.textAlignment = .center
+        label.numberOfLines = 2
+
+        let stackView = UIStackView(arrangedSubviews: [imageView, label])
+
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.spacing = 12
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(stackView)
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: container.centerYAnchor)
+        ])
+        return container
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
