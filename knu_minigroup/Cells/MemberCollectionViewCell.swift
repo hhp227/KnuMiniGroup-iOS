@@ -28,23 +28,23 @@ class MemberCollectionViewCell: UICollectionViewCell {
         }
         isConfigured = true
 
+        // Android member_item: 셀 폭 정사각 사진(#EEEEEE) + 이름 9pt 중앙
         contentView.subviews.forEach { $0.removeFromSuperview() }
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.clipsToBounds = true
-        profileImageView.layer.cornerRadius = 24
-        profileImageView.backgroundColor = .systemGray5
+        profileImageView.backgroundColor = .profileBg
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.font = .systemFont(ofSize: 12)
+        nameLabel.font = .systemFont(ofSize: 9)
         nameLabel.textAlignment = .center
         contentView.addSubview(profileImageView)
         contentView.addSubview(nameLabel)
         NSLayoutConstraint.activate([
-            profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            profileImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            profileImageView.widthAnchor.constraint(equalToConstant: 48),
-            profileImageView.heightAnchor.constraint(equalToConstant: 48),
-            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 4),
+            profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            profileImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            profileImageView.widthAnchor.constraint(equalTo: profileImageView.heightAnchor),
+            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 2),
             nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2),
             nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2),
             nameLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
@@ -54,6 +54,6 @@ class MemberCollectionViewCell: UICollectionViewCell {
     func bind(_ memberItem: MemberItem) {
         setupViews()
         nameLabel.text = memberItem.name
-        profileImageView.loadImage(EndPoint.USER_IMAGE.replacingOccurrences(of: "{UID}", with: memberItem.uid ?? ""), placeholder: UIImage(named: "knu_minigroup"))
+        profileImageView.loadImage(EndPoint.USER_IMAGE.replacingOccurrences(of: "{UID}", with: memberItem.uid ?? ""), placeholder: UIImage(named: "profile_img_square"))
     }
 }
