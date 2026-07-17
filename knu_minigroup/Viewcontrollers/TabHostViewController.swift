@@ -33,23 +33,20 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
 
     private let gradientLayer = CAGradientLayer()
 
+    // Android CollapsingToolbarLayout의 contentScrim(?attr/colorPrimary) 대응 — 완전히 접히면 불투명해진다
+    private let scrimView = UIView()
+
     var headerHeightConstraint: NSLayoutConstraint?
-    
+
     var headerTopConstraint: NSLayoutConstraint?
-    
+
     var tabTopConstraint: NSLayoutConstraint?
 
     var tabHeightConstraint: NSLayoutConstraint?
 
     private var lastTabScrollViewOffset: CGPoint = .zero
 
-    public var headerHeight: CGFloat = 240 {
-        didSet {
-            if let constraint = headerHeightConstraint {
-                constraint.constant = oldValue
-            }
-        }
-    }
+    public let headerHeight: CGFloat = 240
     
     public var headerBackgroundColor: UIColor? {
         get {
@@ -109,6 +106,9 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
                 array[i].pushDelegateFunc = { [weak self] in
                     self?.navigationController?.pushViewController($0, animated: true)
                 }
+                array[i].settledScrollDelegateFunc = { [weak self] _ in
+                    self?.snapHeaderIfNeeded()
+                }
                 array[i].title = tabsTexts[i]
             }
             return array
@@ -145,8 +145,9 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         setupFab()
     }
 
-    // Android CollapsingToolbarLayout 헤더: 그룹 이미지 + 중앙 knu_sotong 로고 + bg_gradient 스크림
+    // Android CollapsingToolbarLayout 헤더: 그룹 이미지 → 로고 → bg_gradient 스크림 → contentScrim 순서(XML 자식 순서와 동일하게 뒤로 갈수록 위)
     private func setupHeaderContent() {
+        headerContainer.clipsToBounds = true
         headerImageView.translatesAutoresizingMaskIntoConstraints = false
         headerImageView.contentMode = .scaleAspectFill
         headerImageView.clipsToBounds = true
@@ -154,12 +155,19 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
             headerImageView.loadImage(groupImage)
         }
         headerContainer.addSubview(headerImageView)
-        gradientLayer.colors = [UIColor.black.withAlphaComponent(0.5).cgColor, UIColor.clear.cgColor, UIColor.black.withAlphaComponent(0.25).cgColor]
-        gradientLayer.locations = [0, 0.5, 1]
-        headerContainer.layer.addSublayer(gradientLayer)
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.contentMode = .scaleAspectFit
         headerContainer.addSubview(logoImageView)
+        // Android bg_gradient(angle 270): 상단 50% 블랙 → 중앙 투명 → 하단 25% 블랙. 로고 위에 얹혀야 하므로 addSubview(logoImageView) 다음에 추가
+        gradientLayer.colors = [UIColor.black.withAlphaComponent(0.5).cgColor, UIColor.clear.cgColor, UIColor.black.withAlphaComponent(0.25).cgColor]
+        gradientLayer.locations = [0, 0.5, 1]
+        headerContainer.layer.addSublayer(gradientLayer)
+        // contentScrim: 평소 투명, 완전히 접히면 불투명 red로 덮여 헤더가 접힌 툴바처럼 보인다
+        scrimView.translatesAutoresizingMaskIntoConstraints = false
+        scrimView.backgroundColor = .colorPrimary
+        scrimView.alpha = 0
+        scrimView.isUserInteractionEnabled = false
+        headerContainer.addSubview(scrimView)
         NSLayoutConstraint.activate([
             headerImageView.topAnchor.constraint(equalTo: headerContainer.topAnchor),
             headerImageView.leadingAnchor.constraint(equalTo: headerContainer.leadingAnchor),
@@ -168,7 +176,11 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
             logoImageView.centerXAnchor.constraint(equalTo: headerContainer.centerXAnchor),
             logoImageView.centerYAnchor.constraint(equalTo: headerContainer.centerYAnchor),
             logoImageView.widthAnchor.constraint(equalToConstant: 170),
-            logoImageView.heightAnchor.constraint(equalToConstant: 80)
+            logoImageView.heightAnchor.constraint(equalToConstant: 80),
+            scrimView.topAnchor.constraint(equalTo: headerContainer.topAnchor),
+            scrimView.leadingAnchor.constraint(equalTo: headerContainer.leadingAnchor),
+            scrimView.trailingAnchor.constraint(equalTo: headerContainer.trailingAnchor),
+            scrimView.bottomAnchor.constraint(equalTo: headerContainer.bottomAnchor)
         ])
     }
 
@@ -203,7 +215,8 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
             let transparent = UINavigationBarAppearance()
 
             transparent.configureWithTransparentBackground()
-            transparent.titleTextAttributes = [.foregroundColor: UIColor.white]
+            // Android CollapsingToolbarLayout처럼 헤더가 펼쳐진 동안엔 타이틀을 숨기고(로고와 중복 방지) 완전히 접혔을 때만 페이드인
+            transparent.titleTextAttributes = [.foregroundColor: UIColor.white.withAlphaComponent(0)]
             navBar.standardAppearance = transparent
             navBar.scrollEdgeAppearance = transparent
             navBar.compactAppearance = transparent
@@ -220,15 +233,16 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         }
     }
     
+    // Android CollapsingToolbarLayout의 타이틀 페이드인: 접히는 마지막 구간에서만 흰 타이틀이 나타난다
     public func updateNavBarAccordingToScrollPosition(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
         let alphaOffset: CGFloat = (minY - maxY) * 0.3 // alpha start changing at 1/3 of the way up
         var alpha = (currentY + alphaOffset - minY) / (maxY + alphaOffset - minY)
-        
+
         if currentY > minY - alphaOffset {
             alpha = 0
         }
-        
-        //self.navBarTransparancy = alpha
+
+        setNavbarTitleTransparency(alpha: alpha)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -342,9 +356,34 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         headerHeightConstraint?.constant = min(max(currentY, maxY), minY)
     }
     
+    // Android contentScrim 페이드인: 헤더 자체를 투명하게 지우면 뒤의 red 배경이 드러나므로
+    // scrimView를 위에 덧씌우는 방식으로 처리한다 (headerContainer는 항상 완전 불투명 유지)
     open func updateHeaderAlphaAccordingToScrollPosition(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
         let alphaOffset: CGFloat = (minY - maxY) * 0.3 // alpha start changing at 1/3 of the way up
-        headerContainer.alpha = currentY > minY - alphaOffset ? 1 : 1 - (currentY + alphaOffset - minY) / (maxY + alphaOffset - minY)
+        let headerAlpha = currentY > minY - alphaOffset ? 1 : 1 - (currentY + alphaOffset - minY) / (maxY + alphaOffset - minY)
+
+        scrimView.alpha = 1 - headerAlpha
+    }
+
+    // Android layout_scrollFlags의 "snap": 손을 뗐을 때 반쯤 접힌 상태로 멈추지 않고
+    // 가까운 쪽(완전히 펼침/완전히 접힘)으로 애니메이션한다
+    private func snapHeaderIfNeeded() {
+        guard let constraint = tabTopConstraint else {
+            return
+        }
+        let minY = headerHeight
+        let maxY = navBarOffset()
+
+        guard constraint.constant > maxY, constraint.constant < minY else {
+            return
+        }
+        let target: CGFloat = (constraint.constant - maxY) < (minY - constraint.constant) ? maxY : minY
+
+        UIView.animate(withDuration: 0.25) {
+            constraint.constant = target
+            self.headerDidScroll(minY: minY, maxY: maxY, currentY: target)
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
