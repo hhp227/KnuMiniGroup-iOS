@@ -13,7 +13,7 @@ import UIKit
 class ArticleDetailCollectionViewCell: UICollectionViewCell {
     var articleItem: ArticleItem?
 
-    let nameLabel = UILabel()
+    let avatarImageView = UIImageView()
 
     let dateLabel = UILabel()
 
@@ -30,6 +30,7 @@ class ArticleDetailCollectionViewCell: UICollectionViewCell {
         setupViews()
     }
 
+    // Android article_detail.xml: 아바타 45 + 타이틀 bold 15 + 타임스탬프 13 #A0A3A7
     private func setupViews() {
         guard !isConfigured else {
             return
@@ -37,38 +38,42 @@ class ArticleDetailCollectionViewCell: UICollectionViewCell {
         isConfigured = true
 
         contentView.subviews.forEach { $0.removeFromSuperview() }
+        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+        avatarImageView.contentMode = .scaleAspectFill
+        avatarImageView.clipsToBounds = true
+        avatarImageView.layer.cornerRadius = 22.5
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = .boldSystemFont(ofSize: 18)
-        titleLabel.numberOfLines = 0
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.font = .systemFont(ofSize: 14)
+        titleLabel.font = .boldSystemFont(ofSize: 15)
+        titleLabel.numberOfLines = 1
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.font = .systemFont(ofSize: 12)
-        dateLabel.textColor = .secondaryLabel
+        dateLabel.font = .systemFont(ofSize: 13)
+        dateLabel.textColor = .textTimestamp
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentLabel.font = .systemFont(ofSize: 15)
+        contentLabel.font = .systemFont(ofSize: 14)
         contentLabel.numberOfLines = 0
         articleImageView.translatesAutoresizingMaskIntoConstraints = false
         articleImageView.contentMode = .scaleAspectFit
+        contentView.addSubview(avatarImageView)
         contentView.addSubview(titleLabel)
-        contentView.addSubview(nameLabel)
         contentView.addSubview(dateLabel)
         contentView.addSubview(contentLabel)
         contentView.addSubview(articleImageView)
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 45),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 45),
+            titleLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor, constant: 2),
+            titleLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 10),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            nameLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6),
-            nameLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            dateLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
-            dateLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 8),
-            contentLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
-            contentLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            contentLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
+            dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            contentLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 10),
+            contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            contentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             articleImageView.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 10),
-            articleImageView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            articleImageView.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            articleImageView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
+            articleImageView.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor),
             articleImageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -12)
         ])
     }
@@ -77,10 +82,10 @@ class ArticleDetailCollectionViewCell: UICollectionViewCell {
         setupViews()
         self.articleItem = articleItem
 
-        titleLabel.text = articleItem.title
-        nameLabel.text = articleItem.name
+        titleLabel.text = (articleItem.title ?? "") + " - " + (articleItem.name ?? "")
         dateLabel.text = articleItem.date
         contentLabel.text = articleItem.content
+        avatarImageView.loadImage(EndPoint.USER_IMAGE.replacingOccurrences(of: "{UID}", with: articleItem.uid ?? ""), placeholder: UIImage(named: "user_image_view_circle"))
         if let imageUrl = articleItem.images.first {
             articleImageView.loadImage(imageUrl)
         } else {

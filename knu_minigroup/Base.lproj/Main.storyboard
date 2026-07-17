@@ -708,14 +708,14 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aQZ-WO-cOb">
                                         <rect key="frame" x="365" y="11" width="36" height="30"/>
-                                        <state key="normal" title="Send"/>
+                                        <state key="normal" title="전송"/>
                                         <connections>
                                             <action selector="actionSend:" destination="VP5-Ac-BOW" eventType="touchUpInside" id="LrB-sp-tdX"/>
                                         </connections>
                                     </button>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ISv-Uf-d1w" customClass="UITextViewExtension" customModule="knu_minigroup" customModuleProvider="target">
                                         <rect key="frame" x="8" y="8" width="344" height="36"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" white="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -729,11 +729,14 @@
                                             <userDefinedRuntimeAttribute type="number" keyPath="maxHeight">
                                                 <real key="value" value="100"/>
                                             </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="메시지를 입력하세요."/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="댓글을 입력하세요."/>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="placeHolderColor">
+                                                <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </textView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="aQZ-WO-cOb" secondAttribute="trailing" constant="13" id="B8G-hJ-KJM"/>
                                     <constraint firstItem="aQZ-WO-cOb" firstAttribute="top" relation="greaterThanOrEqual" secondItem="QI2-7X-rab" secondAttribute="top" constant="11" id="H5k-bO-bdu"/>

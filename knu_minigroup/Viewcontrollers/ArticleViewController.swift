@@ -45,8 +45,25 @@ class ArticleViewController: UIViewController {
         collectionView.register(ReplyCollectionViewCell.self, forCellWithReuseIdentifier: "replyCell")
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler)))
+        setupSendButton()
         observeViewModel()
         viewModel.refresh()
+    }
+
+    // Android 댓글 전송 버튼: 입력 시 colorAccent 배경, 비어있으면 흰 배경+회색 테두리
+    private func setupSendButton() {
+        sendButton.layer.cornerRadius = 2
+        sendButton.titleLabel?.font = .boldSystemFont(ofSize: 14)
+        sendButton.setTitleColor(.darkGray, for: .normal)
+        updateSendButtonState()
+    }
+
+    private func updateSendButtonState() {
+        let hasText = !(inputTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+
+        sendButton.backgroundColor = hasText ? .colorAccent : .buttonNormalBg
+        sendButton.layer.borderWidth = hasText ? 0 : 1
+        sendButton.layer.borderColor = UIColor.colorAccent.cgColor
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -54,11 +71,12 @@ class ArticleViewController: UIViewController {
     }
 
     @IBAction func actionSend(_ sender: UIButton) {
-        guard let text = inputTextView.text else {
+        guard let text = inputTextView.text, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             return
         }
         viewModel.addReply(text: text)
         inputTextView.text = ""
+        updateSendButtonState()
         view.endEditing(true)
     }
 
@@ -124,6 +142,10 @@ class ArticleViewController: UIViewController {
 }
 
 extension ArticleViewController: UITextViewExtensionDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        updateSendButtonState()
+    }
+
     private func increaseHeight(textView: UITextViewExtension, willChangeHeight height: CGFloat) {
         self.view.layoutIfNeeded()
     }
@@ -178,6 +200,26 @@ extension ArticleViewController: UICollectionViewDelegateFlowLayout {
         guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize() }
         let width = collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right)
 
-        return CGSize(width: width, height: indexPath.row == 0 ? max(flowLayout.itemSize.height, 220) : 76)
+        if indexPath.row == 0 {
+            guard let item = currentArticleItem else {
+                return CGSize(width: width, height: 220)
+            }
+            // 헤더(12+45) + 본문 + 이미지(16:9) + 패딩 실측 (ArticleDetailCollectionViewCell 레이아웃과 동일 값)
+            let contentHeight = heightForText(item.content, font: .systemFont(ofSize: 14), width: width - 32)
+            let imageHeight = item.images.first != nil ? (width - 32) * 9 / 16 + 10 : 0
+            return CGSize(width: width, height: 12 + 45 + 10 + contentHeight + imageHeight + 12)
+        }
+        // 댓글: 패딩 8 + 이름 18 + 본문 + 날짜 14 + 패딩 (ReplyCollectionViewCell 레이아웃과 동일 값)
+        let reply = viewModel.replyItemList[indexPath.row - 1].value
+        let replyHeight = heightForText(reply.reply, font: .systemFont(ofSize: 14), width: width - 69)
+        return CGSize(width: width, height: max(61, 8 + 18 + 2 + replyHeight + 2 + 14 + 8))
+    }
+
+    private func heightForText(_ text: String?, font: UIFont, width: CGFloat) -> CGFloat {
+        guard let text = text, !text.isEmpty else {
+            return 0
+        }
+        let rect = (text as NSString).boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: font], context: nil)
+        return ceil(rect.height)
     }
 }
