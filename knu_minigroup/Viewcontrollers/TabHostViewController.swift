@@ -36,8 +36,6 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     // Android CollapsingToolbarLayout의 contentScrim(?attr/colorPrimary) 대응 — 완전히 접히면 불투명해진다
     private let scrimView = UIView()
 
-    var headerHeightConstraint: NSLayoutConstraint?
-
     var headerTopConstraint: NSLayoutConstraint?
 
     var tabTopConstraint: NSLayoutConstraint?
@@ -46,7 +44,10 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
 
     private var lastTabScrollViewOffset: CGPoint = .zero
 
-    public let headerHeight: CGFloat = 240
+    // Android fragment_tab_host_layout: CollapsingToolbarLayout 200dp 안에 TabLayout(48pt, gravity=bottom)이
+    // 겹쳐 들어가 있는 구조와 동일하게, 헤더 자체의 펼침 높이는 200 - 48(탭 바 높이) = 152로 잡는다.
+    // 탭 바는 별도로 얹히는 게 아니라 이 152 바로 아래에서 시작해 총합이 200이 되도록 한다.
+    public let headerHeight: CGFloat = 152
     
     public var headerBackgroundColor: UIColor? {
         get {
@@ -121,8 +122,6 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         headerContainer.translatesAutoresizingMaskIntoConstraints = false
         headerContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         headerContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        headerHeightConstraint = headerContainer.heightAnchor.constraint(equalToConstant: headerHeight)
-        headerHeightConstraint!.isActive = true
         lastTabScrollViewOffset = CGPoint(x: CGFloat(0), y: navBarOffset())
         tabMenuContainer.frame = CGRect(x: 0, y: headerHeight, width: view.frame.width, height: view.frame.height - navBarOffset())
         tabMenuContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -132,6 +131,9 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         tabTopConstraint!.isActive = true
         tabHeightConstraint = tabMenuContainer.heightAnchor.constraint(equalToConstant: view.frame.height - navBarOffset())
         tabHeightConstraint!.isActive = true
+        // 헤더 하단을 tabMenuContainer 상단에 직접 고정 — 별도 height 제약을 스크롤마다 수동으로
+        // 맞추는 대신 Auto Layout이 둘을 항상 정확히 맞닿게 보장하므로 그 사이로 red 배경이 드러날 수 없다.
+        headerContainer.bottomAnchor.constraint(equalTo: tabMenuContainer.topAnchor).isActive = true
         
         // 탭 레이아웃 추가
         pageMenuController = TabLayout(viewControllers: controllers, frame: CGRect(x: 0, y: 0, width: tabMenuContainer.frame.width, height: tabMenuContainer.frame.height), pageMenuOptions: parameters)
@@ -145,24 +147,29 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         setupFab()
     }
 
-    // Android CollapsingToolbarLayout 헤더: 그룹 이미지 → 로고 → bg_gradient 스크림 → contentScrim 순서(XML 자식 순서와 동일하게 뒤로 갈수록 위)
+    // Android TabHostLayoutFragment: 그룹 이미지가 있으면 사진+그라데이션을 보여주고 로고를 숨기고,
+    // 없으면(share_nophoto) 사진 없이 로고만 보여주고 그라데이션은 숨긴다 (headerContainer 자체가 이미 colorPrimary라 별도 배경 불필요)
     private func setupHeaderContent() {
+        let hasGroupImage = groupImage.map { !$0.isEmpty && !$0.contains("share_nophoto") } ?? false
+
         headerContainer.clipsToBounds = true
         headerImageView.translatesAutoresizingMaskIntoConstraints = false
         headerImageView.contentMode = .scaleAspectFill
         headerImageView.clipsToBounds = true
-        if let groupImage = groupImage, !groupImage.isEmpty {
-            headerImageView.loadImage(groupImage)
-        }
         headerContainer.addSubview(headerImageView)
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.contentMode = .scaleAspectFit
+        logoImageView.isHidden = hasGroupImage
         headerContainer.addSubview(logoImageView)
         // Android bg_gradient(angle 270): 상단 50% 블랙 → 중앙 투명 → 하단 25% 블랙. 로고 위에 얹혀야 하므로 addSubview(logoImageView) 다음에 추가
         gradientLayer.colors = [UIColor.black.withAlphaComponent(0.5).cgColor, UIColor.clear.cgColor, UIColor.black.withAlphaComponent(0.25).cgColor]
         gradientLayer.locations = [0, 0.5, 1]
+        gradientLayer.isHidden = !hasGroupImage
         headerContainer.layer.addSublayer(gradientLayer)
-        // contentScrim: 평소 투명, 완전히 접히면 불투명 red로 덮여 헤더가 접힌 툴바처럼 보인다
+        if hasGroupImage {
+            headerImageView.loadImage(groupImage)
+        }
+        // contentScrim: 평소 투명, 완전히 접히면 불투명 red로 덮여 헤더가 접힌 툴바처럼 보인다 (이미지 유무와 무관하게 항상 동작)
         scrimView.translatesAutoresizingMaskIntoConstraints = false
         scrimView.backgroundColor = .colorPrimary
         scrimView.alpha = 0
@@ -322,9 +329,10 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         fab.isHidden = index != 0
     }
     
+    // 헤더 height는 headerContainer.bottomAnchor == tabMenuContainer.topAnchor 제약으로 Auto Layout이
+    // tabTopConstraint 변화에 맞춰 자동으로 따라오므로, 여기서는 알파/타이틀 페이드만 처리하면 된다.
     func headerDidScroll(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
         updateNavBarAccordingToScrollPosition(minY: minY, maxY: maxY, currentY: currentY)
-        updateHeaderPositionAccordingToScrollPosition(minY: minY, maxY: maxY, currentY: currentY)
         updateHeaderAlphaAccordingToScrollPosition(minY: minY, maxY: maxY, currentY: currentY)
     }
     
@@ -348,13 +356,6 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         // navBarItemsColor = navBarItemsColor.withAlphaComponent(alpha)
         
     }*/
-    
-    // 헤더는 top=0에 고정하고 height를 tabMenuContainer의 top(currentY)에 맞춰 줄인다.
-    // 기존에는 top만 느린 속도(parallax)로 이동하고 height가 고정이어서, 더 빠르게 올라가는
-    // tabMenuContainer와의 사이에 부모 뷰의 red 배경(headerBackgroundColor)이 gap으로 드러났다.
-    open func updateHeaderPositionAccordingToScrollPosition(minY: CGFloat, maxY: CGFloat, currentY: CGFloat) {
-        headerHeightConstraint?.constant = min(max(currentY, maxY), minY)
-    }
     
     // Android contentScrim 페이드인: 헤더 자체를 투명하게 지우면 뒤의 red 배경이 드러나므로
     // scrimView를 위에 덧씌우는 방식으로 처리한다 (headerContainer는 항상 완전 불투명 유지)
