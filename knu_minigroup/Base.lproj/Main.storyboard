@@ -247,7 +247,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="L83-aT-VZE">
                                 <rect key="frame" x="0.0" y="88" width="414" height="723"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" red="0.95686274509803926" green="0.98039215686274506" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vaM-Ts-iPn">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -270,13 +270,13 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q3h-AH-zEn">
                                         <rect key="frame" x="365" y="11" width="36" height="30"/>
-                                        <state key="normal" title="Send"/>
+                                        <state key="normal" title="전송"/>
                                         <connections>
                                             <action selector="actionSend:" destination="1NS-8g-1fy" eventType="touchUpInside" id="MOt-sb-KrT"/>
                                             <action selector="actionSend:" destination="VP5-Ac-BOW" eventType="touchUpInside" id="kSu-sN-0G6"/>
                                         </connections>
                                     </button>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3Nz-WS-TEa" customClass="UITextViewExtension" customModule="knu_minigroup" customModuleProvider="target">
+                                    <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3Nz-WS-TEa" customClass="UITextViewExtension" customModule="knu_minigroup" customModuleProvider="target">
                                         <rect key="frame" x="8" y="8" width="344" height="36"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <color key="textColor" systemColor="labelColor"/>
@@ -296,7 +296,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </textView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="q3h-AH-zEn" secondAttribute="bottom" constant="11" id="4HH-3e-1xK"/>
                                     <constraint firstItem="q3h-AH-zEn" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gE5-aO-DhR" secondAttribute="top" constant="11" id="Bop-DH-S02"/>
@@ -323,6 +323,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="UgL-OV-3r6"/>
                     <connections>
+                        <outlet property="sendButton" destination="q3h-AH-zEn" id="sb0-ch-at1"/>
                         <outlet property="toolbarBottomConstraint" destination="zHZ-1M-UsB" id="z8a-Ng-eH8"/>
                         <outlet property="toolbarView" destination="gE5-aO-DhR" id="aTj-u0-vhZ"/>
                     </connections>
