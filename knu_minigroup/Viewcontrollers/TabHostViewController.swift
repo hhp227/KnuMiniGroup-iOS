@@ -40,8 +40,6 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
 
     var tabTopConstraint: NSLayoutConstraint?
 
-    var tabHeightConstraint: NSLayoutConstraint?
-
     private var lastTabScrollViewOffset: CGPoint = .zero
 
     // Android fragment_tab_host_layout: CollapsingToolbarLayout 200dp 안에 TabLayout(48pt, gravity=bottom)이
@@ -51,10 +49,10 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     
     public var headerBackgroundColor: UIColor? {
         get {
-            return view.backgroundColor
+            return headerContainer.backgroundColor
         }
         set(value) {
-            view.backgroundColor = value
+            headerContainer.backgroundColor = value
         }
     }
     
@@ -67,7 +65,9 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         // Android fragment_tab_host_layout: 레드 TabLayout, 흰 라벨, 인디케이터 colorAccent
         let parameters: [TabLayoutOption] = [
             .scrollMenuBackgroundColor(.colorPrimary),
-            .viewBackgroundColor(.colorPrimary),
+            // 빨간색은 탭 바에만 사용한다. 페이지 크기가 갱신되는 레이아웃 경계에서
+            // 컨테이너 배경이 잠시 노출되더라도 빨간 띠로 보이지 않게 한다.
+            .viewBackgroundColor(.systemBackground),
             .bottomMenuHairlineColor(UIColor(red: 20.0 / 255.0, green: 20.0 / 255.0, blue: 20.0 / 255.0, alpha: 0.1)),
             .selectionIndicatorColor(.colorAccent),
             .menuMargin(0.0),
@@ -129,8 +129,10 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         tabMenuContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tabTopConstraint = tabMenuContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: headerHeight)
         tabTopConstraint!.isActive = true
-        tabHeightConstraint = tabMenuContainer.heightAnchor.constraint(equalToConstant: view.frame.height - navBarOffset())
-        tabHeightConstraint!.isActive = true
+        // 헤더가 접히며 top이 바뀌어도 컨테이너의 하단은 항상 화면 끝에 붙인다.
+        // 높이를 초기 nav/status bar 값으로 계산하면 첫 레이아웃 시점의 safe area 값과 달라져
+        // 접힌 상태에서 루트 뷰의 빨간 배경이 하단에 노출될 수 있다.
+        tabMenuContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         // 헤더 하단을 tabMenuContainer 상단에 직접 고정 — 별도 height 제약을 스크롤마다 수동으로
         // 맞추는 대신 Auto Layout이 둘을 항상 정확히 맞닿게 보장하므로 그 사이로 red 배경이 드러날 수 없다.
         headerContainer.bottomAnchor.constraint(equalTo: tabMenuContainer.topAnchor).isActive = true
@@ -141,7 +143,16 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         
         view.addSubview(headerContainer)
         view.addSubview(tabMenuContainer)
+        addChild(pageMenuController!)
         tabMenuContainer.addSubview(pageMenuController!.view)
+        pageMenuController!.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            pageMenuController!.view.topAnchor.constraint(equalTo: tabMenuContainer.topAnchor),
+            pageMenuController!.view.leadingAnchor.constraint(equalTo: tabMenuContainer.leadingAnchor),
+            pageMenuController!.view.trailingAnchor.constraint(equalTo: tabMenuContainer.trailingAnchor),
+            pageMenuController!.view.bottomAnchor.constraint(equalTo: tabMenuContainer.bottomAnchor)
+        ])
+        pageMenuController!.didMove(toParent: self)
         view.addSubview(fab)
         setupHeaderContent()
         setupFab()
@@ -205,13 +216,12 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         gradientLayer.frame = headerContainer.bounds
-        // viewDidLoad 시점에는 window가 없어 navBarOffset()이 상태바 높이를 0으로 계산한다.
-        // 실제 값으로 보정하지 않으면 탭 컨테이너 하단이 화면 밖으로 밀려 피드 마지막 셀이 잘린다.
-        let tabHeight = view.frame.height - navBarOffset()
+        // 탭 컨테이너는 top/bottom 제약에 따라 헤더 접힘만큼 높이가 변한다.
+        // 수동 프레임 기반인 각 탭 페이지도 실제 컨테이너 크기에 맞춰 갱신한다.
+        let tabSize = tabMenuContainer.bounds.size
 
-        if view.window != nil, let constraint = tabHeightConstraint, constraint.constant != tabHeight {
-            constraint.constant = tabHeight
-            pageMenuController?.resize(to: CGSize(width: view.frame.width, height: tabHeight))
+        if tabSize.width > 0, tabSize.height > 0 {
+            pageMenuController?.resize(to: tabSize)
         }
     }
     
@@ -291,6 +301,7 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     
     public func pleaseScroll(_ scrollView: UIScrollView) {
         var delta = scrollView.contentOffset.y - lastTabScrollViewOffset.y
+        var didMoveHeader = false
         
         // Vertical bounds
         let maxY: CGFloat = navBarOffset()
@@ -307,6 +318,7 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
             }
             tabTopConstraint!.constant -= delta
             scrollView.contentOffset.y -= delta
+            didMoveHeader = true
         }
         
         //we expand the top view
@@ -317,11 +329,19 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
                 }
                 tabTopConstraint!.constant -= delta
                 scrollView.contentOffset.y -= delta
+                didMoveHeader = true
             }
+        }
+
+        // top 제약만 먼저 바뀌고 내부 페이지의 수동 프레임 갱신이 다음 프레임으로
+        // 밀리면, 접힘 방향에서 늘어난 컨테이너 하단이 배경색으로 노출된다.
+        // 같은 스크롤 이벤트 안에서 제약과 탭 페이지 크기를 함께 반영한다.
+        if didMoveHeader {
+            view.layoutIfNeeded()
         }
         
         lastTabScrollViewOffset = scrollView.contentOffset
-        
+
         headerDidScroll(minY: minY, maxY: maxY, currentY: tabTopConstraint!.constant)
     }
     
@@ -414,4 +434,3 @@ public enum TabLayoutOption {
     case centerMenuItems(Bool)
     case hideTopMenuBar(Bool)
 }
-
