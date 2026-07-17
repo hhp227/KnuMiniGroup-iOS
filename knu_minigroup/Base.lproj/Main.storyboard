@@ -342,7 +342,7 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JlL-r0-HBF">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="308"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemRedColor"/>
+                                <color key="backgroundColor" red="0.85882352941176465" green="0.14117647058823529" blue="0.15686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a7d-Sh-EeL">
                                 <rect key="frame" x="0.0" y="260" width="414" height="48"/>
@@ -350,12 +350,11 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ucf-WP-gmM">
-                                <rect key="frame" x="322" y="790.5" width="72" height="71"/>
+                                <rect key="frame" x="342" y="808" width="56" height="56"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="72" id="kde-i6-DBi"/>
-                                    <constraint firstAttribute="height" constant="72" id="sLm-jS-B7z"/>
+                                    <constraint firstAttribute="width" constant="56" id="kde-i6-DBi"/>
+                                    <constraint firstAttribute="height" constant="56" id="sLm-jS-B7z"/>
                                 </constraints>
-                                <color key="tintColor" red="1" green="0.19258575350000001" blue="0.2459843702" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" backgroundImage="circle.fill" catalog="system">
                                     <imageReference key="image" image="plus" catalog="system" symbolScale="large" renderingMode="original"/>
                                 </state>
@@ -367,12 +366,13 @@
                         <viewLayoutGuide key="safeArea" id="2t8-52-Hox"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Ucf-WP-gmM" firstAttribute="bottom" secondItem="2t8-52-Hox" secondAttribute="bottom" id="3s3-Tg-KXq"/>
-                            <constraint firstItem="2t8-52-Hox" firstAttribute="trailing" secondItem="Ucf-WP-gmM" secondAttribute="trailing" constant="20" id="WGH-AO-1x8"/>
+                            <constraint firstItem="Ucf-WP-gmM" firstAttribute="bottom" secondItem="2t8-52-Hox" secondAttribute="bottom" constant="-16" id="3s3-Tg-KXq"/>
+                            <constraint firstItem="2t8-52-Hox" firstAttribute="trailing" secondItem="Ucf-WP-gmM" secondAttribute="trailing" constant="16" id="WGH-AO-1x8"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="경북대 소모임" id="XFC-fD-QKf">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="T4c-Gr-YWo">
+                        <barButtonItem key="rightBarButtonItem" image="ic_action_chat" id="T4c-Gr-YWo">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <segue destination="1NS-8g-1fy" kind="show" id="9gL-Xx-iAW"/>
                             </connections>
@@ -1408,6 +1408,7 @@
         <image name="add_photo" width="1400" height="1040"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>
         <image name="hamburger-menu-icon" width="25" height="25"/>
+        <image name="ic_action_chat" width="48" height="48"/>
         <image name="knu_minigroup.png" width="434" height="213"/>
         <image name="line.3.horizontal" catalog="system" width="128" height="64"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
@@ -1432,9 +1433,6 @@
         </systemColor>
         <systemColor name="systemGray4Color">
             <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

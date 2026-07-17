@@ -137,6 +137,7 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         tabHostViewController.groupId = entry.value.id ?? ""
         tabHostViewController.groupKey = entry.key
         tabHostViewController.groupName = entry.value.name ?? ""
+        tabHostViewController.groupImage = entry.value.image
         tabHostViewController.isAdmin = entry.value.authorUid == viewModel.user?.uid
         navigationController?.pushViewController(tabHostViewController, animated: true)
     }

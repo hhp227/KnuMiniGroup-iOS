@@ -23,7 +23,15 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
 
     var groupName = ""
 
+    var groupImage: String?
+
     var isAdmin = false
+
+    private let headerImageView = UIImageView()
+
+    private let logoImageView = UIImageView(image: UIImage(named: "knu_sotong"))
+
+    private let gradientLayer = CAGradientLayer()
 
     var headerHeightConstraint: NSLayoutConstraint?
     
@@ -56,18 +64,19 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Android fragment_tab_host_layout: 레드 TabLayout, 흰 라벨, 인디케이터 colorAccent
         let parameters: [TabLayoutOption] = [
-            .scrollMenuBackgroundColor(#colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 0.5)),
-            .viewBackgroundColor(#colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 0.5)),
+            .scrollMenuBackgroundColor(.colorPrimary),
+            .viewBackgroundColor(.colorPrimary),
             .bottomMenuHairlineColor(UIColor(red: 20.0 / 255.0, green: 20.0 / 255.0, blue: 20.0 / 255.0, alpha: 0.1)),
-            .selectionIndicatorColor(#colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)),
+            .selectionIndicatorColor(.colorAccent),
             .menuMargin(0.0),
             .menuHeight(48.0),
             .selectedMenuItemLabelColor(.white),
             .unselectedMenuItemLabelColor(.white),
             .useMenuLikeSegmentedControl(true),
             .selectionIndicatorHeight(2.0),
-            .menuItemFont(UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)),
+            .menuItemFont(UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)),
             .menuItemWidthBasedOnTitleTextWidth(false)
         ]
         let controllers: [TabViewController] = {
@@ -100,7 +109,7 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
             return array
         }()
         title = groupName
-        headerBackgroundColor = #colorLiteral(red: 0.07058823529, green: 0.09411764706, blue: 0.1019607843, alpha: 1)
+        headerBackgroundColor = .colorPrimary
         //self.navBarTransparancy = 0
         headerTopConstraint = headerContainer.topAnchor.constraint(equalTo: view.topAnchor)
         headerTopConstraint!.isActive = true
@@ -126,34 +135,74 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         view.addSubview(tabMenuContainer)
         tabMenuContainer.addSubview(pageMenuController!.view)
         view.addSubview(fab)
+        setupHeaderContent()
+        setupFab()
+    }
+
+    // Android CollapsingToolbarLayout 헤더: 그룹 이미지 + 중앙 knu_sotong 로고 + bg_gradient 스크림
+    private func setupHeaderContent() {
+        headerImageView.translatesAutoresizingMaskIntoConstraints = false
+        headerImageView.contentMode = .scaleAspectFill
+        headerImageView.clipsToBounds = true
+        if let groupImage = groupImage, !groupImage.isEmpty {
+            headerImageView.loadImage(groupImage)
+        }
+        headerContainer.addSubview(headerImageView)
+        gradientLayer.colors = [UIColor.black.withAlphaComponent(0.5).cgColor, UIColor.clear.cgColor, UIColor.black.withAlphaComponent(0.25).cgColor]
+        gradientLayer.locations = [0, 0.5, 1]
+        headerContainer.layer.addSublayer(gradientLayer)
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        logoImageView.contentMode = .scaleAspectFit
+        headerContainer.addSubview(logoImageView)
+        NSLayoutConstraint.activate([
+            headerImageView.topAnchor.constraint(equalTo: headerContainer.topAnchor),
+            headerImageView.leadingAnchor.constraint(equalTo: headerContainer.leadingAnchor),
+            headerImageView.trailingAnchor.constraint(equalTo: headerContainer.trailingAnchor),
+            headerImageView.bottomAnchor.constraint(equalTo: headerContainer.bottomAnchor),
+            logoImageView.centerXAnchor.constraint(equalTo: headerContainer.centerXAnchor),
+            logoImageView.centerYAnchor.constraint(equalTo: headerContainer.centerYAnchor),
+            logoImageView.widthAnchor.constraint(equalToConstant: 170),
+            logoImageView.heightAnchor.constraint(equalToConstant: 80)
+        ])
+    }
+
+    // Android FAB: colorAccent 배경 + 흰 plus + 은은한 그림자, 소식 탭에서만 표시
+    private func setupFab() {
+        fab.tintColor = .colorAccent
+        fab.setImage(UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .semibold))?.withTintColor(.white, renderingMode: .alwaysOriginal), for: .normal)
+        fab.layer.shadowColor = UIColor.black.cgColor
+        fab.layer.shadowOffset = CGSize(width: 0, height: 2)
+        fab.layer.shadowRadius = 3
+        fab.layer.shadowOpacity = 0.3
+        fab.isHidden = false
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        gradientLayer.frame = headerContainer.bounds
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let navController = self.navigationController {
-            let navBar = navController.navigationBar
-            navBar.shadowImage = UIImage()
-            
-            // navBar 투명하게 해줌
-            navBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-            /*if navBarOverlay == nil {
-                navBarOverlay = UIView.init(frame: CGRect.init(x: 0, y: 0, width: navBar.bounds.width, height: self.navBarOffset()))
-            }
-            navBarOverlay!.autoresizingMask = UIView.AutoresizingMask.flexibleWidth
-            navBar.subviews.first?.insertSubview(navBarOverlay!, at: 0)
-            navBarOverlay!.backgroundColor = navBarColor.withAlphaComponent(0.0)*/
+        // 헤더 위에 얹히도록 이 화면에서만 네비바 투명 (iOS 15 appearance 방식)
+        if let navBar = navigationController?.navigationBar {
+            let transparent = UINavigationBarAppearance()
+
+            transparent.configureWithTransparentBackground()
+            transparent.titleTextAttributes = [.foregroundColor: UIColor.white]
+            navBar.standardAppearance = transparent
+            navBar.scrollEdgeAppearance = transparent
+            navBar.compactAppearance = transparent
         }
-        
-        //self.navBarColor = #colorLiteral(red: 0.07159858197, green: 0.09406698495, blue: 0.1027848646, alpha: 0)
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
-        if let navCtrl = navigationController {
-            let navBar = navCtrl.navigationBar
-            navBar.shadowImage = nil
-            
-            navBar.setBackgroundImage(nil, for: UIBarMetrics.default)
-            //navBarOverlay?.removeFromSuperview()
+        super.viewWillDisappear(animated)
+        // 전역(레드 opaque) appearance 복원
+        if let navBar = navigationController?.navigationBar {
+            navBar.standardAppearance = UINavigationBar.appearance().standardAppearance
+            navBar.scrollEdgeAppearance = UINavigationBar.appearance().scrollEdgeAppearance
+            navBar.compactAppearance = UINavigationBar.appearance().compactAppearance
         }
     }
     
@@ -191,9 +240,12 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     }
     
     public func setNavbarTitleTransparency(alpha: CGFloat) {
-        if let navCtrl = navigationController {
-            let navBar = navCtrl.navigationBar
-            navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white.withAlphaComponent(alpha)]
+        if let navBar = navigationController?.navigationBar {
+            let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white.withAlphaComponent(alpha)]
+
+            navBar.standardAppearance.titleTextAttributes = attributes
+            navBar.scrollEdgeAppearance?.titleTextAttributes = attributes
+            navBar.compactAppearance?.titleTextAttributes = attributes
         }
     }
     
