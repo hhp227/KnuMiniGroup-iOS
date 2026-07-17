@@ -40,8 +40,6 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
 
     var tabTopConstraint: NSLayoutConstraint?
 
-    var tabHeightConstraint: NSLayoutConstraint?
-
     private var lastTabScrollViewOffset: CGPoint = .zero
 
     // Android fragment_tab_host_layout: CollapsingToolbarLayout 200dp 안에 TabLayout(48pt, gravity=bottom)이
@@ -129,8 +127,10 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         tabMenuContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tabTopConstraint = tabMenuContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: headerHeight)
         tabTopConstraint!.isActive = true
-        tabHeightConstraint = tabMenuContainer.heightAnchor.constraint(equalToConstant: view.frame.height - navBarOffset())
-        tabHeightConstraint!.isActive = true
+        // 헤더가 접히며 top이 바뀌어도 컨테이너의 하단은 항상 화면 끝에 붙인다.
+        // 높이를 초기 nav/status bar 값으로 계산하면 첫 레이아웃 시점의 safe area 값과 달라져
+        // 접힌 상태에서 루트 뷰의 빨간 배경이 하단에 노출될 수 있다.
+        tabMenuContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         // 헤더 하단을 tabMenuContainer 상단에 직접 고정 — 별도 height 제약을 스크롤마다 수동으로
         // 맞추는 대신 Auto Layout이 둘을 항상 정확히 맞닿게 보장하므로 그 사이로 red 배경이 드러날 수 없다.
         headerContainer.bottomAnchor.constraint(equalTo: tabMenuContainer.topAnchor).isActive = true
@@ -141,7 +141,16 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         
         view.addSubview(headerContainer)
         view.addSubview(tabMenuContainer)
+        addChild(pageMenuController!)
         tabMenuContainer.addSubview(pageMenuController!.view)
+        pageMenuController!.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            pageMenuController!.view.topAnchor.constraint(equalTo: tabMenuContainer.topAnchor),
+            pageMenuController!.view.leadingAnchor.constraint(equalTo: tabMenuContainer.leadingAnchor),
+            pageMenuController!.view.trailingAnchor.constraint(equalTo: tabMenuContainer.trailingAnchor),
+            pageMenuController!.view.bottomAnchor.constraint(equalTo: tabMenuContainer.bottomAnchor)
+        ])
+        pageMenuController!.didMove(toParent: self)
         view.addSubview(fab)
         setupHeaderContent()
         setupFab()
@@ -205,13 +214,12 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         gradientLayer.frame = headerContainer.bounds
-        // viewDidLoad 시점에는 window가 없어 navBarOffset()이 상태바 높이를 0으로 계산한다.
-        // 실제 값으로 보정하지 않으면 탭 컨테이너 하단이 화면 밖으로 밀려 피드 마지막 셀이 잘린다.
-        let tabHeight = view.frame.height - navBarOffset()
+        // 탭 컨테이너는 top/bottom 제약에 따라 헤더 접힘만큼 높이가 변한다.
+        // 수동 프레임 기반인 각 탭 페이지도 실제 컨테이너 크기에 맞춰 갱신한다.
+        let tabSize = tabMenuContainer.bounds.size
 
-        if view.window != nil, let constraint = tabHeightConstraint, constraint.constant != tabHeight {
-            constraint.constant = tabHeight
-            pageMenuController?.resize(to: CGSize(width: view.frame.width, height: tabHeight))
+        if tabSize.width > 0, tabSize.height > 0 {
+            pageMenuController?.resize(to: tabSize)
         }
     }
     
@@ -414,4 +422,3 @@ public enum TabLayoutOption {
     case centerMenuItems(Bool)
     case hideTopMenuBar(Bool)
 }
-
