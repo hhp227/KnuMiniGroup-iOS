@@ -342,52 +342,11 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         
         lastTabScrollViewOffset = scrollView.contentOffset
 
-        if pageMenuController?.currentPageIndex == 0 {
-            updateFeedFabPosition(for: scrollView)
-        }
-        
         headerDidScroll(minY: minY, maxY: maxY, currentY: tabTopConstraint!.constant)
     }
     
     func didMoveToPage(_ controller: UIViewController, index: Int) {
         fab.isHidden = index != 0
-
-        if let tab1 = controller as? Tab1ViewController {
-            updateFeedFabPosition(for: tab1.collectionView)
-        } else {
-            fab.transform = .identity
-        }
-    }
-
-    // 고정 contentInset으로 FAB 공간을 만들거나 FAB를 숨기지 않고, 액션 버튼과 실제로
-    // 겹치는 동안에만 FAB를 버튼 위로 이동한다.
-    private func updateFeedFabPosition(for scrollView: UIScrollView) {
-        fab.transform = .identity
-
-        guard let collectionView = scrollView as? UICollectionView else {
-            return
-        }
-
-        let baseFabFrame = fab.frame
-        let actionFrames = collectionView.visibleCells
-            .compactMap { $0 as? ArticleCollectionViewCell }
-            .flatMap { cell -> [CGRect] in
-                let shareFrame = cell.shareButton.convert(cell.shareButton.bounds, to: view)
-                let replyFrame = cell.replyButton.convert(cell.replyButton.bounds, to: view)
-
-                return [shareFrame, replyFrame]
-            }
-
-        guard let actionTop = actionFrames
-            .filter({ baseFabFrame.insetBy(dx: -4, dy: -4).intersects($0) })
-            .map(\.minY)
-            .min() else {
-            return
-        }
-
-        let spacing: CGFloat = 8
-        let translationY = min(0, actionTop - spacing - baseFabFrame.maxY)
-        fab.transform = CGAffineTransform(translationX: 0, y: translationY)
     }
     
     // 헤더 height는 headerContainer.bottomAnchor == tabMenuContainer.topAnchor 제약으로 Auto Layout이

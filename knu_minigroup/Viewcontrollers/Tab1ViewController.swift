@@ -36,6 +36,11 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
         viewModel.fetchNextPage()
     }
 
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        collectionView?.collectionViewLayout.invalidateLayout()
+    }
+
     @objc func refreshControlDidChangeValue(refreshControl: UIRefreshControl) {
         viewModel.refresh()
         refreshControl.endRefreshing()
@@ -130,6 +135,12 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize() }
-        return CGSize(width: collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right), height: flowLayout.itemSize.height)
+        let bottomSafeArea = max(view.safeAreaInsets.bottom, view.window?.safeAreaInsets.bottom ?? 0)
+        let safeAreaPadding = indexPath.item == data.count - 1 ? bottomSafeArea : 0
+
+        return CGSize(
+            width: collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right),
+            height: flowLayout.itemSize.height + safeAreaPadding
+        )
     }
 }
