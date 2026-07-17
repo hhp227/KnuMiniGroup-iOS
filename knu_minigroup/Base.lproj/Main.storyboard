@@ -1197,7 +1197,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="메인화면" id="0pr-3D-Yuz">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="line.3.horizontal" catalog="system" id="oIj-Ye-B9M">
+                        <barButtonItem key="leftBarButtonItem" image="line.3.horizontal" catalog="system" id="oIj-Ye-B9M">
                             <connections>
                                 <action selector="barButtonItemClick:" destination="vf1-aL-8AM" id="Qzl-qY-1i7"/>
                             </connections>
@@ -1229,7 +1229,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="공지사항" id="bWz-y6-s2V">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="hamburger-menu-icon" id="734-Yb-RVL">
+                        <barButtonItem key="leftBarButtonItem" image="hamburger-menu-icon" id="734-Yb-RVL">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="barButtonItemClick:" destination="fWO-Qh-z2Y" id="7Hs-gw-uP1"/>
@@ -1367,7 +1367,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="시간표" id="LKR-EQ-XBR">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="hamburger-menu-icon" id="n5c-rz-uTl">
+                        <barButtonItem key="leftBarButtonItem" image="hamburger-menu-icon" id="n5c-rz-uTl">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="barButtonItemClick:" destination="6f9-fs-rb1" id="PME-h6-A8M"/>
