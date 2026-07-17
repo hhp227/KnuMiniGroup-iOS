@@ -367,7 +367,7 @@
                         <viewLayoutGuide key="safeArea" id="2t8-52-Hox"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Ucf-WP-gmM" firstAttribute="bottom" secondItem="2t8-52-Hox" secondAttribute="bottom" constant="-65" id="3s3-Tg-KXq"/>
+                            <constraint firstItem="Ucf-WP-gmM" firstAttribute="bottom" secondItem="2t8-52-Hox" secondAttribute="bottom" constant="-20" id="3s3-Tg-KXq"/>
                             <constraint firstItem="2t8-52-Hox" firstAttribute="trailing" secondItem="Ucf-WP-gmM" secondAttribute="trailing" constant="16" id="WGH-AO-1x8"/>
                         </constraints>
                     </view>

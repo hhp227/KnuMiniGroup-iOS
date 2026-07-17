@@ -24,6 +24,8 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
 
     private var cancellables = Set<AnyCancellable>()
 
+    private let actionBottomSpacing: CGFloat = 16
+
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = Tab1ViewModel(groupId: groupId, groupKey: groupKey)
@@ -136,7 +138,7 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize() }
         let bottomSafeArea = max(view.safeAreaInsets.bottom, view.window?.safeAreaInsets.bottom ?? 0)
-        let safeAreaPadding = indexPath.item == data.count - 1 ? bottomSafeArea : 0
+        let safeAreaPadding = indexPath.item == data.count - 1 ? bottomSafeArea + actionBottomSpacing : 0
 
         return CGSize(
             width: collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right),
