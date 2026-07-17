@@ -58,12 +58,17 @@ class GroupInfoViewController: UIViewController {
         descriptionLabel.font = .systemFont(ofSize: 15)
         descriptionLabel.numberOfLines = 0
         descriptionLabel.text = viewModel.groupItem.groupDescription
+        // Android main_button 셀렉터: #FAFAFA 배경 + 검정 텍스트, 눌림 시 #AAAAAA
         requestButton.translatesAutoresizingMaskIntoConstraints = false
         requestButton.setTitle(viewModel.buttonType == GroupInfoViewModel.TYPE_REQUEST ? "가입신청" : "신청취소", for: .normal)
         requestButton.titleLabel?.font = .boldSystemFont(ofSize: 17)
-        requestButton.backgroundColor = .systemBlue
-        requestButton.setTitleColor(.white, for: .normal)
-        requestButton.layer.cornerRadius = 8
+        requestButton.setBackgroundImage(UIImage(color: .buttonNormalBg), for: .normal)
+        requestButton.setBackgroundImage(UIImage(color: .colorAccent), for: .highlighted)
+        requestButton.setTitleColor(.black, for: .normal)
+        requestButton.layer.cornerRadius = 2
+        requestButton.layer.borderWidth = 1
+        requestButton.layer.borderColor = UIColor.colorAccent.cgColor
+        requestButton.clipsToBounds = true
         requestButton.addTarget(self, action: #selector(requestButtonClick), for: .touchUpInside)
         view.addSubview(groupImageView)
         view.addSubview(nameLabel)

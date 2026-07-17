@@ -26,7 +26,11 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.delegate = self
         tableView.dataSource = self
 
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "requestCell")
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 104
+
+        // Android는 Find와 동일한 group_list_item 행을 사용
+        tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: "requestCell")
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -41,7 +45,16 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
     private func observeViewModel() {
         viewModel.$groupItemList
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
+            .sink { [weak self] groupItemList in
+                self?.tableView.backgroundView = groupItemList.isEmpty ? {
+                    let label = UILabel()
+
+                    label.text = "가입 신청중인 그룹이 없습니다."
+                    label.font = .systemFont(ofSize: 15)
+                    label.textColor = .gray
+                    label.textAlignment = .center
+                    return label
+                }() : nil
                 self?.tableView.reloadData()
             }
             .store(in: &cancellables)
@@ -60,13 +73,10 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "requestCell", for: indexPath)
-        let groupItem = viewModel.groupItemList[indexPath.row].value
-        var config = cell.defaultContentConfiguration()
-
-        config.text = groupItem.name
-        config.secondaryText = groupItem.groupDescription
-        cell.contentConfiguration = config
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "requestCell", for: indexPath) as? GroupTableViewCell else {
+            fatalError()
+        }
+        cell.bind(viewModel.groupItemList[indexPath.row].value)
         return cell
     }
 
