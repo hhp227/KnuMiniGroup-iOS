@@ -24,9 +24,6 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
 
     private var cancellables = Set<AnyCancellable>()
 
-    // FAB(56) + safe area 기준 하단 간격(16) + 마지막 셀과의 여유 간격(16)
-    private let bottomContentInset: CGFloat = 88
-
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = Tab1ViewModel(groupId: groupId, groupKey: groupKey)
@@ -37,16 +34,6 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
         addRefreshControl()
         observeViewModel()
         viewModel.fetchNextPage()
-    }
-
-    // 마지막 셀의 댓글/공유 버튼이 우측 하단 FAB에 가려지지 않도록 스크롤 여백 확보
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        if collectionView.contentInset.bottom != bottomContentInset {
-            collectionView.contentInset.bottom = bottomContentInset
-            collectionView.verticalScrollIndicatorInsets.bottom = bottomContentInset
-        }
     }
 
     @objc func refreshControlDidChangeValue(refreshControl: UIRefreshControl) {

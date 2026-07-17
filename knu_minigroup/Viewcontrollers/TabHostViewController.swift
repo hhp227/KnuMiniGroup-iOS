@@ -341,12 +341,40 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         }
         
         lastTabScrollViewOffset = scrollView.contentOffset
+
+        if pageMenuController?.currentPageIndex == 0 {
+            updateFeedFabVisibility(for: scrollView)
+        }
         
         headerDidScroll(minY: minY, maxY: maxY, currentY: tabTopConstraint!.constant)
     }
     
     func didMoveToPage(_ controller: UIViewController, index: Int) {
-        fab.isHidden = index != 0
+        guard index == 0, let tab1 = controller as? Tab1ViewController else {
+            fab.isHidden = true
+            return
+        }
+
+        updateFeedFabVisibility(for: tab1.collectionView)
+    }
+
+    // 고정 contentInset으로 FAB 공간을 만들면 마지막 아이템 뒤에 흰 여백이 생긴다.
+    // 대신 현재 보이는 게시글의 액션 버튼과 FAB가 실제로 겹치는 동안에만 FAB를 숨긴다.
+    private func updateFeedFabVisibility(for scrollView: UIScrollView) {
+        guard let collectionView = scrollView as? UICollectionView else {
+            fab.isHidden = false
+            return
+        }
+
+        let fabCollisionFrame = fab.frame.insetBy(dx: -4, dy: -4)
+        fab.isHidden = collectionView.visibleCells
+            .compactMap { $0 as? ArticleCollectionViewCell }
+            .contains { cell in
+                let shareFrame = cell.shareButton.convert(cell.shareButton.bounds, to: view)
+                let replyFrame = cell.replyButton.convert(cell.replyButton.bounds, to: view)
+
+                return fabCollisionFrame.intersects(shareFrame) || fabCollisionFrame.intersects(replyFrame)
+            }
     }
     
     // 헤더 height는 headerContainer.bottomAnchor == tabMenuContainer.topAnchor 제약으로 Auto Layout이
