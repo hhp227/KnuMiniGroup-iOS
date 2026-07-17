@@ -152,6 +152,7 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "GroupCollectionViewHeader", for: indexPath) as? MainCollectionReusableView
         header?.headerLabel.text = "가입중인 그룹"
+        header?.showsBanner = viewModel.groupItemList.isEmpty
         return header!
     }
 
@@ -161,7 +162,9 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         return CGSize(width: width, height: 165)
     }
 
+    // 배너는 가입중인 그룹이 없을 때만 노출
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: MainCollectionReusableView.height)
+        let height = viewModel.groupItemList.isEmpty ? MainCollectionReusableView.bannerHeight : MainCollectionReusableView.titleHeight
+        return CGSize(width: collectionView.frame.width, height: height)
     }
 }

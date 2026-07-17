@@ -1229,8 +1229,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="공지사항" id="bWz-y6-s2V">
-                        <barButtonItem key="leftBarButtonItem" image="hamburger-menu-icon" id="734-Yb-RVL">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <barButtonItem key="leftBarButtonItem" image="line.3.horizontal" catalog="system" id="734-Yb-RVL">
                             <connections>
                                 <action selector="barButtonItemClick:" destination="fWO-Qh-z2Y" id="7Hs-gw-uP1"/>
                             </connections>
@@ -1367,8 +1366,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="시간표" id="LKR-EQ-XBR">
-                        <barButtonItem key="leftBarButtonItem" image="hamburger-menu-icon" id="n5c-rz-uTl">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <barButtonItem key="leftBarButtonItem" image="line.3.horizontal" catalog="system" id="n5c-rz-uTl">
                             <connections>
                                 <action selector="barButtonItemClick:" destination="6f9-fs-rb1" id="PME-h6-A8M"/>
                             </connections>
@@ -1411,8 +1409,7 @@
     <resources>
         <image name="add_photo" width="1400" height="1040"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>
-        <image name="hamburger-menu-icon" width="25" height="25"/>
-        <image name="ic_action_chat" width="48" height="48"/>
+        <image name="ic_action_chat" width="24" height="24"/>
         <image name="knu_minigroup.png" width="434" height="213"/>
         <image name="line.3.horizontal" catalog="system" width="128" height="64"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>

@@ -12,9 +12,21 @@
 import UIKit
 
 class MainCollectionReusableView: UICollectionReusableView {
-    static let height: CGFloat = 325 // 배너 영역 290 + 타이틀 행 35
+    static let bannerHeight: CGFloat = 290 // 배너 270 + 상하 패딩 10
+
+    static let titleHeight: CGFloat = 35 // 타이틀 행
 
     private static let bannerImages = ["banner01", "banner02"]
+
+    // 배너는 가입중인 그룹이 없을 때만 표시, 있을 때는 섹션 타이틀만 표시
+    var showsBanner = true {
+        didSet {
+            bannerCollectionView.isHidden = !showsBanner
+            pageControl.isHidden = !showsBanner
+            headerLabel.isHidden = showsBanner
+            showsBanner && window != nil ? startTimer() : stopTimer()
+        }
+    }
 
     private static let loopMultiplier = 100
 
@@ -71,8 +83,8 @@ class MainCollectionReusableView: UICollectionReusableView {
         addSubview(headerLabel)
         NSLayoutConstraint.activate([
             bannerCollectionView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            bannerCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            bannerCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            bannerCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bannerCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             bannerCollectionView.heightAnchor.constraint(equalToConstant: 270),
             pageControl.centerXAnchor.constraint(equalTo: bannerCollectionView.centerXAnchor),
             pageControl.bottomAnchor.constraint(equalTo: bannerCollectionView.bottomAnchor, constant: -4),
@@ -104,7 +116,7 @@ class MainCollectionReusableView: UICollectionReusableView {
     // 화면 표시 중에만 5초 자동 슬라이드 (재사용/화면 이탈 시 타이머 정리)
     override func didMoveToWindow() {
         super.didMoveToWindow()
-        window == nil ? stopTimer() : startTimer()
+        window == nil || !showsBanner ? stopTimer() : startTimer()
     }
 
     private func startTimer() {
@@ -170,7 +182,6 @@ private class BannerCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleToFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 4
         contentView.addSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),

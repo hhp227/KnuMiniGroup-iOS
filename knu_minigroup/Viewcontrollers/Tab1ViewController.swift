@@ -29,10 +29,22 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
         viewModel = Tab1ViewModel(groupId: groupId, groupKey: groupKey)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.contentInsetAdjustmentBehavior = .never
 
         addRefreshControl()
         observeViewModel()
         viewModel.fetchNextPage()
+    }
+
+    // 홈 인디케이터에 마지막 셀의 댓글/공유 버튼이 가려지지 않도록 하단 여백 확보
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let bottomInset = (view.window?.safeAreaInsets.bottom ?? 0) + 10
+
+        if collectionView.contentInset.bottom != bottomInset {
+            collectionView.contentInset.bottom = bottomInset
+            collectionView.verticalScrollIndicatorInsets.bottom = bottomInset
+        }
     }
 
     @objc func refreshControlDidChangeValue(refreshControl: UIRefreshControl) {

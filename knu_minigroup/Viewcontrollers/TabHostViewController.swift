@@ -38,7 +38,9 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     var headerTopConstraint: NSLayoutConstraint?
     
     var tabTopConstraint: NSLayoutConstraint?
-    
+
+    var tabHeightConstraint: NSLayoutConstraint?
+
     private var lastTabScrollViewOffset: CGPoint = .zero
 
     public var headerHeight: CGFloat = 240 {
@@ -125,7 +127,8 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         tabMenuContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tabTopConstraint = tabMenuContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: headerHeight)
         tabTopConstraint!.isActive = true
-        tabMenuContainer.heightAnchor.constraint(equalToConstant: view.frame.height - navBarOffset()).isActive = true
+        tabHeightConstraint = tabMenuContainer.heightAnchor.constraint(equalToConstant: view.frame.height - navBarOffset())
+        tabHeightConstraint!.isActive = true
         
         // 탭 레이아웃 추가
         pageMenuController = TabLayout(viewControllers: controllers, frame: CGRect(x: 0, y: 0, width: tabMenuContainer.frame.width, height: tabMenuContainer.frame.height), pageMenuOptions: parameters)
@@ -180,6 +183,14 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         gradientLayer.frame = headerContainer.bounds
+        // viewDidLoad 시점에는 window가 없어 navBarOffset()이 상태바 높이를 0으로 계산한다.
+        // 실제 값으로 보정하지 않으면 탭 컨테이너 하단이 화면 밖으로 밀려 피드 마지막 셀이 잘린다.
+        let tabHeight = view.frame.height - navBarOffset()
+
+        if view.window != nil, let constraint = tabHeightConstraint, constraint.constant != tabHeight {
+            constraint.constant = tabHeight
+            pageMenuController?.resize(to: CGSize(width: view.frame.width, height: tabHeight))
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
