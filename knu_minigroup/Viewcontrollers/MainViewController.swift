@@ -77,15 +77,16 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
 
         tabAppearance.configureWithOpaqueBackground()
         tabAppearance.backgroundColor = .white
+        // 라벨은 appearance 파이프라인으로만 조정 가능(실기기 확인) — 기본 10pt → 12pt
+        let titleFont = UIFont.systemFont(ofSize: 12)
+
         [tabAppearance.stackedLayoutAppearance, tabAppearance.inlineLayoutAppearance, tabAppearance.compactInlineLayoutAppearance].forEach {
             $0.normal.iconColor = .gray
-            $0.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
-            // 라벨을 아이콘 쪽으로 올린다 — 뷰 transform은 iOS 15 탭버튼 내부 계층에 안 닿으므로
-            // 아이콘 색과 동일하게 실동작이 확인된 appearance 파이프라인으로 처리
-            $0.normal.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -8)
+            $0.normal.titleTextAttributes = [.foregroundColor: UIColor.gray, .font: titleFont]
+            $0.normal.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -10)
             $0.selected.iconColor = .colorPrimary
-            $0.selected.titleTextAttributes = [.foregroundColor: UIColor.colorPrimary]
-            $0.selected.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -8)
+            $0.selected.titleTextAttributes = [.foregroundColor: UIColor.colorPrimary, .font: titleFont]
+            $0.selected.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -10)
         }
         tabBar.standardAppearance = tabAppearance
         tabBar.scrollEdgeAppearance = tabAppearance
