@@ -47,7 +47,9 @@ enum HtmlUtil {
     static func text(_ html: String) -> String {
         var result = html.replacingOccurrences(of: "<br[^>]*>", with: "\n", options: [.regularExpression, .caseInsensitive])
 
-        result = result.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
+        // 따옴표로 감싼 속성값 안의 '>'(예: 경북대 공지 목록 href의 "/>")에서 태그가 끊겨
+        // URL 조각이 본문으로 노출되지 않도록 속성 인식형 패턴으로 태그 제거
+        result = result.replacingOccurrences(of: "<[^>\"']*(?:\"[^\"]*\"[^>\"']*|'[^']*'[^>\"']*)*>", with: "", options: .regularExpression)
         result = result.replacingOccurrences(of: "&nbsp;", with: " ")
         result = result.replacingOccurrences(of: "&lt;", with: "<")
         result = result.replacingOccurrences(of: "&gt;", with: ">")

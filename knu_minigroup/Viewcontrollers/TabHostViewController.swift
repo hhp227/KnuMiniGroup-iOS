@@ -262,17 +262,29 @@ class TabHostViewController: UIViewController, TabLayoutDelegate {
         setNavbarTitleTransparency(alpha: alpha)
     }
     
+    // 작성/삭제 후 피드 갱신 (Android의 ActivityResult → mViewModel.refresh() 대응)
+    private func refreshFeedTab() {
+        (pageMenuController?.controllerArray[0] as? Tab1ViewController)?.refresh()
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "articleDetail" {
             if let tab1ViewController = pageMenuController?.controllerArray[0] as? Tab1ViewController,
                let indexPath = sender as? IndexPath {
                 let entry = tab1ViewController.articleEntries[indexPath.row]
+                let articleViewController = segue.destination as? ArticleViewController
 
-                (segue.destination as? ArticleViewController)?.receiveItem(groupId: groupId, groupKey: groupKey, articleKey: entry.key, articleItem: entry.value)
+                articleViewController?.receiveItem(groupId: groupId, groupKey: groupKey, articleKey: entry.key, articleItem: entry.value)
+                articleViewController?.onArticleChanged = { [weak self] in
+                    self?.refreshFeedTab()
+                }
             }
         } else if let writeViewController = segue.destination as? WriteViewController {
             writeViewController.groupId = groupId
             writeViewController.groupKey = groupKey
+            writeViewController.onArticleChanged = { [weak self] in
+                self?.refreshFeedTab()
+            }
         } else if let chatViewController = segue.destination as? ChatViewController {
             chatViewController.receiver = groupKey
             chatViewController.isGroupChat = true

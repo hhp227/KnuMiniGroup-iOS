@@ -15,6 +15,8 @@ class GroupInfoViewController: UIViewController {
 
     private let groupImageView = UIImageView()
 
+    private let nameOverlayView = UIView()
+
     private let nameLabel = UILabel()
 
     private let infoLabel = UILabel()
@@ -22,6 +24,8 @@ class GroupInfoViewController: UIViewController {
     private let descriptionLabel = UILabel()
 
     private let requestButton = UIButton(type: .system)
+
+    private let closeButton = UIButton(type: .system)
 
     init(groupItem: GroupItem, key: String, buttonType: Int) {
         self.viewModel = GroupInfoViewModel(groupItem: groupItem, key: key, buttonType: buttonType)
@@ -41,60 +45,110 @@ class GroupInfoViewController: UIViewController {
         observeViewModel()
     }
 
+    // Android fragment_group_info: 이미지 200 + 하단 반투명 이름 오버레이 + 설명(16)/정보(13) +
+    // 구분선 + [가입신청|닫기] 반반 버튼 바
     private func setupViews() {
         groupImageView.translatesAutoresizingMaskIntoConstraints = false
         groupImageView.contentMode = .scaleAspectFill
         groupImageView.clipsToBounds = true
         groupImageView.backgroundColor = .systemGray5
+        // 이름: 이미지 하단 겹침, #77000000 배경 + 흰 18
+        nameOverlayView.translatesAutoresizingMaskIntoConstraints = false
+        nameOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.47)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.font = .boldSystemFont(ofSize: 20)
+        nameLabel.font = .systemFont(ofSize: 18)
+        nameLabel.textColor = .white
         nameLabel.text = viewModel.groupItem.name
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        descriptionLabel.font = .systemFont(ofSize: 16)
+        descriptionLabel.numberOfLines = 6
+        descriptionLabel.text = viewModel.groupItem.groupDescription
         infoLabel.translatesAutoresizingMaskIntoConstraints = false
         infoLabel.font = .systemFont(ofSize: 13)
         infoLabel.textColor = .secondaryLabel
         infoLabel.numberOfLines = 0
         infoLabel.text = viewModel.groupItem.info ?? "회원수: \(viewModel.groupItem.memberCount)명"
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.font = .systemFont(ofSize: 15)
-        descriptionLabel.numberOfLines = 0
-        descriptionLabel.text = viewModel.groupItem.groupDescription
-        // Android main_button 셀렉터: #FAFAFA 배경 + 검정 텍스트, 눌림 시 #AAAAAA
-        requestButton.translatesAutoresizingMaskIntoConstraints = false
-        requestButton.setTitle(viewModel.buttonType == GroupInfoViewModel.TYPE_REQUEST ? "가입신청" : "신청취소", for: .normal)
-        requestButton.titleLabel?.font = .boldSystemFont(ofSize: 17)
-        requestButton.setBackgroundImage(UIImage(color: .buttonNormalBg), for: .normal)
-        requestButton.setBackgroundImage(UIImage(color: .colorAccent), for: .highlighted)
-        requestButton.setTitleColor(.black, for: .normal)
-        requestButton.layer.cornerRadius = 2
-        requestButton.layer.borderWidth = 1
-        requestButton.layer.borderColor = UIColor.colorAccent.cgColor
-        requestButton.clipsToBounds = true
+        setupMainButton(requestButton, title: viewModel.buttonType == GroupInfoViewModel.TYPE_REQUEST ? "가입신청" : "신청취소")
         requestButton.addTarget(self, action: #selector(requestButtonClick), for: .touchUpInside)
+        setupMainButton(closeButton, title: "닫기")
+        closeButton.addTarget(self, action: #selector(closeButtonClick), for: .touchUpInside)
+        let topSeparatorView = makeSeparator()
+        let buttonDividerView = makeSeparator()
+        let bottomSeparatorView = makeSeparator()
+
+        nameOverlayView.addSubview(nameLabel)
         view.addSubview(groupImageView)
-        view.addSubview(nameLabel)
-        view.addSubview(infoLabel)
+        view.addSubview(nameOverlayView)
         view.addSubview(descriptionLabel)
+        view.addSubview(infoLabel)
+        view.addSubview(topSeparatorView)
         view.addSubview(requestButton)
+        view.addSubview(buttonDividerView)
+        view.addSubview(closeButton)
+        view.addSubview(bottomSeparatorView)
         groupImageView.loadImage(viewModel.groupItem.image, placeholder: UIImage(named: "knu_minigroup"))
         NSLayoutConstraint.activate([
             groupImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             groupImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             groupImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             groupImageView.heightAnchor.constraint(equalToConstant: 200),
-            nameLabel.topAnchor.constraint(equalTo: groupImageView.bottomAnchor, constant: 16),
-            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            infoLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
-            infoLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            infoLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
-            descriptionLabel.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 12),
-            descriptionLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            descriptionLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
-            requestButton.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            requestButton.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
-            requestButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            requestButton.heightAnchor.constraint(equalToConstant: 48)
+            nameOverlayView.leadingAnchor.constraint(equalTo: groupImageView.leadingAnchor),
+            nameOverlayView.trailingAnchor.constraint(equalTo: groupImageView.trailingAnchor),
+            nameOverlayView.bottomAnchor.constraint(equalTo: groupImageView.bottomAnchor),
+            nameLabel.topAnchor.constraint(equalTo: nameOverlayView.topAnchor, constant: 14),
+            nameLabel.bottomAnchor.constraint(equalTo: nameOverlayView.bottomAnchor, constant: -14),
+            nameLabel.leadingAnchor.constraint(equalTo: nameOverlayView.leadingAnchor, constant: 8),
+            nameLabel.trailingAnchor.constraint(equalTo: nameOverlayView.trailingAnchor, constant: -8),
+            descriptionLabel.topAnchor.constraint(equalTo: groupImageView.bottomAnchor, constant: 10),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            infoLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
+            infoLabel.leadingAnchor.constraint(equalTo: descriptionLabel.leadingAnchor),
+            infoLabel.trailingAnchor.constraint(equalTo: descriptionLabel.trailingAnchor),
+            topSeparatorView.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 10),
+            topSeparatorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            topSeparatorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            topSeparatorView.heightAnchor.constraint(equalToConstant: 0.5),
+            requestButton.topAnchor.constraint(equalTo: topSeparatorView.bottomAnchor),
+            requestButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            requestButton.heightAnchor.constraint(equalToConstant: 44),
+            closeButton.topAnchor.constraint(equalTo: requestButton.topAnchor),
+            closeButton.leadingAnchor.constraint(equalTo: requestButton.trailingAnchor),
+            closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            closeButton.widthAnchor.constraint(equalTo: requestButton.widthAnchor),
+            closeButton.heightAnchor.constraint(equalTo: requestButton.heightAnchor),
+            buttonDividerView.topAnchor.constraint(equalTo: requestButton.topAnchor),
+            buttonDividerView.bottomAnchor.constraint(equalTo: requestButton.bottomAnchor),
+            buttonDividerView.leadingAnchor.constraint(equalTo: requestButton.trailingAnchor),
+            buttonDividerView.widthAnchor.constraint(equalToConstant: 0.5),
+            bottomSeparatorView.topAnchor.constraint(equalTo: requestButton.bottomAnchor),
+            bottomSeparatorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bottomSeparatorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomSeparatorView.heightAnchor.constraint(equalToConstant: 0.5)
         ])
+    }
+
+    // Android main_button 셀렉터: #FAFAFA 배경 + 검정 텍스트, 눌림 시 #AAAAAA
+    private func setupMainButton(_ button: UIButton, title: String) {
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 14)
+        button.setBackgroundImage(UIImage(color: .buttonNormalBg), for: .normal)
+        button.setBackgroundImage(UIImage(color: .colorAccent), for: .highlighted)
+        button.setTitleColor(.black, for: .normal)
+        button.clipsToBounds = true
+    }
+
+    private func makeSeparator() -> UIView {
+        let separator = UIView()
+
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        separator.backgroundColor = .systemGray4
+        return separator
+    }
+
+    @objc private func closeButtonClick() {
+        navigationController?.popViewController(animated: true)
     }
 
     @objc private func requestButtonClick() {
@@ -105,7 +159,10 @@ class GroupInfoViewController: UIViewController {
         viewModel.$type
             .receive(on: DispatchQueue.main)
             .sink { [weak self] type in
-                if type != nil {
+                // Android GroupInfoFragment: 가입 신청 성공은 메인 화면으로, 신청 취소는 이전 화면으로
+                if type == GroupInfoViewModel.TYPE_REQUEST {
+                    self?.navigationController?.popToRootViewController(animated: true)
+                } else if type != nil {
                     self?.navigationController?.popViewController(animated: true)
                 }
             }

@@ -29,4 +29,5 @@ enum EndPoint {
     static let URL_KNU_NOTICE = URL_KNU + "/wbbs/wbbs/bbs/btin/list.action?bbs_cde=1&btin.page={PAGE}&popupDeco=false&btin.search_type=&btin.search_text=&menu_idx=67"
     static let URL_KNU_DORM_MEAL = "http://dorm.knu.ac.kr/xml/food.php?get_mode={ID}"
     static let URL_KNU_MEAL = "http://coop.knu.ac.kr/pages/xml_menu.php?get_mode={ID}"
+    static let URL_KNULIBRARY_SEAT = "http://seat.knu.ac.kr/smufu-api/pc/{ID}/rooms-at-seat"
 }

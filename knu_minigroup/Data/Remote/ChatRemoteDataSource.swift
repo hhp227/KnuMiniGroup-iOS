@@ -11,6 +11,37 @@ import FirebaseDatabase
 class ChatRemoteDataSource {
     private let databaseReference = Database.database().reference(withPath: "Messages")
 
+    private var messageAddedHandle: DatabaseHandle?
+
+    private var observedMessagesReference: DatabaseReference?
+
+    // Android ChildEventListener(onChildAdded) 대응 — afterKey 이후에 추가되는 메시지를 실시간 수신
+    func observeNewMessages(currentUserUid: String, receiver: String, isGroupChat: Bool, afterKey: String?, onMessageAdded: @escaping (String, MessageItem) -> Void) {
+        removeMessageObserver()
+        let reference = isGroupChat
+            ? databaseReference.child(receiver)
+            : databaseReference.child(currentUserUid).child(receiver)
+        var query: DatabaseQuery = reference.queryOrderedByKey()
+
+        if let afterKey = afterKey {
+            query = query.queryStarting(afterValue: afterKey)
+        }
+        observedMessagesReference = reference
+        messageAddedHandle = query.observe(.childAdded, with: { dataSnapshot in
+            if let value = MessageItem(dictionary: dataSnapshot.value as? [String: Any]) {
+                onMessageAdded(dataSnapshot.key, value)
+            }
+        })
+    }
+
+    func removeMessageObserver() {
+        if let handle = messageAddedHandle {
+            observedMessagesReference?.removeObserver(withHandle: handle)
+        }
+        messageAddedHandle = nil
+        observedMessagesReference = nil
+    }
+
     func fetchMessageList(currentUserUid: String, receiver: String, isGroupChat: Bool, cursor: String?, limit: Int, callback: @escaping Callback<[(key: String, value: MessageItem)]>) {
         var query: DatabaseQuery = isGroupChat
             ? databaseReference.child(receiver).queryOrderedByKey().queryLimited(toLast: UInt(limit))
