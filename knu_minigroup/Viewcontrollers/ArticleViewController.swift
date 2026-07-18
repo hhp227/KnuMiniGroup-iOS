@@ -78,6 +78,23 @@ class ArticleViewController: UIViewController {
         present(alert, animated: true)
     }
 
+    // 댓글 수정 — Android UpdateReplyActivity 대응 (알럿 텍스트필드로 간단 편집)
+    private func presentEditReplyAlert(entry: (key: String, value: ReplyItem)) {
+        let alert = UIAlertController(title: "댓글 수정", message: nil, preferredStyle: .alert)
+
+        alert.addTextField {
+            $0.text = entry.value.reply
+        }
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        alert.addAction(UIAlertAction(title: "수정", style: .default) { [weak self, weak alert] _ in
+            guard let text = alert?.textFields?.first?.text else {
+                return
+            }
+            self?.viewModel.setReply(replyKey: entry.key, text: text)
+        })
+        present(alert, animated: true)
+    }
+
     // Android: CreateArticleActivity에 제목/내용을 실어 수정 모드(type 1)로 진입
     private func editArticle() {
         guard let item = currentArticleItem,
@@ -234,7 +251,17 @@ extension ArticleViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "replyCell", for: indexPath) as? ReplyCollectionViewCell else {
             fatalError()
         }
-        cell.bind(viewModel.replyItemList[indexPath.row - 1].value)
+        let entry = viewModel.replyItemList[indexPath.row - 1]
+
+        // 본인 댓글은 스와이프로 수정/삭제 (Android 컨텍스트 메뉴의 댓글 수정/삭제 대응)
+        cell.bind(entry.value, isMine: entry.value.uid == viewModel.user?.uid)
+        cell.onEditClick = { [weak self] in
+            self?.presentEditReplyAlert(entry: entry)
+        }
+        cell.onDeleteClick = { [weak self] in
+            self?.viewModel.removeReply(replyKey: entry.key)
+            self?.hasReplyChanged = true
+        }
         return cell
     }
 

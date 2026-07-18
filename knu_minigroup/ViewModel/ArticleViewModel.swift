@@ -108,6 +108,26 @@ class ArticleViewModel {
         }
     }
 
+    // Android UpdateReplyViewModel.setReply 대응 — 댓글 수정
+    func setReply(replyKey: String, text: String) {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !trimmed.isEmpty else {
+            message = "내용을 입력하세요."
+            return
+        }
+        replyRepository.setReply(replyKey: replyKey, text: trimmed) { [weak self] result in
+            switch result {
+            case .loading:
+                break
+            case .success:
+                self?.fetchReplyList()
+            case .failure(let error):
+                self?.message = error.localizedDescription
+            }
+        }
+    }
+
     func removeReply(replyKey: String) {
         replyRepository.removeReply(replyKey: replyKey) { [weak self] result in
             switch result {
