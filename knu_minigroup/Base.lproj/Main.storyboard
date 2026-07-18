@@ -240,7 +240,7 @@
         <!--Chat View Controller-->
         <scene sceneID="7tH-fO-FLd">
             <objects>
-                <viewController id="1NS-8g-1fy" customClass="ChatViewController" customModule="knu_minigroup" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatViewController" id="1NS-8g-1fy" customClass="ChatViewController" customModule="knu_minigroup" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aiT-ue-bkq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

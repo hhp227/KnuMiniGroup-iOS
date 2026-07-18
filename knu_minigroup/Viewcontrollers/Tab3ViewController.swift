@@ -49,6 +49,28 @@ class Tab3ViewController: TabViewController, UICollectionViewDelegate {
     }
 }
 
+extension Tab3ViewController {
+    // Android UserDialogFragment 대응 — 맴버 정보(이름 + 메시지 보내기/취소)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let member = viewModel.memberItemList[indexPath.row].value
+        let alert = UIAlertController(title: "맴버 정보", message: member.name, preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "메시지 보내기", style: .default) { [weak self] _ in
+            guard let self = self,
+                  let chatViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController else {
+                return
+            }
+            chatViewController.receiver = member.uid ?? ""
+            chatViewController.isGroupChat = false
+            chatViewController.chatName = member.name
+
+            self.pushDelegateFunc?(chatViewController)
+        })
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        present(alert, animated: true)
+    }
+}
+
 extension Tab3ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)

@@ -22,6 +22,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     var isGroupChat = true
 
+    // 1:1 채팅 진입 시 상대 이름 (Android ChatActivity의 chat_nm 대응)
+    var chatName: String?
+
     private var viewModel: ChatViewModel!
 
     private var cancellables = Set<AnyCancellable>()
@@ -33,7 +36,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = ChatViewModel(receiver: receiver, isGroupChat: isGroupChat)
-        title = "채팅"
+        title = chatName ?? "채팅"
 
         setupViews()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
