@@ -1119,7 +1119,7 @@
             </objects>
             <point key="canvasLocation" x="337.68115942028987" y="613.39285714285711"/>
         </scene>
-        <!--공지사항-->
+        <!--본관게시판-->
         <scene sceneID="nGq-3N-lL5">
             <objects>
                 <viewController storyboardIdentifier="UnivNoticeViewController" id="fWO-Qh-z2Y" customClass="UnivNoticeViewController" customModule="knu_minigroup" customModuleProvider="target" sceneMemberID="viewController">
@@ -1129,7 +1129,7 @@
                         <viewLayoutGuide key="safeArea" id="OsR-qB-PC1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="공지사항" id="bWz-y6-s2V">
+                    <navigationItem key="navigationItem" title="본관게시판" id="bWz-y6-s2V">
                         <barButtonItem key="leftBarButtonItem" image="line.3.horizontal" catalog="system" id="734-Yb-RVL">
                             <connections>
                                 <action selector="barButtonItemClick:" destination="fWO-Qh-z2Y" id="7Hs-gw-uP1"/>

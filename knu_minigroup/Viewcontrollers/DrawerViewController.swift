@@ -5,63 +5,76 @@
 //  Created by 홍희표 on 2020/09/13.
 //  Copyright © 2020 홍희표. All rights reserved.
 //
+//  네비게이션 드로어 (Android의 activity_main_drawer.xml 대응)
+//  ⚠️ 도서관 좌석/통학버스/식단표 화면은 pbxproj 미수정 방침으로 새 파일 대신 이 파일에 정의
+//
 
 import UIKit
+import Combine
 
 class DrawerViewController: UITableViewController {
     @IBOutlet var drawerTableView: UITableView!
-    
+
     let userDefault = UserDefaults.standard
-    
-    var menus = ["메인화면", "공지사항", "시간표", "로그아웃"]
-    
-    var menuIcons = ["", "", "", ""]
-    
+
+    // Android activity_main_drawer.xml: 메인화면/본관게시판/시간표/도서관 좌석/통학버스 시간표/식단표/로그아웃
+    var menus = ["메인화면", "본관게시판", "시간표", "도서관 좌석", "통학버스 시간표", "식단표", "로그아웃"]
+
+    var menuIcons = ["house", "doc.text", "clock", "chair", "bus", "fork.knife", "rectangle.portrait.and.arrow.right"]
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return menus.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "item", for: indexPath)
-        cell.textLabel?.text = menus[(indexPath as NSIndexPath).row]
+
+        cell.textLabel?.text = menus[indexPath.row]
+        // Android 드로어 아이콘(ic_*_gray_24dp) 대응
+        cell.imageView?.image = UIImage(systemName: menuIcons[indexPath.row])
+        cell.imageView?.tintColor = .gray
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let drawerController = parent as? DrawerController else { return }
-        
+
         switch indexPath.row {
         case 0:
             drawerController.mainViewController = storyboard?.instantiateViewController(withIdentifier: "mainNav") as! UINavigationController
-            
+
             drawerController.setDrawerState(.closed, animated: true)
         case 1:
             drawerController.mainViewController = storyboard?.instantiateViewController(withIdentifier: "univNoticeNav") as! UINavigationController
-            
+
             drawerController.setDrawerState(.closed, animated: true)
         case 2:
             drawerController.mainViewController = storyboard?.instantiateViewController(withIdentifier: "timetableNav") as! UINavigationController
-            
+
             drawerController.setDrawerState(.closed, animated: true)
         case 3:
+            drawerController.mainViewController = UINavigationController(rootViewController: SeatViewController())
+
+            drawerController.setDrawerState(.closed, animated: true)
+        case 4:
+            drawerController.mainViewController = UINavigationController(rootViewController: BusViewController())
+
+            drawerController.setDrawerState(.closed, animated: true)
+        case 5:
+            drawerController.mainViewController = UINavigationController(rootViewController: MealViewController())
+
+            drawerController.setDrawerState(.closed, animated: true)
+        case 6:
             UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
             UserDefaults.standard.synchronize()
             navigationController?.popViewController(animated: true)
@@ -71,63 +84,543 @@ class DrawerViewController: UITableViewController {
         }
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 100))
         let label = UILabel()
         label.frame = CGRect.init(x: 5, y: 5, width: headerView.frame.width - 10, height: headerView.frame.height - 10)
         label.text = userDefault.string(forKey: "userId")
-        
+
         headerView.addSubview(label)
         return headerView
     }
-    
+
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 100
     }
 
+}
+
+// MARK: - 드로어 하위 화면 공통 (Android fragment_tabs: Toolbar + TabLayout + ViewPager 대응)
+
+// Android TabLayout 대응 — 레드 배경 + 흰 라벨 + 흰 하단 인디케이터, 탭이 많으면 가로 스크롤
+class DrawerSubTabStrip: UIView {
+    var onSelect: ((Int) -> Void)?
+
+    private(set) var selectedIndex = 0
+
+    private let scrollView = UIScrollView()
+
+    private let stackView = UIStackView()
+
+    private let indicatorView = UIView()
+
+    private var buttons = [UIButton]()
+
+    init(titles: [String]) {
+        super.init(frame: .zero)
+        backgroundColor = .colorPrimary
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsHorizontalScrollIndicator = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        indicatorView.backgroundColor = .white
+        addSubview(scrollView)
+        scrollView.addSubview(stackView)
+        scrollView.addSubview(indicatorView)
+        for (index, title) in titles.enumerated() {
+            let button = UIButton(type: .system)
+
+            button.setTitle(title, for: .normal)
+            button.setTitleColor(.white, for: .normal)
+            button.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
+            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+            button.tag = index
+            button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+            buttons.append(button)
+            stackView.addArrangedSubview(button)
+        }
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            stackView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor)
+        ])
+        // 탭이 적으면 Android tabMode="fixed"처럼 전체 폭 균등 분할
+        if titles.count <= 3 {
+            stackView.distribution = .fillEqually
+            stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
+        }
+        updateSelectionAppearance()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateIndicatorFrame()
+    }
+
+    @objc private func buttonTapped(_ sender: UIButton) {
+        select(sender.tag)
+        onSelect?(sender.tag)
+    }
+
+    func select(_ index: Int) {
+        guard index >= 0, index < buttons.count else {
+            return
+        }
+        selectedIndex = index
+
+        updateSelectionAppearance()
+        UIView.animate(withDuration: 0.2) {
+            self.updateIndicatorFrame()
+        }
+        scrollView.scrollRectToVisible(buttons[index].frame.insetBy(dx: -16, dy: 0), animated: true)
+    }
+
+    private func updateSelectionAppearance() {
+        for (index, button) in buttons.enumerated() {
+            button.alpha = index == selectedIndex ? 1 : 0.7
+        }
+    }
+
+    private func updateIndicatorFrame() {
+        guard selectedIndex < buttons.count else {
+            return
+        }
+        let buttonFrame = buttons[selectedIndex].frame
+
+        indicatorView.frame = CGRect(x: buttonFrame.minX, y: bounds.height - 2, width: buttonFrame.width, height: 2)
+    }
+}
+
+// 레드 탭 스트립 + 테이블 구성의 드로어 하위 화면 베이스
+class DrawerTabsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    let tableView = UITableView(frame: .zero, style: .grouped)
+
+    private(set) var tabStrip: DrawerSubTabStrip!
+
+    private let tabTitles: [String]
+
+    var cancellables = Set<AnyCancellable>()
+
+    init(navTitle: String, tabTitles: [String]) {
+        self.tabTitles = tabTitles
+        super.init(nibName: nil, bundle: nil)
+        title = navTitle
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(openDrawer))
+        tabStrip = DrawerSubTabStrip(titles: tabTitles)
+        tabStrip.translatesAutoresizingMaskIntoConstraints = false
+        tabStrip.onSelect = { [weak self] index in
+            self?.didSelectTab(index)
+        }
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 60
+        view.addSubview(tabStrip)
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tabStrip.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tabStrip.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tabStrip.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tabStrip.heightAnchor.constraint(equalToConstant: 44),
+            tableView.topAnchor.constraint(equalTo: tabStrip.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        didSelectTab(0)
+    }
+
+    @objc private func openDrawer() {
+        if let drawerController = navigationController?.parent as? DrawerController {
+            drawerController.setDrawerState(.opened, animated: true)
+        }
+    }
+
+    // 서브클래스에서 탭 전환/데이터 로드 처리
+    func didSelectTab(_ index: Int) {
+    }
+
+    // subtitle 스타일 셀 재사용 (스토리보드 프로토타입 없이 코드로 생성)
+    func dequeueSubtitleCell() -> UITableViewCell {
+        return tableView.dequeueReusableCell(withIdentifier: "subtitleCell") ?? UITableViewCell(style: .subtitle, reuseIdentifier: "subtitleCell")
+    }
+
+    func showToastIfNeeded(_ message: String?) {
+        if let message = message {
+            view.makeToast(message: message)
+        }
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return dequeueSubtitleCell()
+    }
+}
+
+// MARK: - 도서관 좌석 (Android의 SeatFragment + Daegu/SangjuSeatFragment 대응)
+
+struct SeatItem {
+    let id: Int
+
+    let name: String
+
+    let activeTotal: Int
+
+    let occupied: Int
+
+    let available: Int
+
+    let disable: [String]?
+}
+
+// Android의 viewmodel.DaeguSeatViewModel/SangjuSeatViewModel 공통 구현 — 경북대 도서관 좌석 JSON
+class LibrarySeatViewModel {
+    @Published private(set) var isLoading = false
+
+    @Published private(set) var itemList = [SeatItem]()
+
+    @Published private(set) var message: String?
+
+    private let campusId: String
+
+    init(campusId: String) {
+        self.campusId = campusId
+    }
+
+    func fetchDataTask() {
+        let endPoint = EndPoint.URL_KNULIBRARY_SEAT.replacingOccurrences(of: "{ID}", with: campusId)
+
+        isLoading = true
+        HttpClient.request(endPoint) { [weak self] result in
+            switch result {
+            case .success(let response):
+                self?.isLoading = false
+                guard let data = response.data(using: .utf8),
+                      let json = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any],
+                      let dataObject = json["data"] as? [String: Any],
+                      let list = dataObject["list"] as? [[String: Any]] else {
+                    self?.message = "좌석 정보를 불러올수 없습니다."
+                    return
+                }
+                self?.itemList = list.map { item in
+                    SeatItem(
+                        id: item["id"] as? Int ?? 0,
+                        name: item["name"] as? String ?? "",
+                        activeTotal: item["activeTotal"] as? Int ?? 0,
+                        occupied: item["occupied"] as? Int ?? 0,
+                        available: item["available"] as? Int ?? 0,
+                        disable: (item["disablePeriod"] as? [String: Any]).map {
+                            [$0["name"] as? String ?? "", $0["beginTime"] as? String ?? "", $0["endTime"] as? String ?? ""]
+                        }
+                    )
+                }
+            case .failure(let error):
+                self?.isLoading = false
+                self?.message = error.localizedDescription
+            }
+        }
+    }
+}
+
+class DaeguSeatViewModel: LibrarySeatViewModel {
+    init() {
+        super.init(campusId: "1")
+    }
+}
+
+class SangjuSeatViewModel: LibrarySeatViewModel {
+    init() {
+        super.init(campusId: "2")
+    }
+}
+
+class SeatViewController: DrawerTabsViewController {
+    private let viewModels: [LibrarySeatViewModel] = [DaeguSeatViewModel(), SangjuSeatViewModel()]
+
+    init() {
+        super.init(navTitle: "도서관 좌석", tabTitles: ["대구 열람실", "상주 열람실"])
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        for viewModel in viewModels {
+            viewModel.$itemList
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    self?.tableView.reloadData()
+                }
+                .store(in: &cancellables)
+            viewModel.$message
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] message in
+                    self?.showToastIfNeeded(message)
+                }
+                .store(in: &cancellables)
+        }
+    }
+
+    override func didSelectTab(_ index: Int) {
+        if viewModels[index].itemList.isEmpty {
+            viewModels[index].fetchDataTask()
+        }
+        tableView.reloadData()
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModels[tabStrip.selectedIndex].itemList.count
+    }
+
+    // Android seat_item: 열람실명 + (사용중 좌석 [사용/전체] 또는 이용 제한 시간)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = dequeueSubtitleCell()
+        let item = viewModels[tabStrip.selectedIndex].itemList[indexPath.row]
+
+        cell.selectionStyle = .none
+        cell.textLabel?.font = .systemFont(ofSize: 18)
+        cell.textLabel?.text = item.name
+        cell.detailTextLabel?.font = .systemFont(ofSize: 14)
+        cell.detailTextLabel?.textColor = .secondaryLabel
+        if let disable = item.disable {
+            cell.detailTextLabel?.text = "\(disable[0]) \(disable[1]) ~ \(disable[2])"
+        } else {
+            cell.detailTextLabel?.text = "사용중 좌석 [\(item.occupied)/\(item.activeTotal)]"
+        }
+        return cell
+    }
+}
+
+// MARK: - 통학버스 시간표 (Android의 BusFragment + DC/SCShuttleScheduleFragment 대응)
+
+class BusViewController: DrawerTabsViewController {
+    private let dcViewModel = DCShuttleScheduleViewModel()
+
+    private let scViewModel = SCShuttleScheduleViewModel()
+
+    init() {
+        super.init(navTitle: "통학버스 시간표", tabTitles: ["학교(대구)", "학교(상주)"])
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        dcViewModel.$shuttleList
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
+        dcViewModel.$message
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] message in
+                self?.showToastIfNeeded(message)
+            }
+            .store(in: &cancellables)
+        scViewModel.$shuttleList
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
+        scViewModel.$message
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] message in
+                self?.showToastIfNeeded(message)
+            }
+            .store(in: &cancellables)
+    }
+
+    override func didSelectTab(_ index: Int) {
+        if index == 0, dcViewModel.shuttleList.isEmpty {
+            dcViewModel.fetchShuttleSchedule()
+        }
+        if index == 1, scViewModel.shuttleList.isEmpty {
+            scViewModel.fetchShuttleSchedule()
+        }
+        tableView.reloadData()
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tabStrip.selectedIndex == 0 ? dcViewModel.shuttleList.count : scViewModel.shuttleList.count
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = dequeueSubtitleCell()
+
+        cell.selectionStyle = .none
+        cell.textLabel?.numberOfLines = 0
+        cell.detailTextLabel?.numberOfLines = 0
+        cell.detailTextLabel?.font = .systemFont(ofSize: 14)
+        cell.detailTextLabel?.textColor = .secondaryLabel
+        if tabStrip.selectedIndex == 0 {
+            // Android shuttle_item: 구분(col1) + 시간(col2)
+            let item = dcViewModel.shuttleList[indexPath.row]
+
+            cell.textLabel?.font = item["col2"] == nil ? .boldSystemFont(ofSize: 16) : .systemFont(ofSize: 15)
+            cell.textLabel?.text = item["col1"]
+            cell.detailTextLabel?.text = item["col2"]
+        } else {
+            // Android shuttle_sc_item: 회차(col1) + 컬럼별 시간 — 헤더 라벨과 짝지어 표기
+            let item = scViewModel.shuttleList[indexPath.row]
+            let headers = scViewModel.headers
+
+            cell.textLabel?.font = .boldSystemFont(ofSize: 15)
+            cell.textLabel?.text = headers.first.map { "\($0) \(item["col1"] ?? "")" } ?? item["col1"]
+            cell.detailTextLabel?.text = (2...7).compactMap { column -> String? in
+                guard let value = item["col\(column)"], !value.isEmpty else {
+                    return nil
+                }
+                let label = column - 1 < headers.count ? headers[column - 1] : "col\(column)"
+
+                return "\(label): \(value)"
+            }.joined(separator: "\n")
+        }
+        return cell
+    }
+}
+
+// MARK: - 식단표 (Android의 MealFragment 대응 — DC/SC 기숙사는 iOS 데이터소스 미구현으로 제외)
+
+class MealViewController: DrawerTabsViewController {
+    // Android MealViewModel의 학생식당 페이지 목록과 동일
+    private static let studentPages: [(title: String, id: Int)] = [
+        ("GP감꽃푸드코트", 46),
+        ("GP일청담", 57),
+        ("공학관 교직원식당", 85),
+        ("공학관 학생식당", 86),
+        ("복지관 교직원식당", 36),
+        ("복지관 학생식당", 37),
+        ("복현회관 교직원식당", 39),
+        ("복현회관 학생식당", 56),
+        ("정보센터", 35),
+        ("상주 학식", 49)
+    ]
+
+    private let studentViewModel = StudentMealViewModel()
+
+    private let btlViewModel = BTLDormMealViewModel()
+
+    private var isBTLSelected = false
+
+    init() {
+        super.init(navTitle: "식단표", tabTitles: Self.studentPages.map { $0.title } + ["BTL"])
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        studentViewModel.$mealList
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
+        studentViewModel.$message
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] message in
+                self?.showToastIfNeeded(message)
+            }
+            .store(in: &cancellables)
+        btlViewModel.$mealList
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
+        btlViewModel.$message
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] message in
+                self?.showToastIfNeeded(message)
+            }
+            .store(in: &cancellables)
+    }
+
+    override func didSelectTab(_ index: Int) {
+        isBTLSelected = index == Self.studentPages.count
+        if isBTLSelected {
+            btlViewModel.fetchMealList()
+        } else {
+            studentViewModel.fetchMealList(id: Self.studentPages[index].id)
+        }
+        tableView.reloadData()
+    }
+
+    // 아침/점심/저녁 3섹션 (BTL 응답이 3건이 아니면 단일 섹션)
+    private var btlHasMealTimeSections: Bool {
+        return btlViewModel.mealList.count == 3
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if isBTLSelected {
+            return btlHasMealTimeSections ? 3 : 1
+        }
+        return studentViewModel.mealList.isEmpty ? 0 : 3
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if isBTLSelected {
+            return btlHasMealTimeSections ? ["아침", "점심", "저녁"][section] : nil
+        }
+        return ["아침", "점심", "저녁"][section]
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isBTLSelected {
+            return btlHasMealTimeSections ? 1 : btlViewModel.mealList.count
+        }
+        return sectionMeals(section).count
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = dequeueSubtitleCell()
+
+        cell.selectionStyle = .none
+        cell.textLabel?.font = .systemFont(ofSize: 14)
+        cell.textLabel?.numberOfLines = 0
+        cell.detailTextLabel?.text = nil
+        if isBTLSelected {
+            cell.textLabel?.text = btlHasMealTimeSections ? btlViewModel.mealList[indexPath.section] : btlViewModel.mealList[indexPath.row]
+        } else {
+            cell.textLabel?.text = sectionMeals(indexPath.section)[indexPath.row]
+        }
+        return cell
+    }
+
+    private func sectionMeals(_ section: Int) -> [String] {
+        let key = [MealRepository.KEY_BREAKFAST, MealRepository.KEY_LAUNCH, MealRepository.KEY_DINNER][section]
+
+        return studentViewModel.mealList.filter { $0.key == key }.map { $0.value }
+    }
 }
