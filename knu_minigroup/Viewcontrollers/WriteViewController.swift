@@ -29,6 +29,9 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // 작성/수정 완료 시 피드 갱신용 (Android의 CreateArticleActivity 결과 → refresh 대응)
     var onArticleChanged: (() -> Void)?
 
+    // 수정 모드 프리필은 최초 표시 때 한 번만 — 이후 reload에서 사용자가 입력 중인 텍스트를 덮어쓰지 않도록
+    private var hasBoundInitialText = false
+
     private var viewModel: CreateArticleViewModel!
 
     private var cancellables = Set<AnyCancellable>()
@@ -250,6 +253,12 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if case let .TextItem(title, content) = contents[indexPath.row], let inputTextCell = tableView.dequeueReusableCell(withIdentifier: "inputText", for: indexPath) as? WriteInputTextTableViewCell {
+            if !hasBoundInitialText {
+                hasBoundInitialText = true
+
+                inputTextCell.inputTitleTextView.text = title
+                inputTextCell.inputContentTextView.text = content
+            }
             inputTextCell.heightDelegateFunc = { (cell, textView) -> Void in
                 let size = textView.bounds.size
                 let newSize = tableView.sizeThatFits(CGSize(width: size.width, height: CGFloat.greatestFiniteMagnitude))
