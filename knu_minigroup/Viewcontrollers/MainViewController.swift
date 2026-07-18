@@ -87,8 +87,11 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         tabBar.scrollEdgeAppearance = tabAppearance
         // 탭바가 아이콘 이미지를 항상 중앙에 고정하므로, 이미지 하단에 투명 여백을 구워 넣어
         // 보이는 글리프만 위로 올린다 (인셋/appearance API와 무관하게 확실히 동작)
+        // 심볼 스케일 한 단계 업(.large) — Android itemIconSize 36dp 대응
         tabBar.items?.forEach {
-            $0.image = raisedImage($0.image, by: 4)
+            let enlarged = $0.image?.applyingSymbolConfiguration(UIImage.SymbolConfiguration(scale: .large)) ?? $0.image
+
+            $0.image = raisedImage(enlarged, by: 4)
         }
     }
 
@@ -200,6 +203,10 @@ class MainTabBar: UITabBar {
 
         for case let button as UIControl in subviews {
             button.transform = CGAffineTransform(translationX: 0, y: -shift)
+            // 라벨(텍스트 영역)은 버튼 이동에 더해 조금 더 위로
+            for case let label as UILabel in button.subviews {
+                label.transform = CGAffineTransform(translationX: 0, y: -3)
+            }
         }
     }
 }
