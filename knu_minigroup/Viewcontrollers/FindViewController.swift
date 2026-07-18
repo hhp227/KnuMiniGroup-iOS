@@ -23,7 +23,7 @@ class FindViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 200
+        tableView.estimatedRowHeight = 104
 
         addRefreshControl()
         observeViewModel()
@@ -64,7 +64,6 @@ class FindViewController: UIViewController, UITableViewDelegate, UITableViewData
             fatalError()
         }
         cell.bind(viewModel.groupItemList[indexPath.row].value)
-        cell.layoutSubviews()
         return cell
     }
 

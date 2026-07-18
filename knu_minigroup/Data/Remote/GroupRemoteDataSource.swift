@@ -16,6 +16,9 @@ class GroupRemoteDataSource {
 
     func setLastKey(_ lastKey: String?) {
         self.lastKey = lastKey
+        if lastKey == nil {
+            isStopRequestMore = false // 새로고침 시 페이징 재개
+        }
     }
 
     func getJoinedGroupList(user: User, callback: @escaping Callback<[(key: String, value: GroupItem)]>) {
@@ -30,7 +33,8 @@ class GroupRemoteDataSource {
         fetchDataTaskFromFirebase(query: query, callback: callback)
     }
 
-    func getNotJoinedGroupList(limit: Int, callback: @escaping Callback<[(key: String, value: GroupItem)]>) {
+    // uid가 가입중이거나(true) 가입신청중인(false) 그룹은 목록에서 제외
+    func getNotJoinedGroupList(uid: String?, limit: Int, callback: @escaping Callback<[(key: String, value: GroupItem)]>) {
         let databaseReference = Database.database().reference(withPath: "Groups")
         var query: DatabaseQuery = databaseReference.queryOrderedByKey().queryLimited(toFirst: UInt(limit))
 
@@ -41,12 +45,15 @@ class GroupRemoteDataSource {
         query.observeSingleEvent(of: .value, with: { [weak self] dataSnapshot in
             var newLastKey: String? = nil
             var groupItemList = [(key: String, value: GroupItem)]()
+            var childIndex = 0
 
             for case let snapshot as DataSnapshot in dataSnapshot.children {
-                if groupItemList.count == Int(dataSnapshot.childrenCount) - 1 {
+                // 가입 그룹이 필터링되면 목록 개수로는 마지막 child를 못 찾으므로 원본 인덱스로 판별
+                if childIndex == Int(dataSnapshot.childrenCount) - 1 {
                     newLastKey = snapshot.key // 마지막 키 저장
                 }
-                if let value = GroupItem(dictionary: snapshot.value as? [String: Any]) {
+                childIndex += 1
+                if let value = GroupItem(dictionary: snapshot.value as? [String: Any]), uid == nil || value.members?[uid!] == nil {
                     groupItemList.append((snapshot.key, value))
                 }
             }

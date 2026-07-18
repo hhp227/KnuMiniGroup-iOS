@@ -24,15 +24,23 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
 
     private var cancellables = Set<AnyCancellable>()
 
+    private let actionBottomSpacing: CGFloat = 16
+
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = Tab1ViewModel(groupId: groupId, groupKey: groupKey)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.contentInsetAdjustmentBehavior = .never
 
         addRefreshControl()
         observeViewModel()
         viewModel.fetchNextPage()
+    }
+
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        collectionView?.collectionViewLayout.invalidateLayout()
     }
 
     @objc func refreshControlDidChangeValue(refreshControl: UIRefreshControl) {
@@ -61,6 +69,7 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
             .sink { [weak self] articleItemList in
                 self?.data = articleItemList.map { $0.value }
 
+                self?.collectionView.backgroundView = articleItemList.isEmpty ? self?.makeEmptyStateView() : nil
                 self?.collectionView.reloadData()
             }
             .store(in: &cancellables)
@@ -74,11 +83,38 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
             .store(in: &cancellables)
     }
 
+    // Android fragment_tab1 빈 상태: 아이콘 + "등록된 글이 없습니다."
+    private func makeEmptyStateView() -> UIView {
+        let container = UIView()
+        let imageView = UIImageView(image: UIImage(systemName: "plus.square.on.square", withConfiguration: UIImage.SymbolConfiguration(pointSize: 60, weight: .regular)))
+        let label = UILabel()
+
+        imageView.tintColor = .colorAccent
+        label.text = "등록된 글이 없습니다.\n게시글을 작성하세요."
+        label.font = .systemFont(ofSize: 15)
+        label.textColor = .gray
+        label.textAlignment = .center
+        label.numberOfLines = 2
+
+        let stackView = UIStackView(arrangedSubviews: [imageView, label])
+
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.spacing = 12
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(stackView)
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: container.centerYAnchor)
+        ])
+        return container
+    }
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "articleCell", for: indexPath) as? ArticleCollectionViewCell else {
             fatalError()
         }
-        cell.articleItem = data[indexPath.row]
+        cell.bind(data[indexPath.row])
         return cell
     }
 
@@ -101,6 +137,11 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize() }
-        return CGSize(width: collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right), height: flowLayout.itemSize.height)
+        let bottomSafeArea = max(view.safeAreaInsets.bottom, view.window?.safeAreaInsets.bottom ?? 0)
+        let safeAreaPadding = indexPath.item == data.count - 1 ? bottomSafeArea + actionBottomSpacing : 0
+        let width = collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right)
+
+        // Android처럼 카드 높이는 내용(본문 최대 4줄+더보기, 이미지 유무)에 따라 가변
+        return CGSize(width: width, height: ArticleCollectionViewCell.height(for: data[indexPath.item], width: width) + safeAreaPadding)
     }
 }

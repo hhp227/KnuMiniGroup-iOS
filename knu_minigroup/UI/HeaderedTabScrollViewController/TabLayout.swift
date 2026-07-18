@@ -198,6 +198,17 @@ extension TabLayout {
         newVC.didMove(toParent: self)
     }
     
+    // 컨테이너 크기가 바뀔 때 페이지 뷰 프레임 갱신 (페이지 뷰는 수동 프레임 기반이라 자동으로 따라오지 않음)
+    func resize(to size: CGSize) {
+        view.frame.size = size
+        controllerScrollView.contentSize = CGSize(width: size.width * CGFloat(controllerArray.count), height: size.height - configuration.menuHeight)
+        for controller in controllerArray {
+            if let pageView = controller.viewIfLoaded, pageView.superview == controllerScrollView {
+                pageView.frame = CGRect(x: pageView.frame.origin.x, y: configuration.menuHeight, width: size.width, height: size.height - configuration.menuHeight)
+            }
+        }
+    }
+
     func removePageAtIndex(_ index: Int) {
         let oldVC = controllerArray[index]
         

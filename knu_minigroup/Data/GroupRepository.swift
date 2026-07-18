@@ -22,8 +22,8 @@ class GroupRepository {
         groupRemoteDataSource.getJoinedGroupList(user: user, callback: callback)
     }
 
-    func getNotJoinedGroupList(offset: Int, limit: Int, callback: @escaping Callback<[(key: String, value: GroupItem)]>) {
-        groupRemoteDataSource.getNotJoinedGroupList(limit: limit, callback: callback)
+    func getNotJoinedGroupList(uid: String?, offset: Int, limit: Int, callback: @escaping Callback<[(key: String, value: GroupItem)]>) {
+        groupRemoteDataSource.getNotJoinedGroupList(uid: uid, limit: limit, callback: callback)
     }
 
     func getJoinRequestGroupList(user: User, offset: Int, limit: Int, callback: @escaping Callback<[(key: String, value: GroupItem)]>) {

@@ -21,6 +21,8 @@ class ChatViewModel {
 
     let isGroupChat: Bool
 
+    private(set) var hasRequestMore = true
+
     private var cursor: String?
 
     private let chatRepository = ChatRepository()
@@ -36,8 +38,12 @@ class ChatViewModel {
         self.isGroupChat = isGroupChat
     }
 
+    deinit {
+        chatRepository.removeMessageObserver()
+    }
+
     func fetchMessageList() {
-        guard let uid = user?.uid else {
+        guard let uid = user?.uid, !isLoading, hasRequestMore else {
             return
         }
         let previousCursor = cursor
@@ -53,15 +59,37 @@ class ChatViewModel {
                 var newList = messageItemList
 
                 self.isLoading = false
+                // 페이지가 꽉 차지 않으면 더 이전 메시지 없음
+                if messageItemList.count < ChatViewModel.LIMIT {
+                    self.hasRequestMore = false
+                }
                 if previousCursor != nil && !newList.isEmpty {
                     newList.removeLast() // 커서와 중복되는 마지막 메시지 제거
                 }
-                self.cursor = newList.first?.key
+                if let firstKey = newList.first?.key {
+                    self.cursor = firstKey
+                }
                 self.messageItemList = newList + self.messageItemList
+                // 최초 로드 후 마지막 메시지 이후를 실시간 구독 (Android ChildEventListener 대응)
+                if previousCursor == nil {
+                    self.observeNewMessages()
+                }
             case .failure(let error):
                 self.isLoading = false
                 self.message = error.localizedDescription
             }
+        }
+    }
+
+    private func observeNewMessages() {
+        guard let uid = user?.uid else {
+            return
+        }
+        chatRepository.observeNewMessages(currentUserUid: uid, receiver: receiver, isGroupChat: isGroupChat, afterKey: messageItemList.last?.key) { [weak self] key, messageItem in
+            guard let self = self, self.messageItemList.last?.key != key else {
+                return
+            }
+            self.messageItemList.append((key, messageItem))
         }
     }
 

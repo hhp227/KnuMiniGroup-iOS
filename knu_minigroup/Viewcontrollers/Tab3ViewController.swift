@@ -25,6 +25,7 @@ class Tab3ViewController: TabViewController, UICollectionViewDelegate {
         viewModel = Tab3ViewModel(groupKey: groupKey)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.contentInsetAdjustmentBehavior = .never
 
         observeViewModel()
         viewModel.fetchUserList()
@@ -48,19 +49,32 @@ class Tab3ViewController: TabViewController, UICollectionViewDelegate {
     }
 }
 
+extension Tab3ViewController {
+    // Android UserDialogFragment 대응 — 맴버 정보(이름 + 메시지 보내기/취소)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let member = viewModel.memberItemList[indexPath.row].value
+        let alert = UIAlertController(title: "맴버 정보", message: member.name, preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "메시지 보내기", style: .default) { [weak self] _ in
+            guard let self = self,
+                  let chatViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController else {
+                return
+            }
+            chatViewController.receiver = member.uid ?? ""
+            chatViewController.isGroupChat = false
+            chatViewController.chatName = member.name
+
+            self.pushDelegateFunc?(chatViewController)
+        })
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        present(alert, animated: true)
+    }
+}
+
 extension Tab3ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.contentView.layer.cornerRadius = 10.0
-        cell.contentView.layer.borderWidth = 1.0
-        cell.contentView.layer.borderColor = UIColor.clear.cgColor
-        cell.contentView.layer.masksToBounds = false
-        cell.layer.shadowColor = UIColor.gray.cgColor
-        cell.layer.shadowOffset = CGSize(width: 0, height: 1.0)
-        cell.layer.shadowRadius = 4.0
-        cell.layer.shadowOpacity = 1.0
-        cell.layer.masksToBounds = false
-        cell.layer.shadowPath = UIBezierPath(roundedRect: cell.bounds, cornerRadius: cell.contentView.layer.cornerRadius).cgPath
+
         (cell as? MemberCollectionViewCell)?.bind(viewModel.memberItemList[indexPath.row].value)
         return cell
     }
@@ -71,11 +85,11 @@ extension Tab3ViewController: UICollectionViewDataSource {
 }
 
 extension Tab3ViewController: UICollectionViewDelegateFlowLayout {
+    // Android fragment_tab3: 4열 정사각 사진 + 이름
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize() }
-        let cellCount = floor(CGFloat(4))
-        let margin = CGFloat((flowLayout.sectionInset.left + flowLayout.sectionInset.right))
-        let width = (view.frame.size.width - margin * (cellCount - 1) - margin) / cellCount
-        return CGSize(width: width, height: width)
+        let margin = flowLayout.sectionInset.left + flowLayout.sectionInset.right
+        let side = (collectionView.frame.width - margin - flowLayout.minimumInteritemSpacing * 3) / 4
+        return CGSize(width: side, height: side + 18)
     }
 }
