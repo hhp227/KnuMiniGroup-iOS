@@ -203,9 +203,18 @@ class MainTabBar: UITabBar {
 
         for case let button as UIControl in subviews {
             button.transform = CGAffineTransform(translationX: 0, y: -shift)
-            // 라벨(텍스트 영역)은 버튼 이동에 더해 아이콘 쪽으로 더 올린다
-            for case let label as UILabel in button.subviews {
+            raiseLabel(in: button)
+        }
+    }
+
+    // 라벨(텍스트 영역)을 아이콘 쪽으로 올린다 — iOS 15 UITabBarButton 내부 계층에서
+    // 라벨이 버튼의 직속 자식이 아닐 수 있어 재귀로 찾는다
+    private func raiseLabel(in view: UIView) {
+        for subview in view.subviews {
+            if let label = subview as? UILabel {
                 label.transform = CGAffineTransform(translationX: 0, y: -8)
+            } else {
+                raiseLabel(in: subview)
             }
         }
     }
