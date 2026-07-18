@@ -29,6 +29,7 @@ class Tab4ViewController: TabViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.delegate = self
+        scrollView.contentInsetAdjustmentBehavior = .never
         viewModel = Tab4ViewModel(isAdmin: isAdmin, groupId: groupId, key: groupKey)
 
         setupSettingsList()
@@ -42,8 +43,12 @@ class Tab4ViewController: TabViewController {
 
         card.translatesAutoresizingMaskIntoConstraints = false
         card.backgroundColor = .secondarySystemGroupedBackground
+        // Android content_tab4 CardView(cornerRadius 4dp, elevation) 상당 — 그림자 테두리 (cardView() 확장과 동일 값)
         card.layer.cornerRadius = 4
-        card.clipsToBounds = true
+        card.layer.shadowColor = UIColor.black.cgColor
+        card.layer.shadowOffset = CGSize(width: 0, height: 1.5)
+        card.layer.shadowRadius = 2.0
+        card.layer.shadowOpacity = 0.24
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         card.addSubview(stackView)
