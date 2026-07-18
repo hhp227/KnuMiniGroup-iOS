@@ -49,7 +49,6 @@ class ArticleViewController: UIViewController {
         inputTextView.translatesAutoresizingMaskIntoConstraints = false
 
         collectionView.register(ReplyCollectionViewCell.self, forCellWithReuseIdentifier: "replyCell")
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler)))
         setupSendButton()
         setupAuthorMenuIfNeeded()
@@ -116,7 +115,14 @@ class ArticleViewController: UIViewController {
         sendButton.applySendButtonStyle(hasText: hasText)
     }
 
+    // 댓글 수정 등 다른 화면으로 push 후 돌아와도 키보드 노티가 다시 구독되도록 appear/disappear 쌍으로 관리
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
 
