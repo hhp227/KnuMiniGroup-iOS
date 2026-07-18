@@ -78,21 +78,14 @@ class ArticleViewController: UIViewController {
         present(alert, animated: true)
     }
 
-    // 댓글 수정 — Android UpdateReplyActivity 대응 (알럿 텍스트필드로 간단 편집)
-    private func presentEditReplyAlert(entry: (key: String, value: ReplyItem)) {
-        let alert = UIAlertController(title: "댓글 수정", message: nil, preferredStyle: .alert)
+    // 댓글 수정 — Android UpdateReplyActivity 대응 별도 화면으로 진입
+    private func presentEditReply(entry: (key: String, value: ReplyItem)) {
+        let updateReplyViewController = UpdateReplyViewController(articleKey: pendingArticleKey, replyKey: entry.key, reply: entry.value.reply ?? "")
 
-        alert.addTextField {
-            $0.text = entry.value.reply
+        updateReplyViewController.onUpdated = { [weak self] in
+            self?.viewModel.fetchReplyList()
         }
-        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
-        alert.addAction(UIAlertAction(title: "수정", style: .default) { [weak self, weak alert] _ in
-            guard let text = alert?.textFields?.first?.text else {
-                return
-            }
-            self?.viewModel.setReply(replyKey: entry.key, text: text)
-        })
-        present(alert, animated: true)
+        navigationController?.pushViewController(updateReplyViewController, animated: true)
     }
 
     // Android: CreateArticleActivity에 제목/내용을 실어 수정 모드(type 1)로 진입
@@ -256,7 +249,7 @@ extension ArticleViewController: UICollectionViewDataSource {
         // 본인 댓글은 스와이프로 수정/삭제 (Android 컨텍스트 메뉴의 댓글 수정/삭제 대응)
         cell.bind(entry.value, isMine: entry.value.uid == viewModel.user?.uid)
         cell.onEditClick = { [weak self] in
-            self?.presentEditReplyAlert(entry: entry)
+            self?.presentEditReply(entry: entry)
         }
         cell.onDeleteClick = { [weak self] in
             self?.viewModel.removeReply(replyKey: entry.key)
@@ -296,5 +289,77 @@ extension ArticleViewController: UICollectionViewDelegateFlowLayout {
         }
         let rect = (text as NSString).boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: font], context: nil)
         return ceil(rect.height)
+    }
+}
+
+// Android UpdateReplyActivity 대응 — 댓글 수정 전용 화면 (pbxproj 미수정 방침으로 이 파일에 정의)
+class UpdateReplyViewController: UIViewController {
+    var onUpdated: (() -> Void)?
+
+    private let viewModel: UpdateReplyViewModel
+
+    private let replyTextView = UITextView()
+
+    private let initialReply: String
+
+    private var cancellables = Set<AnyCancellable>()
+
+    init(articleKey: String, replyKey: String, reply: String) {
+        self.viewModel = UpdateReplyViewModel(articleKey: articleKey, replyKey: replyKey)
+        self.initialReply = reply
+        super.init(nibName: nil, bundle: nil)
+        title = "댓글 수정"
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        // Android menu/write.xml: 우측 상단 "전송"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "전송", style: .plain, target: self, action: #selector(actionSend))
+        replyTextView.translatesAutoresizingMaskIntoConstraints = false
+        replyTextView.font = .systemFont(ofSize: 16)
+        replyTextView.textContainerInset = UIEdgeInsets(top: 10, left: 6, bottom: 10, right: 6)
+        replyTextView.text = initialReply
+        view.addSubview(replyTextView)
+        NSLayoutConstraint.activate([
+            replyTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            replyTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            replyTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            replyTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
+        ])
+        observeViewModel()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        replyTextView.becomeFirstResponder()
+    }
+
+    @objc private func actionSend() {
+        viewModel.setReply(text: replyTextView.text ?? "")
+    }
+
+    private func observeViewModel() {
+        viewModel.$updatedReply
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] updatedReply in
+                if updatedReply != nil {
+                    self?.onUpdated?()
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            }
+            .store(in: &cancellables)
+        viewModel.$message
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] message in
+                if let message = message {
+                    self?.view.makeToast(message: message)
+                }
+            }
+            .store(in: &cancellables)
     }
 }
