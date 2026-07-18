@@ -24,6 +24,9 @@ class ArticleRemoteDataSource {
 
     func setLastKey(_ lastKey: String?) {
         self.lastKey = lastKey
+        if lastKey == nil {
+            isStopRequestMore = false // 새로고침 시 페이징 재개
+        }
     }
 
     func getArticleList(cookie: String?, limit: Int, callback: @escaping Callback<[(key: String, value: ArticleItem)]>) {
