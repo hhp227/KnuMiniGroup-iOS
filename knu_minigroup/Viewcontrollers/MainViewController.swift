@@ -74,8 +74,12 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
     // Android BottomNavigationView 스타일: 흰 배경, 회색 아이템(선택 시 colorPrimary)
     private func setupTabBar() {
         // UITabBar는 버튼 콘텐츠(표준 49pt)를 바 하단에 붙이므로 스토리보드 높이 63pt에서는
-        // 위쪽에만 여백이 생긴다. Android처럼 수직 중앙 정렬되도록 초과 높이의 절반만큼 위로 당긴다.
+        // 위쪽에만 여백이 생긴다. Android처럼 수직 중앙 정렬되도록 초과 높이의 절반만큼 위로 당기되,
+        // 아이콘은 간격의 절반만큼 더, 라벨은 덜 올려 아이콘-라벨 사이 간격을 벌린다(블록 전체는 중앙 유지).
         let verticalShift: CGFloat = (63 - 49) / 2
+        let iconLabelSpacing: CGFloat = 6
+        let iconShift = verticalShift + iconLabelSpacing / 2
+        let titleShift = verticalShift - iconLabelSpacing / 2
         let tabAppearance = UITabBarAppearance()
 
         tabAppearance.configureWithOpaqueBackground()
@@ -83,15 +87,15 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         [tabAppearance.stackedLayoutAppearance, tabAppearance.inlineLayoutAppearance, tabAppearance.compactInlineLayoutAppearance].forEach {
             $0.normal.iconColor = .gray
             $0.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
-            $0.normal.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -verticalShift)
+            $0.normal.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -titleShift)
             $0.selected.iconColor = .colorPrimary
             $0.selected.titleTextAttributes = [.foregroundColor: UIColor.colorPrimary]
-            $0.selected.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -verticalShift)
+            $0.selected.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -titleShift)
         }
         tabBar.standardAppearance = tabAppearance
         tabBar.scrollEdgeAppearance = tabAppearance
         tabBar.items?.forEach {
-            $0.imageInsets = UIEdgeInsets(top: -verticalShift, left: 0, bottom: verticalShift, right: 0)
+            $0.imageInsets = UIEdgeInsets(top: -iconShift, left: 0, bottom: iconShift, right: 0)
         }
     }
 
