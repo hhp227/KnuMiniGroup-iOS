@@ -41,7 +41,8 @@ class Tab2ViewModel {
         }
     }
 
-    func fetchDataTask() {
+    // Android처럼 관찰 중인 calendar 값을 인자로 받아 해당 월의 학사일정을 요청
+    func fetchDataTask(_ calendar: DateComponents) {
         guard let year = calendar.year, let month = calendar.month else {
             return
         }
