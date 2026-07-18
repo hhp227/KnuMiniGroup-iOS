@@ -6,13 +6,14 @@
 //  Copyright © 2020 홍희표. All rights reserved.
 //
 //  일정 탭 — 학사일정 (Android의 Tab2Fragment 대응)
+//  UITableView의 iOS 15 상단 여백 문제를 피해 Tab1과 동일한 UICollectionView 구성 사용
 //
 
 import UIKit
 import Combine
 
-class Tab2ViewController: TabViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet weak var tableView: UITableView!
+class Tab2ViewController: TabViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    @IBOutlet weak var collectionView: UICollectionView!
 
     private let viewModel = Tab2ViewModel()
 
@@ -20,16 +21,18 @@ class Tab2ViewController: TabViewController, UITableViewDelegate, UITableViewDat
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-        // Tab1과 동일 — 탭 호스트 안에서 자동 인셋이 붙어 캘린더 위에 여백이 생기는 것 방지
-        tableView.contentInsetAdjustmentBehavior = .never
-        // iOS 15부터 plain 테이블 상단에 기본 패딩이 생겨 캘린더가 아래로 밀림 — 제거
-        tableView.sectionHeaderTopPadding = 0
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.contentInsetAdjustmentBehavior = .never
 
-        tableView.register(CalendarTableViewCell.self, forCellReuseIdentifier: "calendarCell")
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "scheduleCell")
+        collectionView.register(CalendarCollectionViewCell.self, forCellWithReuseIdentifier: "calendarCell")
+        collectionView.register(ScheduleCollectionViewCell.self, forCellWithReuseIdentifier: "scheduleCell")
         observeViewModel()
+    }
+
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        collectionView?.collectionViewLayout.invalidateLayout()
     }
 
     private func observeViewModel() {
@@ -38,13 +41,13 @@ class Tab2ViewController: TabViewController, UITableViewDelegate, UITableViewDat
             .receive(on: DispatchQueue.main)
             .sink { [weak self] calendar in
                 self?.viewModel.fetchDataTask(calendar)
-                self?.tableView.reloadData()
+                self?.collectionView.reloadData()
             }
             .store(in: &cancellables)
         viewModel.$itemList
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.tableView.reloadData()
+                self?.collectionView.reloadData()
             }
             .store(in: &cancellables)
         viewModel.$message
@@ -57,18 +60,14 @@ class Tab2ViewController: TabViewController, UITableViewDelegate, UITableViewDat
             .store(in: &cancellables)
     }
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.itemList.count
     }
 
     // 첫 행은 캘린더 (Android CalendarAdapter의 TYPE_CALENDAR 대응 — itemList[0]은 빈 placeholder)
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "calendarCell", for: indexPath) as? CalendarTableViewCell else {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.item == 0 {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "calendarCell", for: indexPath) as? CalendarCollectionViewCell else {
                 fatalError()
             }
             cell.onPrevClick = { [weak self] in
@@ -80,25 +79,89 @@ class Tab2ViewController: TabViewController, UITableViewDelegate, UITableViewDat
             cell.bind(viewModel.calendar)
             return cell
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "scheduleCell", for: indexPath)
-        let item = viewModel.itemList[indexPath.row]
-        var config = cell.defaultContentConfiguration()
-
-        config.text = item["내용"]
-        config.secondaryText = item["날짜"]
-        cell.contentConfiguration = config
-        cell.selectionStyle = .none
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "scheduleCell", for: indexPath) as? ScheduleCollectionViewCell else {
+            fatalError()
+        }
+        cell.bind(viewModel.itemList[indexPath.item])
         return cell
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width
+
         // Android header_calendar: ExtendedCalendarView 높이 266dp
-        return indexPath.row == 0 ? 266 : UITableView.automaticDimension
+        if indexPath.item == 0 {
+            return CGSize(width: width, height: 266)
+        }
+        return CGSize(width: width, height: ScheduleCollectionViewCell.height(for: viewModel.itemList[indexPath.item], width: width))
+    }
+}
+
+// Android schedule_item 대응 — 학사일정 행 (내용 + 날짜, 하단 구분선)
+class ScheduleCollectionViewCell: UICollectionViewCell {
+    private let contentLabel = UILabel()
+
+    private let dateLabel = UILabel()
+
+    private let separatorView = UIView()
+
+    private static let contentFont = UIFont.systemFont(ofSize: 16)
+
+    private static let dateFont = UIFont.systemFont(ofSize: 13)
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupViews()
+    }
+
+    private func setupViews() {
+        contentLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentLabel.font = Self.contentFont
+        contentLabel.numberOfLines = 0
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.font = Self.dateFont
+        dateLabel.textColor = .secondaryLabel
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        separatorView.backgroundColor = .systemGray4
+        contentView.addSubview(contentLabel)
+        contentView.addSubview(dateLabel)
+        contentView.addSubview(separatorView)
+        NSLayoutConstraint.activate([
+            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 11),
+            contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            contentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            dateLabel.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 4),
+            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            separatorView.heightAnchor.constraint(equalToConstant: 0.5)
+        ])
+    }
+
+    func bind(_ item: [String: String]) {
+        contentLabel.text = item["내용"]
+        dateLabel.text = item["날짜"]
+    }
+
+    // sizeForItemAt에서 사용 — 셀 레이아웃과 동일 수치 유지
+    static func height(for item: [String: String], width: CGFloat) -> CGFloat {
+        let contentWidth = width - 32
+        let content = item["내용"] ?? ""
+        let contentHeight = content.isEmpty ? 0 : ceil((content as NSString).boundingRect(with: CGSize(width: contentWidth, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: contentFont], context: nil).height)
+
+        return 11 + contentHeight + 4 + ceil(dateFont.lineHeight) + 11
     }
 }
 
 // Android calendar.ExtendedCalendarView 대응 — 월 이동 바 + 요일/날짜 7열 그리드
-class CalendarTableViewCell: UITableViewCell {
+class CalendarCollectionViewCell: UICollectionViewCell {
     var onPrevClick: (() -> Void)?
 
     var onNextClick: (() -> Void)?
@@ -119,8 +182,8 @@ class CalendarTableViewCell: UITableViewCell {
         return formatter
     }()
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupViews()
     }
 
@@ -130,7 +193,6 @@ class CalendarTableViewCell: UITableViewCell {
     }
 
     private func setupViews() {
-        selectionStyle = .none
         // 월 이동 바: 빨간 chevron(ic_navigate_before/next_red_36dp 대응) + 월 라벨 20pt
         prevButton.translatesAutoresizingMaskIntoConstraints = false
         prevButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
