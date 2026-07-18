@@ -80,8 +80,12 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         [tabAppearance.stackedLayoutAppearance, tabAppearance.inlineLayoutAppearance, tabAppearance.compactInlineLayoutAppearance].forEach {
             $0.normal.iconColor = .gray
             $0.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
+            // 라벨을 아이콘 쪽으로 올린다 — 뷰 transform은 iOS 15 탭버튼 내부 계층에 안 닿으므로
+            // 아이콘 색과 동일하게 실동작이 확인된 appearance 파이프라인으로 처리
+            $0.normal.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -8)
             $0.selected.iconColor = .colorPrimary
             $0.selected.titleTextAttributes = [.foregroundColor: UIColor.colorPrimary]
+            $0.selected.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -8)
         }
         tabBar.standardAppearance = tabAppearance
         tabBar.scrollEdgeAppearance = tabAppearance
@@ -203,19 +207,6 @@ class MainTabBar: UITabBar {
 
         for case let button as UIControl in subviews {
             button.transform = CGAffineTransform(translationX: 0, y: -shift)
-            raiseLabel(in: button)
-        }
-    }
-
-    // 라벨(텍스트 영역)을 아이콘 쪽으로 올린다 — iOS 15 UITabBarButton 내부 계층에서
-    // 라벨이 버튼의 직속 자식이 아닐 수 있어 재귀로 찾는다
-    private func raiseLabel(in view: UIView) {
-        for subview in view.subviews {
-            if let label = subview as? UILabel {
-                label.transform = CGAffineTransform(translationX: 0, y: -8)
-            } else {
-                raiseLabel(in: subview)
-            }
         }
     }
 }
