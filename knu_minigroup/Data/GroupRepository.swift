@@ -8,6 +8,8 @@
 import Foundation
 
 class GroupRepository {
+    private static let KEY_JOINED_GROUP_CACHE = "joined_group_list_cache_"
+
     private let groupRemoteDataSource = GroupRemoteDataSource()
 
     var isStopRequestMore: Bool {
@@ -18,8 +20,26 @@ class GroupRepository {
         groupRemoteDataSource.setLastKey(lastKey)
     }
 
+    // 서버 응답 전 즉시 표시용 — 마지막으로 받아온 가입 그룹 목록 (uid별 캐시)
+    func getCachedJoinedGroupList(uid: String?) -> [(key: String, value: GroupItem)] {
+        guard let uid = uid, let cached = UserDefaults.standard.array(forKey: GroupRepository.KEY_JOINED_GROUP_CACHE + uid) as? [[String: Any]] else {
+            return []
+        }
+        return cached.compactMap { entry in
+            guard let key = entry["key"] as? String, let value = GroupItem(dictionary: entry["value"] as? [String: Any]) else {
+                return nil
+            }
+            return (key, value)
+        }
+    }
+
     func getJoinedGroupList(user: User, callback: @escaping Callback<[(key: String, value: GroupItem)]>) {
-        groupRemoteDataSource.getJoinedGroupList(user: user, callback: callback)
+        groupRemoteDataSource.getJoinedGroupList(user: user) { result in
+            if case .success(let groupItemList) = result, let uid = user.uid {
+                UserDefaults.standard.set(groupItemList.map { ["key": $0.key, "value": $0.value.dictionary] }, forKey: GroupRepository.KEY_JOINED_GROUP_CACHE + uid)
+            }
+            callback(result)
+        }
     }
 
     func getNotJoinedGroupList(uid: String?, offset: Int, limit: Int, callback: @escaping Callback<[(key: String, value: GroupItem)]>) {

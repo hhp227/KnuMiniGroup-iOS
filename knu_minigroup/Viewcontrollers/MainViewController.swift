@@ -181,7 +181,7 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "GroupCollectionViewHeader", for: indexPath) as? MainCollectionReusableView
         header?.headerLabel.text = "가입중인 그룹"
-        header?.showsBanner = viewModel.groupItemList.isEmpty
+        header?.showsBanner = viewModel.showsEmptyBanner
         return header!
     }
 
@@ -191,9 +191,10 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         return CGSize(width: width, height: 165)
     }
 
-    // 배너는 가입중인 그룹이 없을 때만 노출
+    // 배너는 로딩 완료 후 가입중인 그룹이 없다고 확정된 경우에만 노출 — 최초 로딩 중에는 헤더를 그리지 않는다 (Android 대응)
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let height = viewModel.groupItemList.isEmpty ? MainCollectionReusableView.bannerHeight : MainCollectionReusableView.titleHeight
+        let height = !viewModel.groupItemList.isEmpty ? MainCollectionReusableView.titleHeight
+            : viewModel.showsEmptyBanner ? MainCollectionReusableView.bannerHeight : 0
         return CGSize(width: collectionView.frame.width, height: height)
     }
 }
