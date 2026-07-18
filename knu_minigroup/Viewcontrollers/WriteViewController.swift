@@ -26,6 +26,9 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // 수정 모드일 경우에만 값이 있음
     var articleKey: String?
 
+    // 작성/수정 완료 시 피드 갱신용 (Android의 CreateArticleActivity 결과 → refresh 대응)
+    var onArticleChanged: (() -> Void)?
+
     private var viewModel: CreateArticleViewModel!
 
     private var cancellables = Set<AnyCancellable>()
@@ -46,6 +49,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isDone in
                 if isDone {
+                    self?.onArticleChanged?()
                     self?.navigationController?.popViewController(animated: true)
                 }
             }

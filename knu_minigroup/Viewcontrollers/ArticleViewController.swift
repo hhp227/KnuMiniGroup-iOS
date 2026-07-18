@@ -34,6 +34,9 @@ class ArticleViewController: UIViewController {
 
     private var pendingArticleItem: ArticleItem?
 
+    // 게시글 삭제 시 피드 갱신용 (Android의 ArticleActivity 결과 → refresh 대응)
+    var onArticleChanged: (() -> Void)?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = ArticleViewModel(groupId: pendingGroupId, groupKey: pendingGroupKey, articleKey: pendingArticleKey)
@@ -117,6 +120,7 @@ class ArticleViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isRemoved in
                 if isRemoved {
+                    self?.onArticleChanged?()
                     self?.navigationController?.popViewController(animated: true)
                 }
             }
