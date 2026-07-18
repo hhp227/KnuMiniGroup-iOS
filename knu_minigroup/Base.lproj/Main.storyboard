@@ -930,7 +930,7 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_photo" translatesAutoresizingMaskIntoConstraints="NO" id="3ff-3v-tS8">
                                 <rect key="frame" x="0.0" y="130" width="414" height="306"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="306" id="tkR-xV-9n6"/>
+                                    <constraint firstAttribute="height" constant="275" id="tkR-xV-9n6"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bfr-yo-fFd">
