@@ -85,6 +85,27 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         }
         tabBar.standardAppearance = tabAppearance
         tabBar.scrollEdgeAppearance = tabAppearance
+        // 탭바가 아이콘 이미지를 항상 중앙에 고정하므로, 이미지 하단에 투명 여백을 구워 넣어
+        // 보이는 글리프만 위로 올린다 (인셋/appearance API와 무관하게 확실히 동작)
+        tabBar.items?.forEach {
+            $0.image = raisedImage($0.image, by: 4)
+        }
+    }
+
+    // 글리프를 offset만큼 올린 이미지 생성 — 캔버스를 아래로 offset*2 늘리고 원본을 상단에 그린다
+    private func raisedImage(_ image: UIImage?, by offset: CGFloat) -> UIImage? {
+        guard let image = image else {
+            return nil
+        }
+        let format = UIGraphicsImageRendererFormat()
+
+        format.scale = image.scale
+        let size = CGSize(width: image.size.width, height: image.size.height + offset * 2)
+        let raised = UIGraphicsImageRenderer(size: size, format: format).image { _ in
+            image.draw(at: .zero)
+        }
+
+        return raised.withRenderingMode(.alwaysTemplate)
     }
 
     func addRefreshControl() {
