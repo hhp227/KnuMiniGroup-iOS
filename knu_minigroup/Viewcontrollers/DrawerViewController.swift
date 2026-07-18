@@ -25,6 +25,8 @@ class DrawerViewController: UITableViewController {
         super.viewDidLoad()
         // Android DrawerLayout처럼 헤더의 레드 배경이 상태바 뒤 최상단까지 차도록
         tableView.contentInsetAdjustmentBehavior = .never
+        // iOS 15가 섹션 헤더 위에 넣는 기본 패딩 제거 — 프로필 헤더 위 흰 띠의 원인
+        tableView.sectionHeaderTopPadding = 0
     }
 
     override func viewWillAppear(_ animated: Bool) {
