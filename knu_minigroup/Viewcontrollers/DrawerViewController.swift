@@ -20,7 +20,8 @@ class DrawerViewController: UITableViewController {
     // Android activity_main_drawer.xml: 메인화면/본관게시판/시간표/도서관 좌석/통학버스 시간표/식단표/로그아웃
     var menus = ["메인화면", "본관게시판", "시간표", "도서관 좌석", "통학버스 시간표", "식단표", "로그아웃"]
 
-    var menuIcons = ["house", "doc.text", "clock", "chair", "bus", "fork.knife", "rectangle.portrait.and.arrow.right"]
+    // "chair"는 iOS 16(SF Symbols 4)부터라 iOS 15에선 미표시 — 도서관 좌석은 studentdesk 사용
+    var menuIcons = ["house", "doc.text", "clock", "studentdesk", "bus", "fork.knife", "rectangle.portrait.and.arrow.right"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
