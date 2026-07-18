@@ -33,6 +33,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     private let inputTextField = UITextField()
 
+    // 스크롤 위치 판단용 — 직전 렌더링 시점의 목록 상태
+    private var renderedFirstKey: String?
+
+    private var renderedLastKey: String?
+
+    private var renderedCount = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = ChatViewModel(receiver: receiver, isGroupChat: isGroupChat)
@@ -92,14 +99,23 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     private func observeViewModel() {
-        cancellables.removeAll()
         viewModel.$messageItemList
             .receive(on: DispatchQueue.main)
             .sink { [weak self] messageItemList in
-                self?.tableView.reloadData()
-                if !messageItemList.isEmpty {
-                    self?.tableView.scrollToRow(at: IndexPath(row: messageItemList.count - 1, section: 0), at: .bottom, animated: false)
+                guard let self = self else {
+                    return
                 }
+                self.tableView.reloadData()
+                if !messageItemList.isEmpty, messageItemList.last?.key != self.renderedLastKey {
+                    // 최초 로드/신규 메시지: 맨 아래로
+                    self.tableView.scrollToRow(at: IndexPath(row: messageItemList.count - 1, section: 0), at: .bottom, animated: false)
+                } else if self.renderedCount > 0, messageItemList.first?.key != self.renderedFirstKey, messageItemList.count > self.renderedCount {
+                    // 이전 페이지 로드: 기존 첫 메시지가 화면 위치를 유지하도록
+                    self.tableView.scrollToRow(at: IndexPath(row: messageItemList.count - self.renderedCount, section: 0), at: .top, animated: false)
+                }
+                self.renderedFirstKey = messageItemList.first?.key
+                self.renderedLastKey = messageItemList.last?.key
+                self.renderedCount = messageItemList.count
             }
             .store(in: &cancellables)
         viewModel.$message
@@ -134,20 +150,17 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         guard let text = inputTextField.text, !text.isEmpty else {
             return
         }
+        // 보낸 메시지는 실시간 구독(childAdded)으로 목록에 반영된다
         viewModel.sendMessage(text: text)
         inputTextField.text = ""
         updateSendButtonState()
-        // 전송 후 목록 갱신 (Android는 ChildEventListener로 실시간 수신 — 최소 구현)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-            self?.refreshMessages()
-        }
     }
 
-    private func refreshMessages() {
-        viewModel = ChatViewModel(receiver: receiver, isGroupChat: isGroupChat)
-
-        observeViewModel()
-        viewModel.fetchMessageList()
+    // 상단 근처 도달 시 이전 메시지 페이지 로드 (Android ChatActivity onScroll 대응)
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y < 50, !viewModel.isLoading, viewModel.hasRequestMore, !viewModel.messageItemList.isEmpty {
+            viewModel.fetchMessageList()
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
