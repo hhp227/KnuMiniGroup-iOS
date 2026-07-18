@@ -15,8 +15,6 @@ import Combine
 class DrawerViewController: UITableViewController {
     @IBOutlet var drawerTableView: UITableView!
 
-    let userDefault = UserDefaults.standard
-
     // Android activity_main_drawer.xml: 메인화면/본관게시판/시간표/도서관 좌석/통학버스 시간표/식단표/로그아웃
     var menus = ["메인화면", "본관게시판", "시간표", "도서관 좌석", "통학버스 시간표", "식단표", "로그아웃"]
 
@@ -25,6 +23,14 @@ class DrawerViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Android DrawerLayout처럼 헤더의 레드 배경이 상태바 뒤 최상단까지 차도록
+        tableView.contentInsetAdjustmentBehavior = .never
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 로그인 직후에도 프로필 헤더가 현재 사용자로 갱신되도록
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -85,18 +91,51 @@ class DrawerViewController: UITableViewController {
         }
     }
 
+    // Android nav_header_main.xml 대응 — colorPrimary 배경 240dp, 하단 정렬: 프로필 75 + 이름(+아이디)
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 100))
-        let label = UILabel()
-        label.frame = CGRect.init(x: 5, y: 5, width: headerView.frame.width - 10, height: headerView.frame.height - 10)
-        label.text = userDefault.string(forKey: "userId")
+        let headerView = UIView()
+        let avatarImageView = UIImageView()
+        let nameLabel = UILabel()
+        let idLabel = UILabel()
+        let user = PreferenceManager.shared.user
 
-        headerView.addSubview(label)
+        headerView.backgroundColor = .colorPrimary
+        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+        avatarImageView.contentMode = .scaleAspectFill
+        avatarImageView.clipsToBounds = true
+        avatarImageView.image = UIImage(named: "user_image_view_circle")
+        if let uid = user?.uid {
+            avatarImageView.loadImage(EndPoint.USER_IMAGE.replacingOccurrences(of: "{UID}", with: uid), placeholder: UIImage(named: "user_image_view_circle"))
+        }
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.text = user?.name
+        nameLabel.font = .systemFont(ofSize: 18) // TextAppearance.AppCompat.Medium
+        nameLabel.textColor = .white
+        idLabel.translatesAutoresizingMaskIntoConstraints = false
+        idLabel.text = user?.userId
+        idLabel.font = .systemFont(ofSize: 14)
+        idLabel.textColor = UIColor.white.withAlphaComponent(0.8)
+        headerView.addSubview(avatarImageView)
+        headerView.addSubview(nameLabel)
+        headerView.addSubview(idLabel)
+        NSLayoutConstraint.activate([
+            // Android: padding 16 + 이미지 marginStart 10
+            idLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 26),
+            idLabel.trailingAnchor.constraint(lessThanOrEqualTo: headerView.trailingAnchor, constant: -16),
+            idLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -16),
+            nameLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 26),
+            nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: headerView.trailingAnchor, constant: -16),
+            nameLabel.bottomAnchor.constraint(equalTo: idLabel.topAnchor, constant: -2),
+            avatarImageView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 26),
+            avatarImageView.bottomAnchor.constraint(equalTo: nameLabel.topAnchor, constant: -16),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 75),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 75)
+        ])
         return headerView
     }
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 100
+        return 240
     }
 
 }
