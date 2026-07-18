@@ -74,24 +74,18 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             inputTextField.centerYAnchor.constraint(equalTo: toolbarView.centerYAnchor),
             inputTextField.trailingAnchor.constraint(equalTo: toolbarView.trailingAnchor, constant: -72)
         ])
-        sendButton.layer.cornerRadius = 2
-        sendButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         updateSendButtonState()
     }
 
-    // Android background_sendbtn 셀렉터: 빈 입력=흰 배경+회색 테두리 / 입력중=#9F49D1 보라+흰 bold
     @objc private func textFieldDidChange() {
         updateSendButtonState()
     }
 
+    // 게시글 상세 댓글 전송 버튼과 동일 스타일 (UIButton.applySendButtonStyle 공용)
     private func updateSendButtonState() {
         let hasText = !(inputTextField.text ?? "").isEmpty
 
-        sendButton.backgroundColor = hasText ? .sendActive : .white
-        sendButton.setTitleColor(hasText ? .white : .darkGray, for: .normal)
-        sendButton.titleLabel?.font = hasText ? .boldSystemFont(ofSize: 15) : .systemFont(ofSize: 15)
-        sendButton.layer.borderWidth = hasText ? 0 : 1
-        sendButton.layer.borderColor = UIColor.colorAccent.cgColor
+        sendButton.applySendButtonStyle(hasText: hasText)
     }
 
     private func observeViewModel() {

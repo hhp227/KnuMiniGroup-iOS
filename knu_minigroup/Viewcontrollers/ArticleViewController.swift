@@ -50,20 +50,15 @@ class ArticleViewController: UIViewController {
         viewModel.refresh()
     }
 
-    // Android 댓글 전송 버튼: 입력 시 colorAccent 배경, 비어있으면 흰 배경+회색 테두리
+    // 채팅 화면 전송 버튼과 동일 스타일 (UIButton.applySendButtonStyle 공용)
     private func setupSendButton() {
-        sendButton.layer.cornerRadius = 2
-        sendButton.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        sendButton.setTitleColor(.darkGray, for: .normal)
         updateSendButtonState()
     }
 
     private func updateSendButtonState() {
         let hasText = !(inputTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 
-        sendButton.backgroundColor = hasText ? .colorAccent : .buttonNormalBg
-        sendButton.layer.borderWidth = hasText ? 0 : 1
-        sendButton.layer.borderColor = UIColor.colorAccent.cgColor
+        sendButton.applySendButtonStyle(hasText: hasText)
     }
 
     override func viewWillDisappear(_ animated: Bool) {

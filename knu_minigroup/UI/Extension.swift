@@ -28,6 +28,20 @@ extension UIColor {
     static let replyTimestamp   = UIColor(white: 136/255, alpha: 1)                              // #888888
 }
 
+extension UIButton {
+    // Android background_sendbtn_n/p 셀렉터 대응 — 채팅/댓글 전송 버튼 공통 스타일
+    // 빈 입력: 흰 배경 + 회색 테두리 + 회색 텍스트 / 입력중: #9F49D1 보라 배경 + 흰 bold
+    func applySendButtonStyle(hasText: Bool) {
+        layer.cornerRadius = 2
+        layer.borderWidth = hasText ? 0 : 1
+        layer.borderColor = UIColor.colorAccent.cgColor
+        backgroundColor = hasText ? .sendActive : .white
+        setTitleColor(hasText ? .white : .darkGray, for: .normal)
+        titleLabel?.font = hasText ? .boldSystemFont(ofSize: 15) : .systemFont(ofSize: 15)
+        contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+    }
+}
+
 extension UIImage {
     // 버튼 highlighted 배경 등에 쓰는 1×1 단색 이미지
     convenience init?(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) {
