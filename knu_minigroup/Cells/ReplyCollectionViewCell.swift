@@ -30,6 +30,9 @@ class ReplyCollectionViewCell: UICollectionViewCell {
 
     private let deleteButton = UIButton(type: .system)
 
+    // 댓글 사이 구분선 (Android ListView divider 대응)
+    private let separatorView = UIView()
+
     private var isSwipeEnabled = false
 
     private var isSwipeOpen = false
@@ -83,6 +86,8 @@ class ReplyCollectionViewCell: UICollectionViewCell {
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.font = .systemFont(ofSize: 12)
         dateLabel.textColor = .replyTimestamp
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        separatorView.backgroundColor = .systemGray4
         contentView.addSubview(deleteButton)
         contentView.addSubview(editButton)
         contentView.addSubview(swipeContainerView)
@@ -90,6 +95,7 @@ class ReplyCollectionViewCell: UICollectionViewCell {
         swipeContainerView.addSubview(nameLabel)
         swipeContainerView.addSubview(replyLabel)
         swipeContainerView.addSubview(dateLabel)
+        swipeContainerView.addSubview(separatorView)
         NSLayoutConstraint.activate([
             deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor),
             deleteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -115,7 +121,11 @@ class ReplyCollectionViewCell: UICollectionViewCell {
             replyLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
             dateLabel.topAnchor.constraint(equalTo: replyLabel.bottomAnchor, constant: 2),
             dateLabel.trailingAnchor.constraint(equalTo: swipeContainerView.trailingAnchor, constant: -8),
-            dateLabel.bottomAnchor.constraint(lessThanOrEqualTo: swipeContainerView.bottomAnchor, constant: -8)
+            dateLabel.bottomAnchor.constraint(lessThanOrEqualTo: swipeContainerView.bottomAnchor, constant: -8),
+            separatorView.leadingAnchor.constraint(equalTo: swipeContainerView.leadingAnchor),
+            separatorView.trailingAnchor.constraint(equalTo: swipeContainerView.trailingAnchor),
+            separatorView.bottomAnchor.constraint(equalTo: swipeContainerView.bottomAnchor),
+            separatorView.heightAnchor.constraint(equalToConstant: 0.5)
         ])
         let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeHandler(_:)))
         let rightSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeHandler(_:)))

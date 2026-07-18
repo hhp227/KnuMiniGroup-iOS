@@ -272,10 +272,8 @@ extension ArticleViewController: UICollectionViewDelegateFlowLayout {
             guard let item = currentArticleItem else {
                 return CGSize(width: width, height: 220)
             }
-            // 헤더(12+45) + 본문 + 이미지(16:9) + 패딩 실측 (ArticleDetailCollectionViewCell 레이아웃과 동일 값)
-            let contentHeight = heightForText(item.content, font: .systemFont(ofSize: 14), width: width - 32)
-            let imageHeight = item.images.first != nil ? (width - 32) * 9 / 16 + 10 : 0
-            return CGSize(width: width, height: 12 + 45 + 10 + contentHeight + imageHeight + 12)
+            // Android article_detail처럼 본문(빈 값 숨김)+이미지 전부 나열 기준 가변 높이
+            return CGSize(width: width, height: ArticleDetailCollectionViewCell.height(for: item, width: width))
         }
         // 댓글: 패딩 8 + 이름 18 + 본문 + 날짜 14 + 패딩 (ReplyCollectionViewCell 레이아웃과 동일 값)
         let reply = viewModel.replyItemList[indexPath.row - 1].value
