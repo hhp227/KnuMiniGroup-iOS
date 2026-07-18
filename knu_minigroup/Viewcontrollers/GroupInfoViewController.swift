@@ -105,7 +105,10 @@ class GroupInfoViewController: UIViewController {
         viewModel.$type
             .receive(on: DispatchQueue.main)
             .sink { [weak self] type in
-                if type != nil {
+                // Android GroupInfoFragment: 가입 신청 성공은 메인 화면으로, 신청 취소는 이전 화면으로
+                if type == GroupInfoViewModel.TYPE_REQUEST {
+                    self?.navigationController?.popToRootViewController(animated: true)
+                } else if type != nil {
                     self?.navigationController?.popViewController(animated: true)
                 }
             }
