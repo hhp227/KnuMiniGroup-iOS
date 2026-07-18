@@ -203,9 +203,9 @@ class MainTabBar: UITabBar {
 
         for case let button as UIControl in subviews {
             button.transform = CGAffineTransform(translationX: 0, y: -shift)
-            // 라벨(텍스트 영역)은 버튼 이동에 더해 조금 더 위로
+            // 라벨(텍스트 영역)은 버튼 이동에 더해 아이콘 쪽으로 더 올린다
             for case let label as UILabel in button.subviews {
-                label.transform = CGAffineTransform(translationX: 0, y: -3)
+                label.transform = CGAffineTransform(translationX: 0, y: -6)
             }
         }
     }
