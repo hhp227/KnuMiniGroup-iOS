@@ -73,6 +73,9 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
 
     // Android BottomNavigationView 스타일: 흰 배경, 회색 아이템(선택 시 colorPrimary)
     private func setupTabBar() {
+        // UITabBar는 버튼 콘텐츠(표준 49pt)를 바 하단에 붙이므로 스토리보드 높이 63pt에서는
+        // 위쪽에만 여백이 생긴다. Android처럼 수직 중앙 정렬되도록 초과 높이의 절반만큼 위로 당긴다.
+        let verticalShift: CGFloat = (63 - 49) / 2
         let tabAppearance = UITabBarAppearance()
 
         tabAppearance.configureWithOpaqueBackground()
@@ -80,11 +83,16 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         [tabAppearance.stackedLayoutAppearance, tabAppearance.inlineLayoutAppearance, tabAppearance.compactInlineLayoutAppearance].forEach {
             $0.normal.iconColor = .gray
             $0.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
+            $0.normal.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -verticalShift)
             $0.selected.iconColor = .colorPrimary
             $0.selected.titleTextAttributes = [.foregroundColor: UIColor.colorPrimary]
+            $0.selected.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -verticalShift)
         }
         tabBar.standardAppearance = tabAppearance
         tabBar.scrollEdgeAppearance = tabAppearance
+        tabBar.items?.forEach {
+            $0.imageInsets = UIEdgeInsets(top: -verticalShift, left: 0, bottom: verticalShift, right: 0)
+        }
     }
 
     func addRefreshControl() {
