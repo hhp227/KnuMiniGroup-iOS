@@ -24,6 +24,8 @@ class Tab2ViewController: TabViewController, UITableViewDelegate, UITableViewDat
         tableView.dataSource = self
         // Tab1과 동일 — 탭 호스트 안에서 자동 인셋이 붙어 캘린더 위에 여백이 생기는 것 방지
         tableView.contentInsetAdjustmentBehavior = .never
+        // iOS 15부터 plain 테이블 상단에 기본 패딩이 생겨 캘린더가 아래로 밀림 — 제거
+        tableView.sectionHeaderTopPadding = 0
 
         tableView.register(CalendarTableViewCell.self, forCellReuseIdentifier: "calendarCell")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "scheduleCell")
