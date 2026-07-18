@@ -114,7 +114,7 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "articleCell", for: indexPath) as? ArticleCollectionViewCell else {
             fatalError()
         }
-        cell.articleItem = data[indexPath.row]
+        cell.bind(data[indexPath.row])
         return cell
     }
 
@@ -139,10 +139,9 @@ class Tab1ViewController: TabViewController, UICollectionViewDelegate, UICollect
         guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize() }
         let bottomSafeArea = max(view.safeAreaInsets.bottom, view.window?.safeAreaInsets.bottom ?? 0)
         let safeAreaPadding = indexPath.item == data.count - 1 ? bottomSafeArea + actionBottomSpacing : 0
+        let width = collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right)
 
-        return CGSize(
-            width: collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right),
-            height: flowLayout.itemSize.height + safeAreaPadding
-        )
+        // Android처럼 카드 높이는 내용(본문 최대 4줄+더보기, 이미지 유무)에 따라 가변
+        return CGSize(width: width, height: ArticleCollectionViewCell.height(for: data[indexPath.item], width: width) + safeAreaPadding)
     }
 }
