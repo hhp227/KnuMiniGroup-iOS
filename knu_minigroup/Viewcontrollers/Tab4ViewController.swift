@@ -108,16 +108,26 @@ class Tab4ViewController: TabViewController {
         return container
     }
 
+    // Android content_tab4 구분선: 좌우 10dp 마진
     private func divider(height: CGFloat) -> UIView {
-        let view = UIView()
+        let container = UIView()
+        let line = UIView()
 
-        view.backgroundColor = .systemGray4
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: height).isActive = true
-        return view
+        container.translatesAutoresizingMaskIntoConstraints = false
+        line.translatesAutoresizingMaskIntoConstraints = false
+        line.backgroundColor = .systemGray4
+        container.addSubview(line)
+        NSLayoutConstraint.activate([
+            container.heightAnchor.constraint(equalToConstant: height),
+            line.topAnchor.constraint(equalTo: container.topAnchor),
+            line.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            line.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 10),
+            line.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -10)
+        ])
+        return container
     }
 
-    // Android ll_profile: 아바타 45 + 이름/아이디 (프로필 수정 화면이 없어 표시 전용)
+    // Android ll_profile: 아바타 45 + 이름/아이디, 탭하면 프로필 화면으로
     private func profileRow() -> UIView {
         let avatarImageView = UIImageView()
         let nameLabel = UILabel()
@@ -143,7 +153,8 @@ class Tab4ViewController: TabViewController {
         textStack.spacing = 2
         textStack.translatesAutoresizingMaskIntoConstraints = false
         row.translatesAutoresizingMaskIntoConstraints = false
-        row.heightAnchor.constraint(equalToConstant: 65).isActive = true
+        row.heightAnchor.constraint(equalToConstant: 50).isActive = true // Android ll_profile 50dp
+        row.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileRowClick)))
         row.addSubview(avatarImageView)
         row.addSubview(textStack)
         NSLayoutConstraint.activate([
@@ -170,6 +181,10 @@ class Tab4ViewController: TabViewController {
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
         button.addTarget(self, action: action, for: .touchUpInside)
         return button
+    }
+
+    @objc private func profileRowClick() {
+        pushDelegateFunc?(ProfileViewController())
     }
 
     @objc private func deleteButtonClick() {

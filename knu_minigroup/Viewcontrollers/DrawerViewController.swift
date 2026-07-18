@@ -106,6 +106,9 @@ class DrawerViewController: UITableViewController {
         avatarImageView.contentMode = .scaleAspectFill
         avatarImageView.clipsToBounds = true
         avatarImageView.image = UIImage(named: "user_image_view_circle")
+        // Android onProfileImageClick 대응 — 탭하면 프로필 화면으로
+        avatarImageView.isUserInteractionEnabled = true
+        avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileImageClick)))
         if let uid = user?.uid {
             avatarImageView.loadImage(EndPoint.USER_IMAGE.replacingOccurrences(of: "{UID}", with: uid), placeholder: UIImage(named: "user_image_view_circle"))
         }
@@ -138,6 +141,15 @@ class DrawerViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 240
+    }
+
+    // Android MainActivity.onProfileImageClick 대응 — 드로어 닫고 프로필 화면 push
+    @objc private func profileImageClick() {
+        guard let drawerController = parent as? DrawerController else {
+            return
+        }
+        (drawerController.mainViewController as? UINavigationController)?.pushViewController(ProfileViewController(), animated: true)
+        drawerController.setDrawerState(.closed, animated: true)
     }
 
 }
@@ -664,5 +676,139 @@ class MealViewController: DrawerTabsViewController {
         let key = [MealRepository.KEY_BREAKFAST, MealRepository.KEY_LAUNCH, MealRepository.KEY_DINNER][section]
 
         return studentViewModel.mealList.filter { $0.key == key }.map { $0.value }
+    }
+}
+
+// MARK: - 프로필 (Android의 ProfileActivity 대응 — 조회 전용, 이미지 변경/동기화는 LMS 폐쇄로 미지원)
+
+class ProfileViewController: UIViewController {
+    private let scrollView = UIScrollView()
+
+    private let profileImageView = UIImageView()
+
+    private let cardView = UIView()
+
+    private let cardStackView = UIStackView()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = "프로필"
+        // Android activity_profile: #EEEEEE 배경 + 흰 정보 카드 + 카드 위에 겹치는 프로필 이미지
+        view.backgroundColor = .profileBg
+        let user = PreferenceManager.shared.user
+
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        cardView.translatesAutoresizingMaskIntoConstraints = false
+        cardView.backgroundColor = .systemBackground
+        cardStackView.translatesAutoresizingMaskIntoConstraints = false
+        cardStackView.axis = .vertical
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        profileImageView.contentMode = .scaleAspectFill
+        profileImageView.clipsToBounds = true
+        profileImageView.layer.cornerRadius = 50
+        profileImageView.backgroundColor = .systemGray5
+        profileImageView.image = UIImage(named: "user_image_view_circle")
+        profileImageView.isUserInteractionEnabled = true
+        profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileImageClick)))
+        if let uid = user?.uid {
+            profileImageView.loadImage(EndPoint.USER_IMAGE.replacingOccurrences(of: "{UID}", with: uid), placeholder: UIImage(named: "user_image_view_circle"))
+        }
+        cardStackView.addArrangedSubview(makeInfoRow(label: "아이디", value: user?.userId))
+        cardStackView.addArrangedSubview(makeRowDivider())
+        cardStackView.addArrangedSubview(makeInfoRow(label: "접속 IP", value: user?.userIp))
+        cardStackView.addArrangedSubview(makeRowDivider())
+        cardStackView.addArrangedSubview(makeInfoRow(label: "캠퍼스", value: user?.campus))
+        cardStackView.addArrangedSubview(makeCaption("기본 정보"))
+        cardStackView.addArrangedSubview(makeInfoRow(label: "이름", value: user?.name))
+        cardStackView.addArrangedSubview(makeRowDivider())
+        cardStackView.addArrangedSubview(makeInfoRow(label: "소속", value: user?.department))
+        cardStackView.addArrangedSubview(makeRowDivider())
+        cardStackView.addArrangedSubview(makeInfoRow(label: "학번", value: user?.number))
+        cardStackView.addArrangedSubview(makeRowDivider())
+        cardStackView.addArrangedSubview(makeInfoRow(label: "학년", value: user?.grade))
+        cardStackView.addArrangedSubview(makeCaption("추가 정보"))
+        cardStackView.addArrangedSubview(makeInfoRow(label: "이메일", value: user?.email))
+        cardStackView.addArrangedSubview(makeRowDivider())
+        cardStackView.addArrangedSubview(makeInfoRow(label: "연락처", value: user?.phoneNumber))
+        view.addSubview(scrollView)
+        scrollView.addSubview(cardView)
+        scrollView.addSubview(profileImageView)
+        cardView.addSubview(cardStackView)
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            profileImageView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 20),
+            profileImageView.centerXAnchor.constraint(equalTo: scrollView.frameLayoutGuide.centerXAnchor),
+            profileImageView.widthAnchor.constraint(equalToConstant: 100),
+            profileImageView.heightAnchor.constraint(equalToConstant: 100),
+            cardView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 70),
+            cardView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
+            cardView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
+            cardView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20),
+            cardStackView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 60),
+            cardStackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 20),
+            cardStackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -20),
+            cardStackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -20)
+        ])
+    }
+
+    // Android은 카메라/갤러리 업로드 — LMS 폐쇄로 미지원 (소모임 설정과 동일 방침)
+    @objc private func profileImageClick() {
+        view.makeToast(message: "이미지 변경은 현재 지원되지 않는 기능입니다.")
+    }
+
+    private func makeInfoRow(label: String, value: String?) -> UIView {
+        let row = UIView()
+        let labelView = UILabel()
+        let valueView = UILabel()
+
+        row.translatesAutoresizingMaskIntoConstraints = false
+        labelView.translatesAutoresizingMaskIntoConstraints = false
+        labelView.font = .systemFont(ofSize: 13)
+        labelView.textColor = .secondaryLabel
+        labelView.text = label
+        valueView.translatesAutoresizingMaskIntoConstraints = false
+        valueView.font = .systemFont(ofSize: 14)
+        valueView.text = value
+        row.addSubview(labelView)
+        row.addSubview(valueView)
+        NSLayoutConstraint.activate([
+            row.heightAnchor.constraint(equalToConstant: 35),
+            labelView.leadingAnchor.constraint(equalTo: row.leadingAnchor),
+            labelView.centerYAnchor.constraint(equalTo: row.centerYAnchor),
+            labelView.widthAnchor.constraint(equalToConstant: 80),
+            valueView.leadingAnchor.constraint(equalTo: labelView.trailingAnchor),
+            valueView.trailingAnchor.constraint(lessThanOrEqualTo: row.trailingAnchor),
+            valueView.centerYAnchor.constraint(equalTo: row.centerYAnchor)
+        ])
+        return row
+    }
+
+    private func makeCaption(_ text: String) -> UIView {
+        let row = UIView()
+        let label = UILabel()
+
+        row.translatesAutoresizingMaskIntoConstraints = false
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 14)
+        label.text = text
+        row.addSubview(label)
+        NSLayoutConstraint.activate([
+            row.heightAnchor.constraint(equalToConstant: 40),
+            label.leadingAnchor.constraint(equalTo: row.leadingAnchor),
+            label.bottomAnchor.constraint(equalTo: row.bottomAnchor, constant: -4)
+        ])
+        return row
+    }
+
+    private func makeRowDivider() -> UIView {
+        let divider = UIView()
+
+        divider.translatesAutoresizingMaskIntoConstraints = false
+        divider.backgroundColor = .systemGray5
+        divider.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+        return divider
     }
 }
