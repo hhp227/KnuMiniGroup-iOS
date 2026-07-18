@@ -22,6 +22,8 @@ class Tab2ViewController: TabViewController, UITableViewDelegate, UITableViewDat
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        // Tab1과 동일 — 탭 호스트 안에서 자동 인셋이 붙어 캘린더 위에 여백이 생기는 것 방지
+        tableView.contentInsetAdjustmentBehavior = .never
 
         tableView.register(CalendarTableViewCell.self, forCellReuseIdentifier: "calendarCell")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "scheduleCell")

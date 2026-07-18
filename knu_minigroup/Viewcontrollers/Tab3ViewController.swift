@@ -25,6 +25,7 @@ class Tab3ViewController: TabViewController, UICollectionViewDelegate {
         viewModel = Tab3ViewModel(groupKey: groupKey)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.contentInsetAdjustmentBehavior = .never
 
         observeViewModel()
         viewModel.fetchUserList()
