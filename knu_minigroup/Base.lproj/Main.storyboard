@@ -393,7 +393,7 @@
         <!--Write View Controller-->
         <scene sceneID="f6h-pr-bho">
             <objects>
-                <viewController id="Xh4-vy-YDk" customClass="WriteViewController" customModule="knu_minigroup" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WriteViewController" id="Xh4-vy-YDk" customClass="WriteViewController" customModule="knu_minigroup" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xxL-w0-4Mf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

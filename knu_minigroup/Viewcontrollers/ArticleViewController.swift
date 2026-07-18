@@ -34,8 +34,11 @@ class ArticleViewController: UIViewController {
 
     private var pendingArticleItem: ArticleItem?
 
-    // 게시글 삭제 시 피드 갱신용 (Android의 ArticleActivity 결과 → refresh 대응)
+    // 게시글 삭제/수정·댓글 수 변경 시 피드 갱신용 (Android의 ArticleActivity 결과 → refresh 대응)
     var onArticleChanged: (() -> Void)?
+
+    // 댓글 추가/삭제 후 성공 응답($replyItemList 갱신)이 오면 피드에 전파하기 위한 플래그
+    private var hasReplyChanged = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,8 +52,47 @@ class ArticleViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler)))
         setupSendButton()
+        setupAuthorMenuIfNeeded()
         observeViewModel()
         viewModel.refresh()
+    }
+
+    // Android ArticleActivity 옵션 메뉴 대응 — 본인 글이면 우측 상단 더보기(수정하기/삭제하기)
+    private func setupAuthorMenuIfNeeded() {
+        guard let uid = currentArticleItem?.uid, uid == viewModel.user?.uid else {
+            return
+        }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(authorMenuClick))
+    }
+
+    @objc private func authorMenuClick() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        alert.addAction(UIAlertAction(title: "수정하기", style: .default) { [weak self] _ in
+            self?.editArticle()
+        })
+        alert.addAction(UIAlertAction(title: "삭제하기", style: .destructive) { [weak self] _ in
+            self?.viewModel.removeArticle()
+        })
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        present(alert, animated: true)
+    }
+
+    // Android: CreateArticleActivity에 제목/내용을 실어 수정 모드(type 1)로 진입
+    private func editArticle() {
+        guard let item = currentArticleItem,
+              let writeViewController = storyboard?.instantiateViewController(withIdentifier: "WriteViewController") as? WriteViewController else {
+            return
+        }
+        writeViewController.groupId = pendingGroupId
+        writeViewController.groupKey = pendingGroupKey
+        writeViewController.articleKey = pendingArticleKey
+        writeViewController.contents = [WriteItem.TextItem(item.title ?? "", item.content ?? "")]
+        writeViewController.onArticleChanged = { [weak self] in
+            self?.viewModel.refresh()
+            self?.onArticleChanged?()
+        }
+        navigationController?.pushViewController(writeViewController, animated: true)
     }
 
     // 채팅 화면 전송 버튼과 동일 스타일 (UIButton.applySendButtonStyle 공용)
@@ -73,6 +115,7 @@ class ArticleViewController: UIViewController {
             return
         }
         viewModel.addReply(text: text)
+        hasReplyChanged = true
         inputTextView.text = ""
         updateSendButtonState()
         view.endEditing(true)
@@ -114,6 +157,11 @@ class ArticleViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.collectionView.reloadData()
+                // 댓글 추가/삭제 성공으로 갱신된 경우 피드의 댓글 수도 새로고침
+                if self?.hasReplyChanged == true {
+                    self?.hasReplyChanged = false
+                    self?.onArticleChanged?()
+                }
             }
             .store(in: &cancellables)
         viewModel.$isArticleRemoved
@@ -165,6 +213,7 @@ extension ArticleViewController: UICollectionViewDelegate {
 
         alert.addAction(UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             self?.viewModel.removeReply(replyKey: entry.key)
+            self?.hasReplyChanged = true
         })
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
         present(alert, animated: true)
