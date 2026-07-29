@@ -12,7 +12,7 @@
 import UIKit
 
 class MainCollectionReusableView: UICollectionReusableView {
-    static let bannerHeight: CGFloat = 290 // 배너 270 + 상하 패딩 10
+    static let bannerHeight: CGFloat = 290 // Android LoopViewPager 높이 그대로 — 패딩 없이 꽉 채움
 
     static let titleHeight: CGFloat = 35 // 타이틀 행
 
@@ -80,7 +80,7 @@ class MainCollectionReusableView: UICollectionReusableView {
     }
 
     private func setupViews() {
-        // Android LoopViewPager: 높이 290·패딩 10 + 흰 원형 인디케이터 하단 중앙
+        // Android LoopViewPager: 높이 290 + 흰 원형 인디케이터 하단 중앙
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.numberOfPages = Self.bannerPages.count
         pageControl.currentPageIndicatorTintColor = .white
@@ -94,10 +94,10 @@ class MainCollectionReusableView: UICollectionReusableView {
         addSubview(pageControl)
         addSubview(headerLabel)
         NSLayoutConstraint.activate([
-            bannerCollectionView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            bannerCollectionView.topAnchor.constraint(equalTo: topAnchor),
             bannerCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             bannerCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            bannerCollectionView.heightAnchor.constraint(equalToConstant: 270),
+            bannerCollectionView.heightAnchor.constraint(equalToConstant: 290),
             pageControl.centerXAnchor.constraint(equalTo: bannerCollectionView.centerXAnchor),
             pageControl.bottomAnchor.constraint(equalTo: bannerCollectionView.bottomAnchor, constant: -4),
             headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
@@ -290,13 +290,12 @@ private class EmptyGroupBannerCell: UICollectionViewCell {
         setupDefaultButton(createButton, title: "그룹 생성", action: #selector(createButtonClick))
         contentView.addSubview(logoImageView)
         NSLayoutConstraint.activate([
-            // Android는 문구가 배너(290) 정중앙이지만 iOS 배너는 270이라 8pt 내려 로고 잘림 방지
             joinGuideLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            joinGuideLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 8),
+            joinGuideLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             emptyLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             emptyLabel.bottomAnchor.constraint(equalTo: joinGuideLabel.topAnchor),
             logoImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            logoImageView.bottomAnchor.constraint(equalTo: emptyLabel.topAnchor, constant: -4),
+            logoImageView.bottomAnchor.constraint(equalTo: joinGuideLabel.topAnchor, constant: -20),
             logoImageView.widthAnchor.constraint(equalToConstant: 186),
             logoImageView.heightAnchor.constraint(equalToConstant: 110),
             createGuideLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
