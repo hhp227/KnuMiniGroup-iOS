@@ -26,6 +26,8 @@ extension UIColor {
     static let sendActive       = UIColor(red: 159/255, green: 73/255,  blue: 209/255, alpha: 1) // #9F49D1
     static let buttonNormalBg   = UIColor(white: 250/255, alpha: 1)                              // #FAFAFA
     static let replyTimestamp   = UIColor(white: 136/255, alpha: 1)                              // #888888
+    static let buttonDefaultBg  = UIColor(white: 214/255, alpha: 1)                              // #D6D6D6 (AppCompat 기본 버튼 회색)
+    static let bannerCaption    = UIColor(red: 255/255, green: 204/255, blue: 102/255, alpha: 1) // #FFCC66 (bg_ad_attribution)
 }
 
 extension UIButton {

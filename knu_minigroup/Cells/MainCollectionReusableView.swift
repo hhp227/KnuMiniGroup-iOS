@@ -16,7 +16,18 @@ class MainCollectionReusableView: UICollectionReusableView {
 
     static let titleHeight: CGFloat = 35 // 타이틀 행
 
-    private static let bannerImages = ["banner01", "banner02"]
+    // Android LoopPagerAdapter 페이지 구성 ["메인", "이미지1", "이미지2"] — 메인은 로고+그룹 찾기/생성 버튼
+    private static let bannerPages: [BannerPage] = [.main, .image("banner01"), .image("banner02")]
+
+    private enum BannerPage {
+        case main
+        case image(String)
+    }
+
+    // 메인 페이지 그룹 찾기/생성 버튼 탭 (Android b_find/b_create onClickListener 대응)
+    var onFindGroup: (() -> Void)?
+
+    var onCreateGroup: (() -> Void)?
 
     // 배너는 가입중인 그룹이 없을 때만 표시, 있을 때는 섹션 타이틀만 표시
     var showsBanner = true {
@@ -48,6 +59,7 @@ class MainCollectionReusableView: UICollectionReusableView {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(BannerCell.self, forCellWithReuseIdentifier: "bannerCell")
+        collectionView.register(EmptyGroupBannerCell.self, forCellWithReuseIdentifier: "emptyGroupCell")
         return collectionView
     }()
 
@@ -70,7 +82,7 @@ class MainCollectionReusableView: UICollectionReusableView {
     private func setupViews() {
         // Android LoopViewPager: 높이 290·패딩 10 + 흰 원형 인디케이터 하단 중앙
         pageControl.translatesAutoresizingMaskIntoConstraints = false
-        pageControl.numberOfPages = Self.bannerImages.count
+        pageControl.numberOfPages = Self.bannerPages.count
         pageControl.currentPageIndicatorTintColor = .white
         pageControl.pageIndicatorTintColor = UIColor.white.withAlphaComponent(0.5)
         pageControl.isUserInteractionEnabled = false
@@ -109,7 +121,7 @@ class MainCollectionReusableView: UICollectionReusableView {
         if !didSetInitialOffset {
             didSetInitialOffset = true
             bannerCollectionView.layoutIfNeeded()
-            bannerCollectionView.scrollToItem(at: IndexPath(item: Self.bannerImages.count * Self.loopMultiplier / 2, section: 0), at: .centeredHorizontally, animated: false)
+            bannerCollectionView.scrollToItem(at: IndexPath(item: Self.bannerPages.count * Self.loopMultiplier / 2, section: 0), at: .centeredHorizontally, animated: false)
         }
     }
 
@@ -142,7 +154,7 @@ class MainCollectionReusableView: UICollectionReusableView {
     private func advance() {
         let next = currentIndex + 1
 
-        guard next < Self.bannerImages.count * Self.loopMultiplier else {
+        guard next < Self.bannerPages.count * Self.loopMultiplier else {
             return
         }
         bannerCollectionView.scrollToItem(at: IndexPath(item: next, section: 0), at: .centeredHorizontally, animated: true)
@@ -151,18 +163,27 @@ class MainCollectionReusableView: UICollectionReusableView {
 
 extension MainCollectionReusableView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Self.bannerImages.count * Self.loopMultiplier
+        return Self.bannerPages.count * Self.loopMultiplier
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "bannerCell", for: indexPath)
+        switch Self.bannerPages[indexPath.item % Self.bannerPages.count] {
+        case .main:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emptyGroupCell", for: indexPath)
 
-        (cell as? BannerCell)?.imageView.image = UIImage(named: Self.bannerImages[indexPath.item % Self.bannerImages.count])
-        return cell
+            (cell as? EmptyGroupBannerCell)?.onFindGroup = onFindGroup
+            (cell as? EmptyGroupBannerCell)?.onCreateGroup = onCreateGroup
+            return cell
+        case .image(let imageName):
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "bannerCell", for: indexPath)
+
+            (cell as? BannerCell)?.configure(imageName: imageName)
+            return cell
+        }
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        pageControl.currentPage = currentIndex % Self.bannerImages.count
+        pageControl.currentPage = currentIndex % Self.bannerPages.count
     }
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -177,21 +198,136 @@ extension MainCollectionReusableView: UICollectionViewDataSource, UICollectionVi
 private class BannerCell: UICollectionViewCell {
     let imageView = UIImageView()
 
+    // Android fragment_main_pager tv_type1/tv_type2 — banner01=우하단 흰색, banner02=좌상단 #FFCC66
+    private let bottomTrailingCaptionLabel = UILabel()
+
+    private let topLeadingCaptionLabel = UILabel()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleToFill
         imageView.clipsToBounds = true
+        bottomTrailingCaptionLabel.text = "같은 취향을 가진 사람들과 \n취미생활을 공유하세요."
+        bottomTrailingCaptionLabel.textColor = .white
+        topLeadingCaptionLabel.text = "동아리, 조별과제 모임을 만들어보세요"
+        topLeadingCaptionLabel.textColor = .bannerCaption
+        [bottomTrailingCaptionLabel, topLeadingCaptionLabel].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.font = .boldSystemFont(ofSize: 16)
+            $0.numberOfLines = 0
+        }
         contentView.addSubview(imageView)
+        contentView.addSubview(bottomTrailingCaptionLabel)
+        contentView.addSubview(topLeadingCaptionLabel)
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            bottomTrailingCaptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25),
+            bottomTrailingCaptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            topLeadingCaptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 25),
+            topLeadingCaptionLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20)
         ])
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func configure(imageName: String) {
+        imageView.image = UIImage(named: imageName)
+        bottomTrailingCaptionLabel.isHidden = imageName != "banner01"
+        topLeadingCaptionLabel.isHidden = imageName != "banner02"
+    }
+}
+
+// Android fragment_main_pager rl_type_main 대응 — 로고 + 안내 문구 3줄 + 그룹 찾기/생성 버튼
+private class EmptyGroupBannerCell: UICollectionViewCell {
+    var onFindGroup: (() -> Void)?
+
+    var onCreateGroup: (() -> Void)?
+
+    private let logoImageView = UIImageView(image: UIImage(named: "knu_minigroup"))
+
+    private let emptyLabel = UILabel()
+
+    private let joinGuideLabel = UILabel()
+
+    private let createGuideLabel = UILabel()
+
+    private let findButton = UIButton(type: .system)
+
+    private let createButton = UIButton(type: .system)
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // 로고 186×110 + 문구는 중앙 기준, 버튼은 전폭 (Android RelativeLayout 배치 미러)
+    private func setupViews() {
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        logoImageView.contentMode = .scaleAspectFit
+        emptyLabel.text = "가입한 그룹이 없습니다."
+        joinGuideLabel.text = "그룹찾기를 통해 가입하거나"
+        createGuideLabel.text = "새로운 모임을 생성하세요."
+        [emptyLabel, joinGuideLabel, createGuideLabel].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.font = .systemFont(ofSize: 14)
+            $0.textColor = .black
+            contentView.addSubview($0)
+        }
+        setupDefaultButton(findButton, title: "그룹 찾기", action: #selector(findButtonClick))
+        setupDefaultButton(createButton, title: "그룹 생성", action: #selector(createButtonClick))
+        contentView.addSubview(logoImageView)
+        NSLayoutConstraint.activate([
+            // Android는 문구가 배너(290) 정중앙이지만 iOS 배너는 270이라 8pt 내려 로고 잘림 방지
+            joinGuideLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            joinGuideLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 8),
+            emptyLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            emptyLabel.bottomAnchor.constraint(equalTo: joinGuideLabel.topAnchor),
+            logoImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            logoImageView.bottomAnchor.constraint(equalTo: emptyLabel.topAnchor, constant: -4),
+            logoImageView.widthAnchor.constraint(equalToConstant: 186),
+            logoImageView.heightAnchor.constraint(equalToConstant: 110),
+            createGuideLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            createGuideLabel.topAnchor.constraint(equalTo: joinGuideLabel.bottomAnchor, constant: 3),
+            findButton.topAnchor.constraint(equalTo: createGuideLabel.bottomAnchor, constant: 8),
+            findButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            findButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            findButton.heightAnchor.constraint(equalToConstant: 40),
+            createButton.topAnchor.constraint(equalTo: findButton.bottomAnchor, constant: 8),
+            createButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            createButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            createButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+
+    // AppCompat 기본 버튼 대응: 회색 배경 + 검정 텍스트, 눌림 시 #AAAAAA
+    private func setupDefaultButton(_ button: UIButton, title: String, action: Selector) {
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 14)
+        button.setTitleColor(.black, for: .normal)
+        button.setBackgroundImage(UIImage(color: .buttonDefaultBg), for: .normal)
+        button.setBackgroundImage(UIImage(color: .colorAccent), for: .highlighted)
+        button.layer.cornerRadius = 2
+        button.clipsToBounds = true
+        button.addTarget(self, action: action, for: .touchUpInside)
+        contentView.addSubview(button)
+    }
+
+    @objc private func findButtonClick() {
+        onFindGroup?()
+    }
+
+    @objc private func createButtonClick() {
+        onCreateGroup?()
     }
 }

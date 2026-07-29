@@ -182,6 +182,12 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "GroupCollectionViewHeader", for: indexPath) as? MainCollectionReusableView
         header?.headerLabel.text = "가입중인 그룹"
         header?.showsBanner = viewModel.showsEmptyBanner
+        header?.onFindGroup = { [weak self] in
+            self?.performSegue(withIdentifier: "findGroup", sender: nil)
+        }
+        header?.onCreateGroup = { [weak self] in
+            self?.performSegue(withIdentifier: "createGroup", sender: nil)
+        }
         return header!
     }
 
