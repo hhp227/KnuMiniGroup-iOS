@@ -85,6 +85,9 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
         let entry = viewModel.groupItemList[indexPath.row]
         let groupInfoViewController = GroupInfoViewController(groupItem: entry.value, key: entry.key, buttonType: GroupInfoViewModel.TYPE_CANCEL)
 
-        navigationController?.pushViewController(groupInfoViewController, animated: true)
+        groupInfoViewController.onRequestCanceled = { [weak self] in
+            self?.viewModel.refresh()
+        }
+        present(groupInfoViewController, animated: true)
     }
 }

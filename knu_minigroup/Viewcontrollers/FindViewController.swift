@@ -77,7 +77,13 @@ class FindViewController: UIViewController, UITableViewDelegate, UITableViewData
         let isJoinedOrRequested = entry.value.members?[PreferenceManager.shared.user?.uid ?? ""] != nil
         let groupInfoViewController = GroupInfoViewController(groupItem: entry.value, key: entry.key, buttonType: isJoinedOrRequested ? GroupInfoViewModel.TYPE_CANCEL : GroupInfoViewModel.TYPE_REQUEST)
 
-        navigationController?.pushViewController(groupInfoViewController, animated: true)
+        groupInfoViewController.onRequestSent = { [weak self] in
+            self?.navigationController?.popToRootViewController(animated: true)
+        }
+        groupInfoViewController.onRequestCanceled = { [weak self] in
+            self?.viewModel.refresh()
+        }
+        present(groupInfoViewController, animated: true)
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
