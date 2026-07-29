@@ -225,10 +225,13 @@ private class BannerCell: UICollectionViewCell {
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            // 반대편 여백은 하한만 — 좁은 화면(320pt)에서 캡션이 잘리는 대신 줄바꿈되도록
             bottomTrailingCaptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25),
             bottomTrailingCaptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            bottomTrailingCaptionLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 25),
             topLeadingCaptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 25),
-            topLeadingCaptionLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20)
+            topLeadingCaptionLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            topLeadingCaptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -25)
         ])
     }
 
