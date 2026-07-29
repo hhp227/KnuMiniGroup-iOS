@@ -129,17 +129,26 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     @objc func keyboardWillChangeFrame(_ notification: Notification) {
-        if let endFrame = ((notification as NSNotification).userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            toolbarBottomConstraint?.constant = {
-                var keyboardHeight = view.bounds.height - endFrame.origin.y
-
-                if keyboardHeight > 0 {
-                    keyboardHeight -= view.safeAreaInsets.bottom
-                }
-                return -(keyboardHeight)
-            }()
+        guard let userInfo = notification.userInfo, let endFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
         }
-        view.layoutIfNeeded()
+        var keyboardHeight = view.bounds.height - endFrame.origin.y
+
+        if keyboardHeight > 0 {
+            keyboardHeight -= view.safeAreaInsets.bottom
+        }
+        // 위로 스크롤해 과거 메시지를 읽는 중이면 위치를 유지하고, 맨 아래 근처일 때만 최신 메시지를 따라간다
+        let wasNearBottom = tableView.contentOffset.y >= tableView.contentSize.height - tableView.bounds.height - 100
+        let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double ?? 0.25
+        let curve = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt ?? UInt(UIView.AnimationCurve.easeInOut.rawValue)
+
+        toolbarBottomConstraint?.constant = -(keyboardHeight)
+        UIView.animate(withDuration: duration, delay: 0, options: UIView.AnimationOptions(rawValue: curve << 16)) {
+            self.view.layoutIfNeeded()
+            if keyboardHeight > 0, wasNearBottom, !self.viewModel.messageItemList.isEmpty {
+                self.tableView.scrollToRow(at: IndexPath(row: self.viewModel.messageItemList.count - 1, section: 0), at: .bottom, animated: false)
+            }
+        }
     }
 
     @objc func tapGestureHandler() {
