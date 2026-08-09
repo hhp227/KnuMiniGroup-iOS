@@ -104,14 +104,7 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 view.makeToast(message: "내용을 입력하세요.")
                 return
             }
-            // LMS 서버 폐쇄로 이미지 업로드는 지원되지 않음 (Android도 이미지 첨부시 업로드 실패)
-            let hasImage = contents.contains { if case .ImageItem = $0 { return true } else { return false } }
-
-            guard !hasImage else {
-                view.makeToast(message: "이미지 업로드는 현재 지원되지 않습니다.")
-                return
-            }
-            viewModel.actionSend(title: textInputCell.inputTitleTextView.text, content: textInputCell.inputContentTextView.text)
+            viewModel.actionSend(title: textInputCell.inputTitleTextView.text, content: textInputCell.inputContentTextView.text, contents: contents)
         }
     }
     

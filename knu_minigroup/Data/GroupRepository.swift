@@ -58,12 +58,12 @@ class GroupRepository {
         groupRemoteDataSource.getGroup(cookie: cookie, groupId: groupId, groupImage: groupImage, callback: callback)
     }
 
-    func addGroup(cookie: String?, user: User, hasImage: Bool, title: String, description: String, type: String, callback: @escaping Callback<(key: String, value: GroupItem)>) {
-        groupRemoteDataSource.addGroup(user: user, groupName: title, description: description, hasImage: hasImage, type: type, callback: callback)
+    func addGroup(cookie: String?, user: User, imageData: Data?, title: String, description: String, type: String, callback: @escaping Callback<(key: String, value: GroupItem)>) {
+        groupRemoteDataSource.addGroup(user: user, groupName: title, description: description, imageData: imageData, type: type, callback: callback)
     }
 
-    func setGroup(cookie: String?, groupKey: String, groupId: String, groupName: String, description: String, joinType: String, callback: @escaping Callback<GroupItem>) {
-        groupRemoteDataSource.setGroup(cookie: cookie, groupKey: groupKey, groupId: groupId, groupName: groupName, description: description, joinType: joinType, callback: callback)
+    func setGroup(cookie: String?, groupKey: String, groupId: String, groupName: String, description: String, joinType: String, imageData: Data?, callback: @escaping Callback<GroupItem>) {
+        groupRemoteDataSource.setGroup(cookie: cookie, groupKey: groupKey, groupId: groupId, groupName: groupName, description: description, joinType: joinType, imageData: imageData, callback: callback)
     }
 
     func removeGroup(user: User, isAdmin: Bool, key: String, callback: @escaping Callback<Bool>) {

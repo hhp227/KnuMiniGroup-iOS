@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import UIKit
 
 class CreateArticleViewModel {
     @Published private(set) var isLoading = false
@@ -39,8 +40,9 @@ class CreateArticleViewModel {
         self.articleRepository = ArticleRepository(groupId: groupId, key: groupKey)
     }
 
-    func actionSend(title: String, content: String) {
-        guard let user = user else {
+    /// - Parameter contents: 작성 화면의 항목들. 첨부된 이미지는 순서대로 업로드한 뒤 URL 목록으로 넘긴다.
+    func actionSend(title: String, content: String, contents: [WriteItem] = []) {
+        guard user != nil else {
             return
         }
         guard !title.isEmpty else {
@@ -51,9 +53,48 @@ class CreateArticleViewModel {
             message = "내용을 입력하세요."
             return
         }
+        let images = contents.compactMap { item -> UIImage? in
+            if case let .ImageItem(image) = item {
+                return image
+            }
+            return nil
+        }
+
         isLoading = true
+        uploadImages(images, uploaded: []) { [weak self] imageList in
+            self?.submit(title: title, content: content, imageList: imageList)
+        }
+    }
+
+    /// Android의 uploadProcess처럼 한 장씩 순서대로 올린다. 순서를 지켜야 본문의 이미지 순서가 유지된다.
+    private func uploadImages(_ images: [UIImage], uploaded: [String], completion: @escaping ([String]) -> Void) {
+        guard let image = images.first else {
+            completion(uploaded)
+            return
+        }
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            uploadImages(Array(images.dropFirst()), uploaded: uploaded, completion: completion)
+            return
+        }
+        articleRepository.addArticleImage(cookie: preferenceManager.user?.uid, imageData: imageData) { [weak self] result in
+            switch result {
+            case .loading:
+                break
+            case .success(let imageUrl):
+                self?.uploadImages(Array(images.dropFirst()), uploaded: uploaded + [imageUrl], completion: completion)
+            case .failure(let error):
+                self?.isLoading = false
+                self?.message = error.localizedDescription
+            }
+        }
+    }
+
+    private func submit(title: String, content: String, imageList: [String]) {
+        guard let user = user else {
+            return
+        }
         if let articleKey = articleKey {
-            articleRepository.setArticle(articleKey: articleKey, title: title, content: content, imageList: [], youTubeItem: youTubeItem) { [weak self] result in
+            articleRepository.setArticle(articleKey: articleKey, title: title, content: content, imageList: imageList, youTubeItem: youTubeItem) { [weak self] result in
                 switch result {
                 case .loading:
                     break
@@ -66,7 +107,7 @@ class CreateArticleViewModel {
                 }
             }
         } else {
-            articleRepository.addArticle(user: user, title: title, content: content, imageList: [], youTubeItem: youTubeItem) { [weak self] result in
+            articleRepository.addArticle(user: user, title: title, content: content, imageList: imageList, youTubeItem: youTubeItem) { [weak self] result in
                 switch result {
                 case .loading:
                     break

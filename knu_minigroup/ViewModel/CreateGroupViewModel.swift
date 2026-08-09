@@ -36,13 +36,8 @@ class CreateGroupViewModel {
             message = "소모임 설명을 입력하세요."
             return
         }
-        // LMS 서버 폐쇄로 이미지 업로드는 지원되지 않음 (Android도 이미지 첨부시 생성 실패)
-        if image != nil {
-            message = "이미지 업로드는 현재 지원되지 않습니다."
-            return
-        }
         isLoading = true
-        groupRepository.addGroup(cookie: nil, user: user, hasImage: false, title: title, description: description, type: joinType ? "0" : "1") { [weak self] result in
+        groupRepository.addGroup(cookie: nil, user: user, imageData: image?.jpegData(compressionQuality: 0.8), title: title, description: description, type: joinType ? "0" : "1") { [weak self] result in
             switch result {
             case .loading:
                 self?.isLoading = true

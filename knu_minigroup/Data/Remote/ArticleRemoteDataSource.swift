@@ -2,11 +2,13 @@
 //  ArticleRemoteDataSource.swift
 //  knu_minigroup
 //
-//  Android의 data.remote.ArticleRemoteDataSource 대응 (Firebase + LMS 이미지 업로드)
+//  Android의 data.remote.ArticleRemoteDataSource 대응 (Firebase Database + Storage)
 //
 
 import Foundation
+import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 
 class ArticleRemoteDataSource {
     private let groupId: String
@@ -118,43 +120,38 @@ class ArticleRemoteDataSource {
         callback(.success(true))
     }
 
-    // LMS 이미지 업로드 (서버 폐쇄 — Android와 동일하게 요청은 시도하며 실패시 onFailure)
+    /// LMS 서버가 닫혀 이미지 업로드 엔드포인트를 쓸 수 없으므로 Firebase Storage에 올리고 다운로드 URL을 돌려준다.
+    /// 상위 계층은 URL 문자열만 받으므로 기존 계약은 그대로다. (Android ArticleRemoteDataSource와 동일)
+    /// - Parameter cookie: 로그인 시 저장해둔 Firebase uid
     func addArticleImage(cookie: String?, imageData: Data, callback: @escaping Callback<String>) {
-        guard let url = URL(string: EndPoint.IMAGE_UPLOAD) else {
-            callback(.failure(AppError(message: "잘못된 URL")))
-            return
-        }
-        let boundary = "Boundary-\(UUID().uuidString)"
-        var request = URLRequest(url: url)
-        var body = Data()
+        let storageReference = Storage.storage()
+            .reference(withPath: "article_images")
+            .child(Self.resolveUid(cookie))
+            .child("\(Int64(Date().timeIntervalSince1970 * 1000)).jpg")
 
-        request.httpMethod = "POST"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        if let cookie = cookie {
-            request.setValue(cookie, forHTTPHeaderField: "Cookie")
-        }
-        body.append("--\(boundary)\r\n".data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(Int64(Date().timeIntervalSince1970 * 1000)).jpg\"\r\n".data(using: .utf8)!)
-        body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
-        body.append(imageData)
-        body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
-        request.httpBody = body
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    callback(.failure(error))
-                    return
-                }
-                guard let data = data, let responseText = String(data: data, encoding: .utf8),
-                      let startRange = responseText.range(of: "/ilosfiles2/"),
-                      let endRange = responseText.range(of: "\"", range: startRange.upperBound..<responseText.endIndex) else {
-                    callback(.failure(AppError(message: "이미지 업로드에 실패했습니다.")))
-                    return
-                }
-                let imageSrc = EndPoint.BASE_URL + responseText[startRange.lowerBound..<endRange.lowerBound]
-
-                callback(.success(String(imageSrc)))
+        callback(.loading)
+        storageReference.putData(imageData, metadata: nil) { _, error in
+            if let error = error {
+                callback(.failure(error))
+                return
             }
-        }.resume()
+            storageReference.downloadURL { url, error in
+                DispatchQueue.main.async {
+                    if let url = url {
+                        callback(.success(url.absoluteString))
+                    } else {
+                        callback(.failure(error ?? AppError(message: "이미지 업로드에 실패했습니다.")))
+                    }
+                }
+            }
+        }
+    }
+
+    /// 저장 경로를 유저별로 나누기 위한 uid. 값이 없으면 현재 로그인 세션에서 채운다.
+    static func resolveUid(_ cookie: String?) -> String {
+        if let cookie = cookie, !cookie.isEmpty {
+            return cookie
+        }
+        return Auth.auth().currentUser?.uid ?? "anonymous"
     }
 }
