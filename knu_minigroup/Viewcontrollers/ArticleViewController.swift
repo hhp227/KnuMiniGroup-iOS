@@ -71,9 +71,22 @@ class ArticleViewController: UIViewController {
             self?.editArticle()
         })
         alert.addAction(UIAlertAction(title: "삭제하기", style: .destructive) { [weak self] _ in
-            self?.viewModel.removeArticle()
+            self?.confirmDelete(title: "게시글 삭제", message: "게시글을 삭제하시겠습니까?") { [weak self] in
+                self?.viewModel.removeArticle()
+            }
         })
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        present(alert, animated: true)
+    }
+
+    // 삭제는 되돌릴 수 없으므로 확인을 받고 진행 (게시글·댓글 공용, Android showDeleteConfirmDialog 대응)
+    private func confirmDelete(title: String, message: String, onConfirm: @escaping () -> Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        alert.addAction(UIAlertAction(title: "확인", style: .destructive) { _ in
+            onConfirm()
+        })
         present(alert, animated: true)
     }
 
@@ -228,8 +241,10 @@ extension ArticleViewController: UICollectionViewDelegate {
         let alert = UIAlertController(title: "댓글", message: nil, preferredStyle: .actionSheet)
 
         alert.addAction(UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
-            self?.viewModel.removeReply(replyKey: entry.key)
-            self?.hasReplyChanged = true
+            self?.confirmDelete(title: "댓글 삭제", message: "댓글을 삭제하시겠습니까?") { [weak self] in
+                self?.viewModel.removeReply(replyKey: entry.key)
+                self?.hasReplyChanged = true
+            }
         })
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
         present(alert, animated: true)
@@ -258,8 +273,10 @@ extension ArticleViewController: UICollectionViewDataSource {
             self?.presentEditReply(entry: entry)
         }
         cell.onDeleteClick = { [weak self] in
-            self?.viewModel.removeReply(replyKey: entry.key)
-            self?.hasReplyChanged = true
+            self?.confirmDelete(title: "댓글 삭제", message: "댓글을 삭제하시겠습니까?") { [weak self] in
+                self?.viewModel.removeReply(replyKey: entry.key)
+                self?.hasReplyChanged = true
+            }
         }
         return cell
     }
