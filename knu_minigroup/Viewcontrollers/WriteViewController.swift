@@ -44,7 +44,23 @@ class WriteViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        addToolBarTopSeparator()
         observeViewModel()
+    }
+
+    // Android 작성 화면과 동일하게 첨부 툴바 위에 구분선을 둔다 (스토리보드 제약은 건드리지 않고 얹기만 한다)
+    private func addToolBarTopSeparator() {
+        let separator = UIView()
+
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        separator.backgroundColor = .opaqueSeparator
+        view.addSubview(separator)
+        NSLayoutConstraint.activate([
+            separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            separator.bottomAnchor.constraint(equalTo: toolBarStackView.topAnchor),
+            separator.heightAnchor.constraint(equalToConstant: 1.0 / UIScreen.main.scale)
+        ])
     }
 
     private func observeViewModel() {
