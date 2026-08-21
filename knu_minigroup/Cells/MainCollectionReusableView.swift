@@ -16,6 +16,9 @@ class MainCollectionReusableView: UICollectionReusableView {
 
     static let titleHeight: CGFloat = 35 // 타이틀 행
 
+    // 가입중인 그룹이 없을 때의 헤더 = 배너 + 인기 모임 섹션 (Android GroupGridAdapter 빈 목록 구성 대응)
+    static let emptyStateHeight: CGFloat = MainCollectionReusableView.bannerHeight + PopularGroupSectionView.height
+
     // Android LoopPagerAdapter 페이지 구성 ["메인", "이미지1", "이미지2"] — 메인은 로고+그룹 찾기/생성 버튼
     private static let bannerPages: [BannerPage] = [.main, .image("banner01"), .image("banner02")]
 
@@ -34,8 +37,16 @@ class MainCollectionReusableView: UICollectionReusableView {
         didSet {
             bannerCollectionView.isHidden = !showsBanner
             pageControl.isHidden = !showsBanner
+            popularSectionView.isHidden = !showsBanner
             headerLabel.isHidden = showsBanner
             showsBanner && window != nil ? startTimer() : stopTimer()
+        }
+    }
+
+    // 배너 아래 인기 모임 섹션 — 배너와 함께 가입중인 그룹이 없을 때만 노출된다
+    var popularItems = [GroupItem]() {
+        didSet {
+            popularSectionView.items = popularItems
         }
     }
 
@@ -65,6 +76,8 @@ class MainCollectionReusableView: UICollectionReusableView {
 
     private let pageControl = UIPageControl()
 
+    private let popularSectionView = PopularGroupSectionView()
+
     private var timer: Timer?
 
     private var didSetInitialOffset = false
@@ -90,16 +103,22 @@ class MainCollectionReusableView: UICollectionReusableView {
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.font = .boldSystemFont(ofSize: 16)
         headerLabel.textColor = .colorPrimary
+        popularSectionView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(bannerCollectionView)
         addSubview(pageControl)
+        addSubview(popularSectionView)
         addSubview(headerLabel)
         NSLayoutConstraint.activate([
             bannerCollectionView.topAnchor.constraint(equalTo: topAnchor),
             bannerCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             bannerCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            bannerCollectionView.heightAnchor.constraint(equalToConstant: 290),
+            bannerCollectionView.heightAnchor.constraint(equalToConstant: Self.bannerHeight),
             pageControl.centerXAnchor.constraint(equalTo: bannerCollectionView.centerXAnchor),
             pageControl.bottomAnchor.constraint(equalTo: bannerCollectionView.bottomAnchor, constant: -4),
+            popularSectionView.topAnchor.constraint(equalTo: bannerCollectionView.bottomAnchor),
+            popularSectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            popularSectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            popularSectionView.heightAnchor.constraint(equalToConstant: PopularGroupSectionView.height),
             headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             headerLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
             headerLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)

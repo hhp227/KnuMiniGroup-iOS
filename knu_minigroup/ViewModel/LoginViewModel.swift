@@ -73,6 +73,7 @@ class LoginViewModel {
             if let firebaseUser = authResult?.user {
                 var user = User()
 
+                self?.saveUserToFirebase(uid: firebaseUser.uid, id: id, email: email)
                 user.uid = firebaseUser.uid
                 user.userId = id
                 user.password = password
@@ -90,13 +91,12 @@ class LoginViewModel {
 
     private func firebaseRegister(id: String, password: String) {
         let email = id + "@knu.ac.kr"
-        let databaseReference = Database.database().reference(withPath: "Users")
 
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
             if let firebaseUser = authResult?.user {
                 var user = User()
 
-                databaseReference.child(firebaseUser.uid).setValue(["uid": firebaseUser.uid, "email": email, "name": id])
+                self?.saveUserToFirebase(uid: firebaseUser.uid, id: id, email: email)
                 user.uid = firebaseUser.uid
                 user.userId = id
                 user.password = password
@@ -111,5 +111,12 @@ class LoginViewModel {
                 self?.message = "Firebase error" + error.localizedDescription
             }
         }
+    }
+
+    /// 멤버 목록이 uid로 이름을 찾을 수 있도록 Users/{uid}를 채운다.
+    /// 로그인할 때마다 호출해 기존 계정도 다음 로그인 때 보정되게 한다
+    /// (setValue가 아닌 병합이라 다른 필드는 보존 — Android LoginViewModel과 동일).
+    private func saveUserToFirebase(uid: String, id: String, email: String) {
+        Database.database().reference(withPath: "Users").child(uid).updateChildValues(["uid": uid, "email": email, "name": id])
     }
 }

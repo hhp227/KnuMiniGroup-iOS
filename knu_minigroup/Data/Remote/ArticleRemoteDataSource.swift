@@ -96,11 +96,19 @@ class ArticleRemoteDataSource {
 
         query.observeSingleEvent(of: .value, with: { dataSnapshot in
             if var articleItem = ArticleItem(dictionary: dataSnapshot.value as? [String: Any]) {
+                // 덮어쓰기 전에 기존 목록을 떠둔다. 수정 화면에서 빠진 이미지는 이 차집합으로만 알 수 있다.
+                let oldImageList = articleItem.images
+
                 articleItem.title = title
                 articleItem.content = (content?.isEmpty ?? true) ? nil : content
                 articleItem.images = imageList
                 articleItem.youtube = youTubeItem
-                query.setValue(articleItem.dictionary)
+                query.setValue(articleItem.dictionary) { error, _ in
+                    // 수정이 실제로 반영된 뒤에 지워야 실패 시 파일만 날아가는 일이 없다.
+                    if error == nil {
+                        StorageCleaner.deleteRemoved(oldUrls: oldImageList, newUrls: imageList)
+                    }
+                }
                 callback(.success(articleItem))
             } else {
                 callback(.success(nil))
@@ -113,11 +121,25 @@ class ArticleRemoteDataSource {
     func removeArticle(articleKey: String, callback: @escaping Callback<Bool>) {
         let articlesReference = Database.database().reference(withPath: "Articles")
         let replysReference = Database.database().reference(withPath: "Replys")
+        let articleReference = articlesReference.child(groupKey).child(articleKey)
+        let removeArticleData = {
+            articleReference.removeValue()
+            replysReference.child(articleKey).removeValue()
+            callback(.success(true))
+        }
 
         callback(.loading)
-        articlesReference.child(groupKey).child(articleKey).removeValue()
-        replysReference.child(articleKey).removeValue()
-        callback(.success(true))
+
+        // 글을 지우고 나면 이미지 목록을 알 수 없으므로 먼저 읽어둔다.
+        articleReference.observeSingleEvent(of: .value, with: { dataSnapshot in
+            let articleItem = ArticleItem(dictionary: dataSnapshot.value as? [String: Any])
+
+            removeArticleData()
+            StorageCleaner.delete(articleItem?.images)
+        }, withCancel: { _ in
+            // 이미지 목록을 못 읽어도 글 삭제 자체는 진행한다.
+            removeArticleData()
+        })
     }
 
     /// LMS 서버가 닫혀 이미지 업로드 엔드포인트를 쓸 수 없으므로 Firebase Storage에 올리고 다운로드 URL을 돌려준다.

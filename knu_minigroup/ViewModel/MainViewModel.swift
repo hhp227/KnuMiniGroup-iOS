@@ -50,6 +50,10 @@ class MainViewModel {
                 self?.isLoading = false
                 self?.isLoaded = true
                 self?.groupItemList = groupItemList
+                // 가입중인 그룹이 없을 때만 빈 화면에 인기 모임을 채운다 (Android GroupMainViewModel 대응)
+                if groupItemList.isEmpty {
+                    self?.fetchPopularGroupList()
+                }
             case .failure(let error):
                 self?.isLoading = false
                 self?.message = error.localizedDescription
@@ -65,7 +69,6 @@ class MainViewModel {
             case .success(let popularItemList):
                 self?.popularItemList = popularItemList
             case .failure:
-                // LMS 서버 폐쇄로 인기 소모임은 현재 제공되지 않음 (Android와 동일)
                 self?.popularItemList = []
             }
         }

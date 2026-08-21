@@ -130,6 +130,12 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
                 self?.collectionView.reloadData()
             }
             .store(in: &cancellables)
+        viewModel.$popularItemList
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.collectionView.reloadData()
+            }
+            .store(in: &cancellables)
         viewModel.$message
             .receive(on: DispatchQueue.main)
             .sink { [weak self] message in
@@ -181,6 +187,7 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "GroupCollectionViewHeader", for: indexPath) as? MainCollectionReusableView
         header?.headerLabel.text = "가입중인 그룹"
+        header?.popularItems = viewModel.popularItemList
         header?.showsBanner = viewModel.showsEmptyBanner
         header?.onFindGroup = { [weak self] in
             self?.performSegue(withIdentifier: "findGroup", sender: nil)
@@ -197,10 +204,10 @@ class MainViewController: UIViewController, UITabBarDelegate, UICollectionViewDa
         return CGSize(width: width, height: 165)
     }
 
-    // 배너는 로딩 완료 후 가입중인 그룹이 없다고 확정된 경우에만 노출 — 최초 로딩 중에는 헤더를 그리지 않는다 (Android 대응)
+    // 배너와 인기 모임은 로딩 완료 후 가입중인 그룹이 없다고 확정된 경우에만 노출 — 최초 로딩 중에는 헤더를 그리지 않는다 (Android 대응)
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let height = !viewModel.groupItemList.isEmpty ? MainCollectionReusableView.titleHeight
-            : viewModel.showsEmptyBanner ? MainCollectionReusableView.bannerHeight : 0
+            : viewModel.showsEmptyBanner ? MainCollectionReusableView.emptyStateHeight : 0
         return CGSize(width: collectionView.frame.width, height: height)
     }
 }

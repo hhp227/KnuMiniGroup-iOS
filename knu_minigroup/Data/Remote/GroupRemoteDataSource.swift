@@ -11,6 +11,9 @@ import FirebaseDatabase
 import FirebaseStorage
 
 class GroupRemoteDataSource {
+    // 가입한 그룹이 없을 때 첫 화면에 띄우는 인기 모임 개수 (Android POPULAR_GROUP_LIMIT 대응)
+    private static let popularGroupLimit = 10
+
     private var lastKey: String? = nil // 마지막으로 가져온 데이터의 키
 
     private(set) var isStopRequestMore = false
@@ -79,18 +82,27 @@ class GroupRemoteDataSource {
         fetchDataTaskFromFirebase(query: query, callback: callback)
     }
 
-    // LMS 인기 소모임 목록 (서버 폐쇄)
+    /// LMS 서버가 닫혀 인기 소모임 목록을 긁어올 수 없으므로 Firebase의 그룹 중 회원수가 많은 순으로 채운다.
+    /// 가입한 그룹이 하나도 없을 때 첫 화면에 노출되는 목록이다 (MainViewModel 참고).
+    /// - Parameter cookie: LMS 시절 인증 쿠키. Firebase만 쓰므로 사용하지 않지만 상위 계층 계약은 그대로 둔다.
     func getPopularGroupList(cookie: String?, callback: @escaping Callback<[GroupItem]>) {
+        let databaseReference = Database.database().reference(withPath: "Groups")
+        let query = databaseReference.queryOrdered(byChild: "memberCount").queryLimited(toLast: UInt(Self.popularGroupLimit))
+
         callback(.loading)
-        HttpClient.request(EndPoint.GROUP_LIST, method: "POST", headers: ["Cookie": cookie ?? ""], formParams: ["panel_id": "3", "encoding": "utf-8"]) { result in
-            switch result {
-            case .success:
-                // LMS 서버 폐쇄로 응답 파싱은 생략하고 빈 목록 반환
-                callback(.success([]))
-            case .failure(let error):
-                callback(.failure(error))
+        query.observeSingleEvent(of: .value, with: { dataSnapshot in
+            var popularItemList = [GroupItem]()
+
+            // 정렬 결과는 오름차순으로 오므로 앞쪽에 넣어 회원수가 많은 순으로 뒤집는다.
+            for case let snapshot as DataSnapshot in dataSnapshot.children {
+                if let value = GroupItem(dictionary: snapshot.value as? [String: Any]) {
+                    popularItemList.insert(value, at: 0)
+                }
             }
-        }
+            callback(.success(popularItemList))
+        }, withCancel: { error in
+            callback(.failure(error))
+        })
     }
 
     // LMS 소모임 정보 조회 (서버 폐쇄)
@@ -201,21 +213,33 @@ class GroupRemoteDataSource {
         let groupsReference = Database.database().reference(withPath: "Groups")
 
         if isAdmin {
-            groupsReference.child(key).child("members").observeSingleEvent(of: .value, with: { dataSnapshot in
-                for case let snapshot as DataSnapshot in dataSnapshot.children {
+            // 그룹 노드를 통째로 읽어 멤버 목록과 커버 이미지를 한 번에 확보한다.
+            groupsReference.child(key).observeSingleEvent(of: .value, with: { groupSnapshot in
+                let groupImage = GroupItem(dictionary: groupSnapshot.value as? [String: Any])?.image
+
+                for case let snapshot as DataSnapshot in groupSnapshot.childSnapshot(forPath: "members").children {
                     userGroupListReference.child(snapshot.key).child(key).removeValue()
                 }
-            }, withCancel: { error in
-                callback(.failure(error))
-            })
-            articlesReference.child(key).observeSingleEvent(of: .value, with: { dataSnapshot in
-                let replysReference = Database.database().reference(withPath: "Replys")
+                articlesReference.child(key).observeSingleEvent(of: .value, with: { dataSnapshot in
+                    let replysReference = Database.database().reference(withPath: "Replys")
+                    var articleImageList = [String]()
 
-                for case let snapshot as DataSnapshot in dataSnapshot.children {
-                    replysReference.child(snapshot.key).removeValue()
-                }
-                articlesReference.child(key).removeValue()
-                groupsReference.child(key).removeValue()
+                    for case let snapshot as DataSnapshot in dataSnapshot.children {
+                        replysReference.child(snapshot.key).removeValue()
+
+                        if let images = ArticleItem(dictionary: snapshot.value as? [String: Any])?.images {
+                            articleImageList.append(contentsOf: images)
+                        }
+                    }
+                    articlesReference.child(key).removeValue()
+                    groupsReference.child(key).removeValue()
+
+                    // 글과 그룹이 사라졌으니 참조를 잃은 이미지도 함께 정리한다.
+                    StorageCleaner.delete(articleImageList)
+                    StorageCleaner.delete(groupImage)
+                }, withCancel: { error in
+                    callback(.failure(error))
+                })
             }, withCancel: { error in
                 callback(.failure(error))
             })
@@ -272,16 +296,25 @@ class GroupRemoteDataSource {
 
         query.observeSingleEvent(of: .value, with: { dataSnapshot in
             if var groupItem = GroupItem(dictionary: dataSnapshot.value as? [String: Any]) {
+                // 커버는 매번 새 UUID 파일로 올라가므로, 교체된 경우 이전 파일을 지워야 고아가 남지 않는다.
+                let oldImage = groupItem.image
+                let newImage = newGroupItem.image
+
                 groupItem.name = newGroupItem.name
                 groupItem.groupDescription = newGroupItem.groupDescription
                 groupItem.joinType = newGroupItem.joinType
                 // 커버를 새로 고른 경우에만 교체하고, 아니면 기존 이미지를 유지한다
-                if let imageUrl = newGroupItem.image {
+                if let imageUrl = newImage {
                     groupItem.image = imageUrl
                 } else {
-                    newGroupItem.image = groupItem.image
+                    newGroupItem.image = oldImage
                 }
-                query.setValue(groupItem.dictionary)
+                query.setValue(groupItem.dictionary) { error, _ in
+                    // 갱신이 반영된 뒤에만 이전 커버를 정리한다.
+                    if error == nil, let newImage = newImage, newImage != oldImage {
+                        StorageCleaner.delete(oldImage)
+                    }
+                }
             }
             callback(.success(newGroupItem))
         }, withCancel: { error in

@@ -56,6 +56,7 @@
 		0AA26C0A24F22B9700FA4D5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AA26C0824F22B9700FA4D5A /* LaunchScreen.storyboard */; };
 		0AAD5B06251A533F00B77FDA /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAD5B05251A533F00B77FDA /* MainCollectionViewCell.swift */; };
 		0AAD5B08251A57A400B77FDA /* MainCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAD5B07251A57A400B77FDA /* MainCollectionReusableView.swift */; };
+		C1D2E3F4A5B60011002233BB /* PopularGroupSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D2E3F4A5B60011002233AA /* PopularGroupSectionView.swift */; };
 		0ACEE73D2604E1C500A4D4C8 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACEE73C2604E1C500A4D4C8 /* WriteViewController.swift */; };
 		0AD204D1265D481F00D24E66 /* ReplyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD204D0265D481F00D24E66 /* ReplyItem.swift */; };
 		0ADEF76825E25A010000F12D /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADEF76725E25A010000F12D /* TabViewController.swift */; };
@@ -80,6 +81,7 @@
 		3C24122CAA58FCD13E2AD8F7 /* Tab2ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABF436B1DF8E7AC7D83187A /* Tab2ViewModel.swift */; };
 		4173F01A3AEFD8429F0D2F3E /* DCShuttleScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4DFFF23CCD8DC5EB85BC7B /* DCShuttleScheduleViewModel.swift */; };
 		51FD70AE45D0EDD05EBD5F74 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB5D72F7F8C00687934D644 /* DateUtil.swift */; };
+		C1D2E3F4A5B60011002211BB /* StorageCleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D2E3F4A5B60011002211AA /* StorageCleaner.swift */; };
 		57B2AA69D513402B78D77EF2 /* PreferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8B76C5264C1904FFEA6473 /* PreferenceManager.swift */; };
 		580B2BBCC3580930263689A6 /* ChatRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7714BD956B9C408B8C989DA2 /* ChatRemoteDataSource.swift */; };
 		59DDCE2AF85A7D20F17335B8 /* GroupRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D265436C4E4164BF2FD3AD98 /* GroupRemoteDataSource.swift */; };
@@ -171,6 +173,7 @@
 		0AA26C0B24F22B9700FA4D5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AAD5B05251A533F00B77FDA /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		0AAD5B07251A57A400B77FDA /* MainCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionReusableView.swift; sourceTree = "<group>"; };
+		C1D2E3F4A5B60011002233AA /* PopularGroupSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularGroupSectionView.swift; sourceTree = "<group>"; };
 		0ABF436B1DF8E7AC7D83187A /* Tab2ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab2ViewModel.swift; sourceTree = "<group>"; };
 		0ACEE73C2604E1C500A4D4C8 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		0AD204D0265D481F00D24E66 /* ReplyItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyItem.swift; sourceTree = "<group>"; };
@@ -198,6 +201,7 @@
 		533F371BA494CFC68AD7EF81 /* SCShuttleScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCShuttleScheduleViewModel.swift; sourceTree = "<group>"; };
 		5670B17D56466C1C8EFA4E4A /* YouTubeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeItem.swift; sourceTree = "<group>"; };
 		5AB5D72F7F8C00687934D644 /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
+		C1D2E3F4A5B60011002211AA /* StorageCleaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageCleaner.swift; sourceTree = "<group>"; };
 		5AECCC7961F63825C00D4192 /* MessageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageItem.swift; sourceTree = "<group>"; };
 		663C23E809DD661625FE9AE1 /* Tab1ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab1ViewModel.swift; sourceTree = "<group>"; };
 		6D104D83CEA7BD93145AA7DD /* HttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
@@ -257,6 +261,7 @@
 				9010C724AE95D8298C566A21 /* HtmlUtil.swift */,
 				369EFF21E0934D63E28F872D /* ImageLoader.swift */,
 				985E695DEF77385EC48787F3 /* UIViewToast.swift */,
+				C1D2E3F4A5B60011002211AA /* StorageCleaner.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -391,6 +396,7 @@
 				0A414F142631D9460023B3D8 /* MemberCollectionViewCell.swift */,
 				0A25BECF26651F6000F4AF06 /* ArticleDetailCollectionViewCell.swift */,
 				0A159D4826653F3D00452ACA /* ReplyCollectionViewCell.swift */,
+				C1D2E3F4A5B60011002233AA /* PopularGroupSectionView.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -568,6 +574,7 @@
 				7D37E9C1690E3E275FD02D10 /* Resource.swift in Sources */,
 				57B2AA69D513402B78D77EF2 /* PreferenceManager.swift in Sources */,
 				51FD70AE45D0EDD05EBD5F74 /* DateUtil.swift in Sources */,
+				C1D2E3F4A5B60011002211BB /* StorageCleaner.swift in Sources */,
 				89EBCAA232D85109763F7541 /* HttpClient.swift in Sources */,
 				CAFAC2D3BFB0F95C1DDD31B5 /* HtmlUtil.swift in Sources */,
 				73F8245D25731CF6DA8917DD /* ImageLoader.swift in Sources */,
@@ -657,6 +664,7 @@
 				0ACEE73D2604E1C500A4D4C8 /* WriteViewController.swift in Sources */,
 				0A2BEC8328C3473E002610A8 /* RadioButtonColor.swift in Sources */,
 				0AAD5B08251A57A400B77FDA /* MainCollectionReusableView.swift in Sources */,
+				C1D2E3F4A5B60011002233BB /* PopularGroupSectionView.swift in Sources */,
 				0A2186382579251A00ACD350 /* Tab4ViewController.swift in Sources */,
 				0A27191026175426009D919B /* WriteInputTextTableViewCell.swift in Sources */,
 				0AF3F4BD2517A7270005D5E3 /* RequestViewController.swift in Sources */,
