@@ -30,10 +30,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // 자동 로그인 (Android의 SplashActivity 대응)
-        if PreferenceManager.shared.user != nil {
-            navigateToMain(animated: false)
-        }
+        // 자동 로그인 (Android의 SplashActivity 대응) — SSO 없이 Firebase 세션 확인
+        viewModel.loginSilently()
     }
 
     @IBAction func loginClick(_ sender: UIButton) {
@@ -56,10 +54,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         viewModel.$user
             .receive(on: DispatchQueue.main)
             .sink { [weak self] user in
-                guard let user = user else {
+                guard user != nil else {
                     return
                 }
-                self?.viewModel.storeUser(user)
                 self?.navigateToMain(animated: true)
             }
             .store(in: &cancellables)

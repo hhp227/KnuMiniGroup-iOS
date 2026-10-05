@@ -2,13 +2,11 @@
 //  LoginViewModel.swift
 //  knu_minigroup
 //
-//  Android의 viewmodel.LoginViewModel 대응 — KNU SSO + Firebase Auth
+//  Android의 viewmodel.LoginViewModel 대응 — AuthRepository 기반 Firebase 우선 로그인
 //
 
 import Foundation
 import Combine
-import FirebaseAuth
-import FirebaseDatabase
 
 class LoginViewModel {
     @Published private(set) var isLoading = false
@@ -21,19 +19,24 @@ class LoginViewModel {
 
     @Published private(set) var passwordError: String?
 
-    private let preferenceManager = PreferenceManager.shared
+    // 자동 로그인 실패(세션 없음) — 로그인 화면에 머무른다
+    @Published private(set) var autoLoginFailed = false
 
-    init() {
-        self.user = preferenceManager.user
-    }
+    private let authRepository = AuthRepository()
 
     func login(id: String, password: String) {
         if !id.isEmpty && !password.isEmpty {
-            isLoading = true
-            if id == "TestUser" && password == "TestUser" {
-                firebaseLogin(id: id, password: password)
-            } else {
-                loginKNUSSO(id: id, password: password)
+            authRepository.login(id: id, password: password) { [weak self] result in
+                switch result {
+                case .loading:
+                    self?.isLoading = true
+                case .success(let user):
+                    self?.isLoading = false
+                    self?.user = user
+                case .failure(let error):
+                    self?.isLoading = false
+                    self?.message = error.localizedDescription
+                }
             }
         } else {
             emailError = id.isEmpty ? "아이디를 입력하세요." : nil
@@ -41,82 +44,20 @@ class LoginViewModel {
         }
     }
 
-    func storeUser(_ user: User) {
-        preferenceManager.storeUser(user)
-    }
-
-    private func loginKNUSSO(id: String, password: String) {
-        HttpClient.request(EndPoint.LOGIN, method: "POST", formParams: ["id": id, "pw": password, "agentId": "2"]) { [weak self] result in
+    // Android SplashViewModel.connection 대응 — iOS는 스플래시가 없어 로그인 화면에서 수행
+    func loginSilently() {
+        authRepository.loginSilently { [weak self] result in
             switch result {
-            case .success(let response):
-                let userId = HtmlUtil.inputValue(byId: "userId", in: response)
-                let resultCode = HtmlUtil.inputValue(byId: "resultCode", in: response)
-                let resultMessage = HtmlUtil.inputValue(byId: "resultMessage", in: response)
-
-                if resultCode == "000000" {
-                    self?.firebaseLogin(id: userId ?? id, password: password)
-                } else {
-                    self?.isLoading = false
-                    self?.message = resultMessage ?? "로그인에 실패했습니다."
-                }
-            case .failure(let error):
-                self?.isLoading = false
-                self?.message = error.localizedDescription
-            }
-        }
-    }
-
-    private func firebaseLogin(id: String, password: String) {
-        let email = id + "@knu.ac.kr"
-
-        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-            if let firebaseUser = authResult?.user {
-                var user = User()
-
-                self?.saveUserToFirebase(uid: firebaseUser.uid, id: id, email: email)
-                user.uid = firebaseUser.uid
-                user.userId = id
-                user.password = password
-                user.name = id
-                user.number = "2022000000"
-                user.phoneNumber = "010-0000-0000"
-                user.email = email
+            case .loading:
+                self?.isLoading = true
+            case .success(let user):
                 self?.isLoading = false
                 self?.user = user
-            } else if error != nil {
-                self?.firebaseRegister(id: id, password: password)
+            case .failure:
+                self?.isLoading = false
+                self?.authRepository.logout()
+                self?.autoLoginFailed = true
             }
         }
-    }
-
-    private func firebaseRegister(id: String, password: String) {
-        let email = id + "@knu.ac.kr"
-
-        Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
-            if let firebaseUser = authResult?.user {
-                var user = User()
-
-                self?.saveUserToFirebase(uid: firebaseUser.uid, id: id, email: email)
-                user.uid = firebaseUser.uid
-                user.userId = id
-                user.password = password
-                user.name = id
-                user.number = "2022000000"
-                user.phoneNumber = "010-0000-0000"
-                user.email = email
-                self?.isLoading = false
-                self?.user = user
-            } else if let error = error {
-                self?.isLoading = false
-                self?.message = "Firebase error" + error.localizedDescription
-            }
-        }
-    }
-
-    /// 멤버 목록이 uid로 이름을 찾을 수 있도록 Users/{uid}를 채운다.
-    /// 로그인할 때마다 호출해 기존 계정도 다음 로그인 때 보정되게 한다
-    /// (setValue가 아닌 병합이라 다른 필드는 보존 — Android LoginViewModel과 동일).
-    private func saveUserToFirebase(uid: String, id: String, email: String) {
-        Database.database().reference(withPath: "Users").child(uid).updateChildValues(["uid": uid, "email": email, "name": id])
     }
 }

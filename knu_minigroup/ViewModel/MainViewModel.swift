@@ -24,6 +24,8 @@ class MainViewModel {
 
     private let preferenceManager = PreferenceManager.shared
 
+    private let authRepository = AuthRepository()
+
     var user: User? {
         return preferenceManager.user
     }
@@ -75,6 +77,6 @@ class MainViewModel {
     }
 
     func logout() {
-        preferenceManager.clear()
+        authRepository.logout()
     }
 }
