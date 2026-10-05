@@ -69,6 +69,9 @@
 		1A31F0C54C3B8B460E15C06D /* ScheduleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4607FABCD50956A0F2D16AAC /* ScheduleRepository.swift */; };
 		1FF9B6973EB90E5BC94DB3AA /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB64548F946B0E598FBD7B /* MainViewModel.swift */; };
 		222145442E07A10311C985C2 /* TimetableLocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA821798C313BDC29F8CCE6A /* TimetableLocalDataSource.swift */; };
+		A0071A0000000000000000B2 /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0071A0000000000000000B1 /* AuthRepository.swift */; };
+		A0071A0000000000000000B4 /* AuthRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0071A0000000000000000B3 /* AuthRemoteDataSource.swift */; };
+		A0071A0000000000000000B6 /* AuthLocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0071A0000000000000000B5 /* AuthLocalDataSource.swift */; };
 		24B32277C83DE6E2DCE57778 /* CreateArticleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CE24750CB809B10D0DE754 /* CreateArticleViewModel.swift */; };
 		2A86078F965EADD257F97944 /* RequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CC0603FFF76F51E4D45EA7 /* RequestViewModel.swift */; };
 		2C5D0DA078AEEA632AC1543C /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = AA10FB0000000000000000F3 /* FirebaseDatabase */; };
@@ -231,6 +234,9 @@
 		DB4DFFF23CCD8DC5EB85BC7B /* DCShuttleScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCShuttleScheduleViewModel.swift; sourceTree = "<group>"; };
 		E47D9D3A3A2B42554D6B2041 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		EA821798C313BDC29F8CCE6A /* TimetableLocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimetableLocalDataSource.swift; sourceTree = "<group>"; };
+		A0071A0000000000000000B1 /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
+		A0071A0000000000000000B3 /* AuthRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRemoteDataSource.swift; sourceTree = "<group>"; };
+		A0071A0000000000000000B5 /* AuthLocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLocalDataSource.swift; sourceTree = "<group>"; };
 		F3AA95CB29C912A7913A7468 /* GroupRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRepository.swift; sourceTree = "<group>"; };
 		F504FF6A06811814A45DD05E /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		F5783BD42BFC68A6BBEAF985 /* ArticleRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRemoteDataSource.swift; sourceTree = "<group>"; };
@@ -444,6 +450,7 @@
 		5CF70AA5B2654B314DE98AE9 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				A0071A0000000000000000B1 /* AuthRepository.swift */,
 				BE7CEE2C55959BEA6805B8C5 /* ArticleRepository.swift */,
 				0BCE43E0DC5BD1223292D581 /* ChatRepository.swift */,
 				F3AA95CB29C912A7913A7468 /* GroupRepository.swift */,
@@ -461,6 +468,7 @@
 		8527E3040B19459242F0FF04 /* Remote */ = {
 			isa = PBXGroup;
 			children = (
+				A0071A0000000000000000B3 /* AuthRemoteDataSource.swift */,
 				F5783BD42BFC68A6BBEAF985 /* ArticleRemoteDataSource.swift */,
 				7714BD956B9C408B8C989DA2 /* ChatRemoteDataSource.swift */,
 				D265436C4E4164BF2FD3AD98 /* GroupRemoteDataSource.swift */,
@@ -484,6 +492,7 @@
 		CB5E143A431F875985C8D562 /* Local */ = {
 			isa = PBXGroup;
 			children = (
+				A0071A0000000000000000B5 /* AuthLocalDataSource.swift */,
 				EA821798C313BDC29F8CCE6A /* TimetableLocalDataSource.swift */,
 			);
 			path = Local;
@@ -597,6 +606,9 @@
 				59DDCE2AF85A7D20F17335B8 /* GroupRemoteDataSource.swift in Sources */,
 				B6340050F53960517B7CBF23 /* ReplyRemoteDataSource.swift in Sources */,
 				3A3015A44B5B46F251FCE657 /* UserRemoteDataSource.swift in Sources */,
+				A0071A0000000000000000B2 /* AuthRepository.swift in Sources */,
+				A0071A0000000000000000B4 /* AuthRemoteDataSource.swift in Sources */,
+				A0071A0000000000000000B6 /* AuthLocalDataSource.swift in Sources */,
 				F38982465EE593DBFC967C6B /* MealRemoteDataSource.swift in Sources */,
 				7F10D7F595A56AA9DB688AEF /* ScheduleRemoteDataSource.swift in Sources */,
 				CDD9BBF723EB7F62E4526326 /* TimetableRemoteDataSource.swift in Sources */,
